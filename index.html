@@ -1,6 +1,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Load-bearing assumptions — AI and the grid</title>
+<title>Is the AI buildout delaying the green energy transition?</title>
 <style>
 
 @font-face {
@@ -274,11 +274,10 @@ sup.fn:hover, sup.fn:focus-visible { text-decoration: underline; }
 
 <header class="masthead">
   <div class="rubric">AI and the grid <span class="sep">·</span> an interactive explainer</div>
-  <h1>Load-bearing assumptions</h1>
-  <p class="dek">Is America's AI data-center buildout delaying the country's shift to clean
-    energy? Most likely yes — this page explains the whole problem from the ground up,
+  <h1>Is the AI buildout delaying the green energy transition?</h1>
+  <p class="dek">Most likely yes — this page explains the whole problem from the ground up,
     shows every number behind that answer, and hands over the controls at the end</p>
-  <div class="byline num">Model run 7 · figures as of 2026-07-12 · every chart recomputes in your browser from the research model's own inputs</div>
+  <div class="byline num">Figures as of 2026-07-12 · every chart recomputes in your browser from our model's own inputs</div>
 </header>
 
 <div class="page-grid">
@@ -290,28 +289,30 @@ sup.fn:hover, sup.fn:focus-visible { text-decoration: underline; }
 
     <section id="s-answer" data-title="The answer" data-dash="intro">
       <p><span class="opener">Most likely, yes — it is delaying it.</span> Over the decade
-      from 2025 to 2035, the analysis behind this page estimates that America's rush to
-      build data centers for artificial intelligence will add about 412 million tonnes of
-      carbon dioxide to the atmosphere beyond what would have been emitted without it.
-      Numbers that size mean little on their own, so here is the same figure three other
-      ways: it averages out to roughly 2–3% added to everything America's power plants
-      currently emit in a year, it is comparable to putting eight million extra gasoline
-      cars on the road for the whole decade, and while the honest range of possibilities
-      is wide — anywhere from about 105 to 791 million tonnes — the chance that the true
-      number is above zero comes out around 97%. Measured a different way, by whether the
-      electricity system itself ends the decade cleaner or dirtier than it was heading —
-      more or less clean power in the mix, coal plants retiring on schedule or late,
-      heat pumps and electric cars spreading faster or slower — the buildout reads as
-      "delaying" the transition in a 53% majority of the weighted outcomes.</p>
+      from 2025 to 2035, our analysis estimates that America's rush to build data centers
+      for artificial intelligence will add about 412 million tonnes of carbon dioxide to
+      the atmosphere beyond what would have been emitted without it. A number that size
+      means little on its own, so here it is in more familiar terms: it averages out to
+      roughly 2–3% added to everything America's power plants emit in a year, which is
+      comparable to putting eight million extra gasoline cars on the road for the whole
+      decade. The honest range of possibilities is wide, anywhere from about 105 to 791
+      million tonnes, but the chance that the true number is above zero comes out around
+      97%, so the sign is not seriously in doubt even where the size is. What the figure
+      shows is a drag on the energy transition, not a reversal of it: measured by whether
+      the electricity system itself ends the decade cleaner or dirtier than it was
+      heading — more or less clean power in the mix, coal plants retiring on schedule or
+      late, heat pumps and electric cars spreading faster or slower — the buildout reads
+      as "delaying" in a 53% majority of the weighted outcomes, and as mixed or better in
+      the rest.<sup class="fn" data-fn="1">1</sup></p>
 
       <p>That is the conclusion of this page, stated up front so that everything after it
       can be judged against it. The rest of the page earns it: what data centers actually
       are and why they suddenly want so much power, how the electric grid decides what
       gets built, the four questions the answer genuinely turns on, and — because any
-      analysis this assertive should let its readers push back — a working copy of the
-      model itself, with every contested assumption on a slider. It is written for a
-      reader arriving cold. If a term is unfamiliar, its definition should be nearby; if
-      it is not, that is a defect in the page, not in the reader.<sup class="fn" data-fn="1">1</sup></p>
+      analysis this assertive should let its readers push back — a working copy of our
+      model, with every contested assumption on a slider. It is written for a reader
+      arriving cold. If a term is unfamiliar, its definition should be nearby; if it is
+      not, that is a defect in the page, not in the reader.</p>
     </section>
 
     <section id="s-why" data-title="Why AI wants so much power" data-dash="intro">
@@ -320,66 +321,74 @@ sup.fn:hover, sup.fn:focus-visible { text-decoration: underline; }
       built around specialized chips that perform the enormous volumes of arithmetic
       that training and running models requires. Those chips are power-dense in a way
       ordinary computing never was: a single rack of AI hardware can draw more
-      electricity than a hundred homes, and the buildings holding them are being
-      proposed at the scale of whole power plants. A large AI campus can request a
+      electricity than a hundred homes, and the buildings holding them are
+      <a href="https://www.belfercenter.org/research-analysis/ai-data-centers-us-electric-grid">being
+      proposed at the scale of whole power plants</a>. A large AI campus can request a
       gigawatt or more of supply — a gigawatt being roughly the output of a full-size
       nuclear reactor, or the demand of about 750,000 homes. For most of the past
-      twenty years, American electricity demand barely grew at all, because efficiency
-      gains kept absorbing new uses. Data centers have broken that pattern more
-      sharply than anything since air conditioning spread across the South in the
-      mid-twentieth century.<sup class="fn" data-fn="2">2</sup></p>
+      twenty years, <a href="https://www.eia.gov/todayinenergy/detail.php?id=65264">American
+      electricity demand barely grew at all</a>, because efficiency gains kept absorbing
+      new uses. Data centers have broken that pattern more sharply than anything since
+      air conditioning spread across the South in the mid-twentieth century.</p>
 
-      <p>Today data centers of all kinds use somewhere around 4–5% of US electricity.
-      The forecasts that utilities and grid planners are working from put the AI-driven
-      share far higher within a decade — the middle-of-the-road projection this page
-      uses has data centers consuming about 765 terawatt-hours a year by 2030, which is
-      close to a fifth of all the electricity the United States generates today. Whether
-      numbers like that materialize is one of the genuinely open questions on this page,
-      and a later section is devoted to it. But the requests are already in the system,
-      already shaping what utilities plan to build, and already showing up on
-      electricity bills — which is why the question matters now, years before the
-      last data center is finished.<sup class="fn" data-fn="3">3</sup></p>
+      <p>Today data centers of all kinds use
+      <a href="https://escholarship.org/uc/item/32d6m0d1">somewhere around 4–5% of US
+      electricity</a>. The forecasts that utilities and grid planners are working from
+      put the AI-driven share far higher within a decade — the middle-of-the-road
+      projection this page uses has data centers consuming about 765 terawatt-hours a
+      year by 2030,<sup class="fn" data-fn="2">2</sup> which is close to a fifth of all
+      the electricity the United States generates today. Whether numbers like that
+      materialize is one of the genuinely open questions on this page, and a later
+      section is devoted to it. But the requests are already in the system, already
+      shaping what utilities plan to build, and already showing up on electricity
+      bills — which is why the question matters now, years before the last data center
+      is finished.</p>
 
       <p>The reason this collides with climate policy is timing. The United States is
       part-way through an energy transition: the slow replacement of coal- and
       gas-burning power plants with wind, solar, batteries, and nuclear power — a
-      project whose success is usually measured in whether the share of clean
-      electricity keeps rising and whether fossil plants retire on schedule. A sudden
-      new source of demand lands on that project like a weight on a seesaw. It could
-      tip either way. New demand backed by deep-pocketed buyers could finance clean
-      power faster than policy alone ever would; or it could keep old coal plants
-      running, fill the queue with new gas turbines, and raise everyone's rates in the
-      process. Which way it actually tips is an empirical question, and answering it is
-      the whole purpose of this page.</p>
+      project whose success is usually measured in whether
+      <a href="https://ember-energy.org/latest-insights/us-electricity-2025-special-report/">the
+      share of clean electricity keeps rising</a> and whether fossil plants retire on
+      schedule. A sudden new source of demand lands on that project like a weight on a
+      seesaw. It could tip either way. New demand backed by deep-pocketed buyers could
+      finance clean power faster than policy alone ever would; or it could keep old coal
+      plants running, fill the queue with new gas turbines, and raise everyone's rates
+      in the process. Which way it actually tips is an empirical question, and answering
+      it is the whole purpose of this page.</p>
     </section>
 
     <section id="s-grid" data-title="How the grid decides" data-dash="intro">
       <h2>How the grid decides what gets built</h2>
       <p>To follow the argument, it helps to know three things about how electricity
-      works in America. First, nobody simply plugs in a data center. Any large new
-      consumer or producer of power must apply to connect to the transmission network,
-      and those applications wait in what is called an interconnection queue — a
-      years-long line in which engineers study whether the wires can handle the new
-      flow and who should pay for upgrades. Second, in most of the country the company
-      that delivers your electricity is a regulated monopoly: a utility that must serve
-      whoever shows up in its territory, and that earns a guaranteed return on the
-      infrastructure it builds. That creates a well-known incentive — utilities profit
-      from building — which matters when the same utilities publish eye-catching
-      forecasts of data-center demand. Third, big electricity buyers increasingly sign
-      long-term contracts called power purchase agreements, or PPAs, promising to buy a
-      wind or solar farm's output for years ahead; these contracts are the main way
-      corporations claim their operations are "clean".<sup class="fn" data-fn="4">4</sup></p>
+      works in America.<sup class="fn" data-fn="3">3</sup> First, nobody simply plugs in
+      a data center. Any large new consumer or producer of power must apply to connect
+      to the transmission network, and those applications wait in what is called an
+      <a href="https://www.volts.wtf/p/whats-the-deal-with-interconnection">interconnection
+      queue</a> — a years-long line in which engineers study whether the wires can
+      handle the new flow and who should pay for upgrades. Second, in most of the
+      country the company that delivers your electricity is a regulated monopoly: a
+      utility that must serve whoever shows up in its territory, and that earns a
+      guaranteed return on the infrastructure it builds. That creates a well-known
+      incentive — utilities profit from building — which matters when the same utilities
+      publish eye-catching forecasts of data-center demand. Third, big electricity
+      buyers increasingly sign long-term contracts called
+      <a href="https://www.epa.gov/green-power-markets/physical-ppa">power purchase
+      agreements, or PPAs</a>, promising to buy a wind or solar farm's output for years
+      ahead; these contracts are the main way corporations claim their operations are
+      "clean".</p>
 
       <p>Each of those three institutions produces one of this page's central puzzles.
       The queue is full of applications that will never become real projects, so the
       headline demand numbers are inflated — but by how much? The utilities' obligation
       to serve means that if they believe the forecasts, they build power plants and
-      grid equipment whose costs land on every customer's bill — so who ends up paying
-      if the demand never comes? And a PPA transfers the *credit* for clean electricity
-      without necessarily causing any new clean electricity to exist — so how much of
-      the industry's claimed green power is real, in the sense that matters for the
-      atmosphere? Those are, respectively, the first, fourth, and third questions this
-      page works through.</p>
+      grid equipment whose costs land on every customer's bill — so
+      <a href="https://eelp.law.harvard.edu/extracting-profits-from-the-public-how-utility-ratepayers-are-paying-for-big-techs-power/">who
+      ends up paying</a> if the demand never comes? And a PPA transfers the credit for
+      clean electricity without necessarily causing any new clean electricity to
+      exist — so how much of the industry's claimed green power is real, in the sense
+      that matters for the atmosphere? Those are, respectively, the first, fourth, and
+      third questions this page works through.</p>
     </section>
 
     <section id="s-method" data-title="Measuring the right thing" data-dash="intro">
@@ -394,73 +403,82 @@ sup.fn:hover, sup.fn:focus-visible { text-decoration: underline; }
       get blamed for the grid's existing pollution, which was there before them and
       would be there without them. And they do not get credit for clean power that was
       already coming — buying the output of a nuclear plant that has run since 1983
-      changes whose name is on the electricity, not what any smokestack emits.<sup class="fn" data-fn="5">5</sup></p>
+      changes whose name is on the electricity, not what any smokestack
+      emits.<sup class="fn" data-fn="4">4</sup></p>
 
-      <p>The analysis also has to ask which power plants actually respond when demand
-      changes, rather than using the grid's average mix. The average includes every
-      hydroelectric dam and nuclear plant that would be running regardless; the honest
-      question is what turns on, gets built, or sticks around at the margin — the
-      economist's word for the last increment of change. Everything on this page is
-      built that way, from public evidence: twenty years of interconnection-queue
-      records, the measured output of specific coal plants, a hand-checked ledger of
-      clean-power contracts, federal-laboratory projections, and the market filings
-      that show who pays. Where the evidence supports a range rather than a single
-      number, the analysis carries the whole range and reports the resulting spread of
-      outcomes — no more precision is claimed than the evidence has.<sup class="fn" data-fn="6">6</sup></p>
+      <p>Our analysis also asks
+      <a href="https://pubs.acs.org/doi/abs/10.1021/es300145v">which power plants
+      actually respond when demand changes</a>, rather than using the grid's average
+      mix. The average includes every hydroelectric dam and nuclear plant that would be
+      running regardless; the honest question is what turns on, gets built, or sticks
+      around at the margin — the economist's word for the last increment of change.
+      Everything on this page is built that way, from public evidence: twenty years of
+      interconnection-queue records, the measured output of specific coal plants, a
+      hand-checked ledger of clean-power contracts, federal-laboratory projections, and
+      the market filings that show who pays. Where the evidence supports a range rather
+      than a single number, our analysis carries the whole range and reports the
+      resulting spread of outcomes — no more precision is claimed than the evidence
+      has.<sup class="fn" data-fn="5">5</sup></p>
     </section>
 
     <section id="s-queue" data-title="Q1: how much demand is real?" data-dash="queue">
       <h2>First question: how much of the requested power is real?</h2>
       <p>Utilities across the country report roughly 700 gigawatts of data-center
       connection requests — on paper, more than half as much capacity as the entire
-      existing American power fleet. If that number were real, it would be the largest
-      demand shock in the grid's history. It is not real, and understanding why is the
-      single most important piece of this whole subject. A connection request costs
-      little and commits to nothing, so developers behave the way home-buyers do in a
-      hot market: they bid on several houses knowing they will close on one. The same
-      data-center project routinely sits in three or four utilities' queues at once,
-      and many projects are speculative land plays that will never break ground
-      anywhere. In the twenty years of records that exist for power-plant applications,
-      only about a fifth of projects that entered the queue were ever built, and 71%
-      withdrew.<sup class="fn" data-fn="7">7</sup></p>
+      existing American power fleet, which stands at about 1,300 gigawatts. If that
+      number were real, it would be the largest demand shock in the grid's history. It
+      is not real, and understanding why is the single most important piece of this
+      whole subject. A connection request costs little and commits to nothing, so
+      developers behave the way home-buyers do in a hot market: they bid on several
+      houses knowing they will close on one. The same data-center project routinely
+      sits in three or four utilities' queues at once, and many projects are
+      speculative land plays that will never break ground anywhere. In
+      <a href="https://emp.lbl.gov/publications/queued-2025-edition-characteristics">the
+      twenty years of records that exist for power-plant applications</a>, only about a
+      fifth of projects that entered the queue were ever built, and 71% withdrew.</p>
 
       <p>For data centers specifically, the cleanest public evidence comes from Texas,
       whose grid operator publishes its large-customer pipeline in unusual detail. It
-      tracks about 275 gigawatts of requests — more than three times the peak demand
-      of the entire state of Texas, air conditioners and all — and of that pile, 5.9%
-      has been approved to connect, while under 1% is verifiably drawing power today
-      (see chart). The utilities themselves quietly discount their own numbers:
-      Dominion, the utility serving the world's densest data-center corridor in
-      northern Virginia, reports 47 gigawatts under contract while planning around
-      16.6 gigawatts of demand it expects to actually materialize.<sup class="fn" data-fn="8">8</sup></p>
+      tracks <a href="https://www.utilitydive.com/news/ercots-large-load-queue-jumped-almost-300-last-year-official/808820/">about
+      275 gigawatts of requests</a> — more than three times the peak demand of the
+      entire state of Texas, air conditioners and all — and of that pile, 5.9% has been
+      approved to connect, while under 1% is verifiably drawing power today (see
+      chart). The pile, in other words, is not a forecast; it is a list of intentions,
+      and the funnel below shows how few survive contact with an actual connection
+      process. The utilities themselves quietly discount their own numbers: Dominion,
+      the utility serving the world's densest data-center corridor in northern
+      Virginia, <a href="https://www.pjm.com/-/media/DotCom/planning/res-adeq/load-forecast/dominion-documentation.pdf">reports
+      47 gigawatts under contract while planning around 16.6 gigawatts</a> of demand it
+      expects to actually materialize.<sup class="fn" data-fn="6">6</sup></p>
 
       <div class="figure" data-chart="funnel">
         <div class="chart-title">Most requested load never arrives</div>
         <div class="chart-sub">Texas grid operator's large-customer pipeline, share of ~275 GW requested · Oct 2025</div>
         <div class="chart-mount" id="funnelChart"></div>
-        <div class="figure-note">Source: ERCOT large-load queue reports; as-of 2025-10-14. The queue is young, so these shares are floors — more of it will eventually connect — but the shape of the funnel is the point.</div>
+        <div class="figure-note">Source: ERCOT large-load queue reports, as of 2025-10-14; the stage shares are ERCOT's own, summarized accessibly by <a href="https://www.utilitydive.com/news/ercots-large-load-queue-jumped-almost-300-last-year-official/808820/">Utility Dive</a>. The queue is young, so these shares are floors — more of it will eventually connect — but the shape of the funnel is the point.</div>
       </div>
 
-      <p>The analysis handles this with what it calls the speculative-load discount:
-      the share of requested power treated as never getting built. The discount is not
-      one number but a sliding scale based on how far along a project is, because
-      commitment is what separates real projects from paper ones. A project that has
-      merely been announced usually evaporates; a signed contract matters enormously
-      more if it is "take-or-pay" — an arrangement where the customer pays for the
-      power whether or not they use it, which makes walking away expensive — and a
-      project with steel in the ground almost always finishes. Blended together, 37–61%
-      of the national request pile is treated as never being built. That range is the
-      analysis's most important and most contested input, and it faces a real-world
-      test soon: a Texas law now requires speculative applicants to post money by
-      mid-2027, which should flush the paper projects out of the queue where everyone
-      can count them.<sup class="fn" data-fn="9">9</sup></p>
+      <p>Our analysis handles this with the speculative-load discount: the share of
+      requested power treated as never getting built. The discount is not one number
+      but a sliding scale based on how far along a project is, because commitment is
+      what separates real projects from paper ones. A project that has merely been
+      announced usually evaporates; a signed contract matters enormously more if it is
+      "take-or-pay" — an arrangement where the customer pays for the power whether or
+      not they use it, which makes walking away expensive — and a project with steel in
+      the ground almost always finishes. Blended together, 37–61% of the national
+      request pile is treated as never being built.<sup class="fn" data-fn="7">7</sup>
+      That range is our most important and most contested input, and it faces a
+      real-world test soon: <a href="https://capitol.texas.gov/BillLookup/History.aspx?LegSess=89R&amp;Bill=SB6">a
+      Texas law</a> now requires speculative applicants to post money by mid-2027,
+      which should flush the paper projects out of the queue where everyone can count
+      them.</p>
 
       <details class="aside">
         <summary>The four stages every project claim is sorted into</summary>
         <p>Announced (a press release or inquiry), contracted (signed paper, loose or
         firm), under construction (steel in the ground), and energized (drawing
-        power). Every load claim, power-plant claim, and clean-energy deal in the
-        analysis carries exactly one of these labels, and realization rates rise
+        power). Every load claim, power-plant claim, and clean-energy deal in our
+        ledger carries exactly one of these labels, and realization rates rise
         steeply along the ladder — roughly 10–40% of announced projects arrive,
         versus 85% and up once construction starts. Headline numbers that mix the
         stages together, like the 700 GW figure, mislead for exactly that reason.</p>
@@ -476,17 +494,21 @@ sup.fn:hover, sup.fn:focus-visible { text-decoration: underline; }
       it, and what gets planned and built in response to anticipated demand in the
       2020s is mostly wind, solar, batteries, and gas — a mix that starts out roughly
       as dirty as today's grid but gets rapidly cleaner through the decade, as the
-      chart below shows. Priced against that projection, serving the surviving demand
-      adds about 70 million tonnes of CO₂ a year around 2030 — the largest single
-      entry in this page's running tally, on its own comparable to fifteen million
-      cars — but the same demand arriving in 2035 causes only a fraction of the
-      damage.<sup class="fn" data-fn="10">10</sup></p>
+      chart below shows. Priced against the federal renewable-energy laboratory's
+      <a href="https://www.osti.gov/biblio/2305481">projections of how those emission
+      rates fall</a>, serving the surviving demand adds about 70 million tonnes of CO₂
+      a year around 2030, the largest single entry in this page's running tally. In
+      more familiar terms, that is roughly 5% added to what America's power plants emit
+      today, or fifteen million extra cars. What the figure mostly measures is timing:
+      the same demand arriving in 2035 causes only a fraction of the damage, because
+      the responding fleet keeps getting cleaner underneath
+      it.<sup class="fn" data-fn="8">8</sup></p>
 
       <div class="figure" data-chart="lrmer">
         <div class="chart-title">The next megawatt-hour is getting cleaner</div>
         <div class="chart-sub">emissions caused per unit of new demand, tonnes of CO₂ per megawatt-hour · shaded band: if priced against today's grid instead</div>
         <div class="chart-mount" id="lrmerChart"></div>
-        <div class="figure-note">Source: NREL Cambium 2024 long-run marginal emission rates (Mid-case). For scale: a coal plant emits ~1.0 tCO₂/MWh, a gas plant ~0.4. As-of 2026-07.</div>
+        <div class="figure-note">Source: <a href="https://www.osti.gov/biblio/2305481">NREL Cambium 2024 long-run marginal emission rates</a> (Mid-case). For scale: a coal plant emits ~1.0 tCO₂/MWh, a gas plant ~0.4. As of 2026-07.</div>
       </div>
 
       <p>The caveat is that this optimistic trajectory is itself a modeling choice, and
@@ -494,26 +516,28 @@ sup.fn:hover, sup.fn:focus-visible { text-decoration: underline; }
       responds with planned construction. If instead the demand outruns the planning —
       if data centers land on the grid as a surprise and today's existing plants simply
       run harder — then the responding generator is usually a gas turbine, sometimes a
-      coal plant, and the decade's total rises by half or more. The analysis treats the
-      planned-response version as its central case, which is defensible for demand this
+      coal plant, and the decade's total rises by half or
+      more.<sup class="fn" data-fn="9">9</sup> Our analysis treats the planned-response
+      version as its central case, which is defensible for demand this
       well-telegraphed, and carries the surprise version as a clearly labeled
       alternative. The calculator at the end of the page has a switch for it, and
       flipping that one switch changes the answer more than almost anything else a
-      reader can do — which is itself worth knowing.<sup class="fn" data-fn="11">11</sup></p>
+      reader can do — which is itself worth knowing.</p>
     </section>
 
     <section id="s-ppa" data-title="Q3: is their clean power new?" data-dash="ppa">
       <h2>Third question: does their clean power exist because of them?</h2>
       <p>The technology industry's standing answer to all of this is that it buys clean
-      energy at unprecedented scale, and the raw numbers are genuinely large: over 80
-      gigawatts of clean-power contracts signed by American data-center operators by
-      late 2025, on one market count. The concern that drives those purchases is
-      legitimate and the money is real. But recall the principle from earlier: what
-      matters for the atmosphere is not who holds the certificate for clean
-      electricity, but whether the contract caused new clean electricity to exist —
-      a property the industry calls additionality. So the analysis behind this page
-      audited the claim the slow way, reading 46 major deals covering 54.6 gigawatts
-      and asking that one question of each.<sup class="fn" data-fn="12">12</sup></p>
+      energy at unprecedented scale, and the raw numbers are genuinely large:
+      <a href="https://www.spglobal.com/sustainable1/en/insights/special-editorial/hyperscaler-procurement-to-shape-us-power-investment">over
+      80 gigawatts of clean-power contracts</a> signed by American data-center
+      operators by late 2025, on one market count. The concern that drives those
+      purchases is legitimate and the money is real. But recall the principle from
+      earlier: what matters for the atmosphere is not who holds the certificate for
+      clean electricity, but whether the contract caused new clean electricity to
+      exist — a property the industry calls additionality. So we audited the claim the
+      slow way, reading 46 major deals covering 54.6 gigawatts and asking that one
+      question of each.<sup class="fn" data-fn="10">10</sup></p>
 
       <p>About half the headline evaporates before the audit even begins, because it
       consists of announcements rather than contracts — including some 20 gigawatts of
@@ -524,21 +548,25 @@ sup.fn:hover, sup.fn:focus-visible { text-decoration: underline; }
       construction. Measured by energy — the electricity actually delivered over a
       year, which is what displaces fossil generation — the genuinely new share falls
       to about half, because the biggest contracts are with existing nuclear plants
-      that run around the clock and were running long before AI existed. Amazon's
-      contract at the Susquehanna plant and Meta's at Clinton, both operating since
-      the 1980s, are the clearest examples: the electrons change owners, the
-      atmosphere notices nothing (see chart).<sup class="fn" data-fn="13">13</sup>
+      that run around the clock and were running long before AI existed.
+      <a href="https://ir.talenenergy.com/news-releases/news-release-details/talen-energy-expands-nuclear-energy-relationship-amazon">Amazon's
+      contract at the Susquehanna plant</a> and
+      <a href="https://www.constellationenergy.com/news/2025/constellation-meta-sign-20-year-deal-for-clean-reliable-nuclear-energy-in-illinois.html">Meta's
+      at Clinton</a>, both operating since the 1980s, are the clearest examples: the
+      electrons change owners, the atmosphere notices nothing (see
+      chart).<sup class="fn" data-fn="11">11</sup>
       The genuinely new half still matters — it displaces about 39 million tonnes of
       fossil-generated CO₂ a year by 2030, the one large negative entry in the tally.
       Meanwhile the newest and fastest-growing wave of AI construction, the OpenAI,
       Oracle and xAI campuses, is not making additionality claims at all: it is being
-      powered overwhelmingly by newly installed natural-gas turbines.<sup class="fn" data-fn="14">14</sup></p>
+      powered overwhelmingly by newly installed natural-gas
+      turbines.<sup class="fn" data-fn="12">12</sup></p>
 
       <div class="figure" data-chart="additionality">
         <div class="chart-title">Clean on paper, half as clean in energy</div>
         <div class="chart-sub">what contracted clean-power deals consist of, by capacity and by energy delivered · as-of 2026-07-06</div>
         <div class="chart-mount" id="additionalityChart"></div>
-        <div class="figure-note">Source: project deals ledger, 31 deals at contracted stage or beyond (27.9 GW). Most rows rest on company or press disclosures and are flagged accordingly.</div>
+        <div class="figure-note">Source: our deals ledger, 31 deals at contracted stage or beyond (27.9 GW). Most rows rest on company or press disclosures and are flagged accordingly.</div>
       </div>
     </section>
 
@@ -553,60 +581,81 @@ sup.fn:hover, sup.fn:focus-visible { text-decoration: underline; }
       <p>Start with electricity bills, because they are how most Americans will
       actually meet this issue, and because the popular version of this story outruns
       its evidence. The claim that data centers are raising electricity rates across
-      the country is not settled: independent 2026 analyses find little correlation
-      between where data centers cluster and where rates rose fastest, and one causal
-      study estimates that spreading a utility's fixed costs over large, steady new
-      customers has so far pushed average residential prices down, not up. Where the
-      evidence of harm is real, it is regional and specific. In the thirteen-state
-      grid region stretching from Virginia to Illinois, the independent market
-      monitor — a watchdog whose job is auditing the region's electricity auctions —
-      attributes $9.3 billion of a single year's cost increase to data-center demand,
-      and the first wave has reached households: of a roughly $21-a-month rise in
-      Washington, DC bills from June 2025, about $10 traces to the capacity-price
-      surge that data-center demand drove roughly half of. That regional channel
-      carries a climate cost of its own, because the transition depends on people
-      electrifying their lives, heat pumps most of all, and expensive electricity
-      discourages exactly that swap. Regulators in twenty-four states have begun
-      pushing back with special tariffs that make data centers carry more of their
-      own costs, which caps the channel going forward — and the fixed-cost-spreading
-      effect that has held average rates down erodes as the grid's spare capacity
-      runs out, which is why this page carries the channel as a wide range rather
-      than a verdict.<sup class="fn" data-fn="15">15</sup></p>
+      the country is not settled.
+      <a href="https://www.ethree.com/electricity-rate-drivers-data-center-role-2026/">One
+      industry-commissioned analysis finds little correlation</a> between where data
+      centers cluster and where rates rose fastest,
+      <a href="https://www.epri.com/research/products/000000003002034696">one causal
+      study</a> estimates that spreading a utility's fixed costs over large, steady new
+      customers has so far pushed average residential prices down, not up, and
+      <a href="https://emp.lbl.gov/news/new-berkeley-lab-report-summarizes-trends-retail-electricity-prices-and-price-drivers">the
+      most careful independent decomposition</a> attributes most of the recent national
+      rise to grid equipment, fuel and storms rather than to data centers. Where the
+      evidence of harm is real, it is regional and specific. In the thirteen-state grid
+      region stretching from Virginia to Illinois, the independent market monitor — a
+      watchdog whose job is auditing
+      <a href="https://learn.pjm.com/three-priorities/buying-and-selling-energy/capacity-markets.aspx">the
+      region's electricity auctions</a> —
+      <a href="https://www.utilitydive.com/news/data-centers-pjm-capacity-auction/808951/">attributes
+      $9.3 billion of a single year's cost increase to data-center demand</a>, and the
+      first wave has reached households: of a
+      <a href="https://opc-dc.gov/wp-content/uploads/2025/05/PJM-Wholesale-Price-Increase-5222025-Revised-1.pdf">roughly
+      $21-a-month rise in Washington, DC bills</a> from June 2025, about $10 traces to
+      the capacity-price surge that data-center demand drove roughly half of. That
+      regional channel carries a climate cost of its own, because the transition
+      depends on people electrifying their lives, heat pumps most of all, and
+      <a href="https://www.nber.org/papers/w31344">expensive electricity measurably
+      discourages exactly that swap</a>. Regulators in
+      <a href="https://www.eei.org/-/media/Project/EEI/Documents/Issues%20and%20Policy/List%20of%20Large%20Customer%20Projects%20and%20Tariffs">twenty-four
+      states have begun pushing back</a> with special tariffs that make data centers
+      carry more of their own costs, which caps the channel going forward; and the
+      fixed-cost-spreading effect that has held average rates down erodes as the grid's
+      spare capacity runs out, which is why we carry the channel as a wide range rather
+      than a verdict.<sup class="fn" data-fn="13">13</sup></p>
 
       <p>Then there is the accusation that data centers are keeping coal alive, which
       turns out to be mostly — though not entirely — misdirected. Thirteen coal units,
-      about six large plants' worth, did postpone retirement in the year to May 2026.
-      But attributing them to AI ignores that half of that capacity is being held open
-      by federal emergency orders in the name of grid reliability, and only one
-      utility anywhere named data-center growth among its reasons. It also ignores
-      how little these plants actually run: they operate at about a third of their
-      theoretical maximum, idling much of the year, so the true emissions cost is
-      about 4 million tonnes a year — the most widely circulated figure overstates it
-      two-and-a-half-fold by assuming the plants run flat out. The pattern in that
+      about six large plants' worth,
+      <a href="https://www.eia.gov/electricity/data/eia860m/">did postpone retirement
+      in the year to May 2026</a>. But attributing them to AI ignores that half of that
+      capacity is being held open by
+      <a href="https://www.energy.gov/ceser/2025-doe-202c-orders">federal emergency
+      orders</a> in the name of grid reliability, and
+      <a href="https://news.we-energies.com/we-energies-announces-updated-timeline-for-oak-creek-plant-retirements/">only
+      one utility anywhere named data-center growth among its reasons</a>. It also
+      ignores how little these plants actually run: they operate at about a third of
+      their theoretical maximum, idling much of the year. Arithmetic that assumes they
+      run flat out, the basis of the most widely circulated figures, overstates their
+      measured emissions about two-and-a-half-fold; the consequential cost, what the
+      delays add net of the cleaner generation the coal displaces, comes to about
+      4 million tonnes a year. The pattern in that
       mistake is worth remembering, because it recurs on every side of this debate:
       a paper capacity number gets multiplied into a tonnage without asking how the
-      machine actually behaves.<sup class="fn" data-fn="16">16</sup></p>
+      machine actually behaves.<sup class="fn" data-fn="14">14</sup></p>
 
       <p>Three quieter entries complete the bill. The chips and buildings themselves
       carry embodied carbon — the emissions from manufacturing and construction,
       released mostly overseas before a data center draws its first American
       kilowatt-hour — worth roughly 12 million tonnes a year. Compute that cannot
-      connect here sometimes lands on dirtier grids abroad, though for now US export
-      controls on advanced chips cap that channel more tightly than any climate rule
-      does. And in several states, developers unwilling to wait years in the queue are
-      installing their own gas turbines on site; the record so far contains no
-      verified case of such "temporary" turbines being retired once a grid connection
-      arrives. Related, and worth an eyebrow: the industry's most-marketed climate
-      solution, flexible AI computing that politely powers down when the grid is
-      stressed, remains largely hypothetical in contracts — and today's dominant form
-      of data-center "flexibility" is switching to on-site diesel generators, of
-      which Virginia alone has permitted more than eight thousand.<sup class="fn" data-fn="17">17</sup></p>
+      connect here sometimes lands on dirtier grids abroad, though for now
+      <a href="https://www.commerce.gov/news/press-releases/2025/11/statement-uae-and-saudi-chip-exports">US
+      export controls on advanced chips</a> cap that channel more tightly than any
+      climate rule does. And in several states, developers unwilling to wait years in
+      the queue are installing their own gas turbines on site; the record so far
+      contains no verified case of such "temporary" turbines being retired once a grid
+      connection arrives. The industry's most-marketed climate solution, flexible AI
+      computing that politely powers down when the grid is stressed, remains largely
+      hypothetical in contracts — and today's dominant form of data-center
+      "flexibility" is switching to on-site diesel generators, of which
+      <a href="https://virginiamercury.com/2025/12/16/virginia-regulators-weigh-expanded-use-of-data-centers-polluting-generators/">Virginia
+      alone has permitted more than eight
+      thousand</a>.<sup class="fn" data-fn="15">15</sup></p>
 
-      <p>Past those measured entries lies a tail of a dozen smaller channels that the
-      analysis has so far sized only to order of magnitude. The two largest pull in
-      opposite directions: transmission lines anchored by a guaranteed data-center
-      customer can unlock wind and solar projects stalled in the queue for want of
-      wires — the largest uncounted effect helping the transition — while clean-energy
+      <p>Past those measured entries lies a tail of a dozen smaller channels that we
+      have so far sized only to order of magnitude. The two largest pull in opposite
+      directions: transmission lines anchored by a guaranteed data-center customer can
+      unlock wind and solar projects stalled in the queue for want of wires — the
+      largest uncounted effect helping the transition — while clean-energy
       certificates matched to consumption annually rather than hour by hour overstate
       how much fossil generation the contracts above actually displace, the largest
       uncounted cost. On central estimates the dozen roughly cancel, worth perhaps
@@ -619,7 +668,7 @@ sup.fn:hover, sup.fn:focus-visible { text-decoration: underline; }
         <div class="chart-title">Two forces nearly cancel; the rest decides</div>
         <div class="chart-sub">yearly emissions impact by channel around 2030, middle-of-the-road demand, millions of tonnes of CO₂</div>
         <div class="chart-mount" id="waterfallChart"></div>
-        <div class="figure-note">Source: model run 7; channel means over 20,000 samples. As-of 2026-07-12. The +66 net is ~4% of current US power-sector emissions. The last row sums a dozen channels sized only to order of magnitude (project census, 2026-07-12) — largest: data-center-anchored transmission unlocking queued renewables (helping), annual-vs-hourly certificate accounting (hurting); excluded from the net.</div>
+        <div class="figure-note">Source: our model, channel means over 20,000 samples; as of 2026-07-12. The +66 net is ~5% of 2024 US power-sector emissions. The last row sums a dozen channels sized only to order of magnitude (as of 2026-07-12) — largest: data-center-anchored transmission unlocking queued renewables (helping), annual-vs-hourly certificate accounting (hurting); excluded from the net.</div>
       </div>
     </section>
 
@@ -627,32 +676,38 @@ sup.fn:hover, sup.fn:focus-visible { text-decoration: underline; }
       <h2>What if the demand never shows up?</h2>
       <p>Everything above conditions on AI demand arriving roughly as forecast, and
       that premise deserves real doubt, because the money behind the buildout has an
-      unusual shape. The big technology companies plan to spend around $725 billion on
-      infrastructure in 2026, up 77% in a single year — for scale, several times what
-      the entire nation spends annually building power plants and grid equipment. Set
-      against that: analysts project the spending pushing even Amazon's famous cash
-      flow negative, the sector needs to borrow on the order of a trillion dollars,
-      the chipmaker is financing its own customers' chip purchases, and loans are
-      being collateralized with the chips themselves — hardware that may be obsolete
-      before the loans mature. The most telling detail is also the driest: Amazon
-      recently shortened the accounting lifespan of its servers, citing how fast AI
+      unusual shape. The big technology companies plan to spend
+      <a href="https://www.cnbc.com/2026/02/06/google-microsoft-meta-amazon-ai-cash.html">around
+      $725 billion on infrastructure in 2026, up 77% in a single year</a> — several
+      times what the entire nation spends annually building power plants and grid
+      equipment. Money at that pace has to be borrowed, and the borrowing terms are
+      where the doubt shows: analysts project the spending pushing even Amazon's famous
+      cash flow negative, the sector needs on the order of a trillion dollars of
+      financing,
+      <a href="https://investor.nvidia.com/news/press-release-details/2025/OpenAI-and-NVIDIA-Announce-Strategic-Partnership-to-Deploy-10-Gigawatts-of-NVIDIA-Systems/default.aspx">NVIDIA,
+      the dominant AI chipmaker, is financing its own customers' chip purchases</a>,
+      and <a href="https://investors.coreweave.com/news/news-details/2026/CoreWeave-Closes-Landmark-8-5-Billion-Financing-Facility-Achieving-First-Investment-Grade-Rated-GPU-backed-Financing/default.aspx">loans
+      are being collateralized with the chips themselves</a>, hardware that may be
+      obsolete before the loans mature. The most telling detail is also the driest:
+      <a href="https://www.sec.gov/Archives/edgar/data/1018724/000101872425000004/amzn-20241231.htm">Amazon
+      recently shortened the accounting lifespan of its servers</a>, citing how fast AI
       hardware turns over, while Meta lengthened its own, adding $2.9 billion to
       reported profit. Two opposite accounting answers to the same physical question
-      cannot both be right.<sup class="fn" data-fn="18">18</sup></p>
+      cannot both be right.<sup class="fn" data-fn="16">16</sup></p>
 
-      <p>Rather than pretending to know, the analysis carries four demand futures and
+      <p>Rather than pretending to know, our analysis carries four demand futures and
       weights them by the evidence: the consensus forecast at 40%; a future where
       efficiency catches up and flattens demand at 20%; runaway demand, where
       efficiency gains just get spent on more computing, at 13%; and an outright bust
       at 27% — held deliberately above what markets currently price, on the strength
-      of the financing evidence above. Every one of those futures adds carbon; they
-      differ in how much (see chart).<sup class="fn" data-fn="19">19</sup></p>
+      of the financing evidence above.<sup class="fn" data-fn="17">17</sup> Every one
+      of those futures adds carbon; they differ in how much (see chart).</p>
 
       <div class="figure" data-chart="futures">
         <div class="chart-title">Every future adds carbon; they differ in how much</div>
         <div class="chart-sub">total CO₂ impact 2025–2035, millions of tonnes, by demand future · bar = middle 80% of outcomes, tick = median</div>
         <div class="chart-mount" id="futuresChart"></div>
-        <div class="figure-note">Source: model run 7, 20,000 samples per future. The weights are proposed, not settled. As-of 2026-07-12.</div>
+        <div class="figure-note">Source: our model, 20,000 samples per future; the weights are proposed, not settled. As of 2026-07-12.</div>
       </div>
 
       <p>The bust deserves a moment, because it produces the strangest and most
@@ -665,10 +720,10 @@ sup.fn:hover, sup.fn:focus-visible { text-decoration: underline; }
       construction, the chip manufacturing, the years of operation before the crash —
       exceeds what the stranded clean power displaces afterward. Both charts below are
       true at once, and the lesson generalizes: whether the buildout was "good for the
-      climate" genuinely depends on which of two reasonable questions you ask. This is
-      also the answer's most fragile region, since in the 2001 telecom crash, the
-      closest historical parallel, contracts for not-yet-built infrastructure were
-      torn up in bankruptcy court.<sup class="fn" data-fn="20">20</sup></p>
+      climate" genuinely depends on which of two reasonable questions is being asked.
+      This is also the answer's most fragile region, since in the 2001 telecom crash,
+      the closest historical parallel, contracts for not-yet-built infrastructure were
+      torn up in bankruptcy court.<sup class="fn" data-fn="18">18</sup></p>
 
       <div class="paradox-pair">
         <div class="figure half" data-chart="paradoxClean">
@@ -703,7 +758,7 @@ sup.fn:hover, sup.fn:focus-visible { text-decoration: underline; }
         <div class="chart-sub">swing in the 2025–2035 total, millions of tonnes, one assumption at a time · bar ends labeled with the assumption's evidence bounds · central result <span class="num" id="tornadoBase">+535</span> Mt</div>
         <div class="chart-mount tornado-wrap" id="tornadoChart"></div>
         <div class="drawer" id="tornadoDrawer" aria-live="polite"></div>
-        <div class="figure-note">Middle-of-the-road demand, central assumptions elsewhere; the curve below the bars is the model's full 20,000-sample distribution for the same case. Bar length is the swing in the ten-year total, in Mt — the labels at the bar ends are each assumption's own units (%, t/MWh, GW) and are not comparable across rows. Computed live from the model. As-of 2026-07-12.</div>
+        <div class="figure-note">Middle-of-the-road demand, central assumptions elsewhere; the curve below the bars is our model's full 20,000-sample distribution for the same case. Bar length is the swing in the ten-year total, in Mt — the labels at the bar ends are each assumption's own units (%, t/MWh, GW) and are not comparable across rows. Computed live from our model. As of 2026-07-12.</div>
       </div>
     </section>
 
@@ -711,8 +766,8 @@ sup.fn:hover, sup.fn:focus-visible { text-decoration: underline; }
       <h2>Set the assumptions yourself</h2>
       <p>Every number on this page follows from the assumptions just described, and
       reasonable people hold different ones. The panel below is not a picture of
-      the analysis — it is the analysis, recomputing from twenty thousand samples in
-      the browser as the sliders move. Each slider is one of the contested
+      our analysis — it is the analysis itself, recomputing from twenty thousand
+      samples in the browser as the sliders move. Each slider is one of the contested
       assumptions from the chart above, bounded by its real evidence range, and the
       switches carry the live policy questions: whether federal emergency orders
       keep coal plants running, and whether the grid meets this demand with planned
@@ -774,36 +829,37 @@ sup.fn:hover, sup.fn:focus-visible { text-decoration: underline; }
       could soften the conclusion. The largest exclusion is the possibility that AI
       itself reduces emissions elsewhere in the economy — video meetings replacing
       flights, smarter logistics, faster materials science. The International Energy
-      Agency, the intergovernmental body that tracks world energy, estimates such
-      effects could offset the equivalent of about 5% of energy-related emissions in
-      2035 — but only if adoption is widespread, and nobody can yet trace which
-      savings would truly not have happened without AI. That claim is therefore
-      disclosed rather than counted, and a reader who weights it heavily should treat
-      this page's total as the pessimistic end of a wider question. Two further
-      possibilities are queued for measurement with preliminary bounds: a coal plant
-      kept alive next to newly built solar may prove cheaper to retire when
-      conditions shift, refunding some of the delay's cost; and today's construction
-      boom may push solar and battery prices further down their long cost decline,
-      enlarging what 2035 can build. On current evidence each is worth at most a few
-      tens of millions of tonnes against the +412 central answer — softening, not
-      sign-flipping.<sup class="fn" data-fn="21">21</sup></p>
+      Agency, the intergovernmental body that tracks world energy,
+      <a href="https://www.iea.org/reports/energy-and-ai">estimates such effects could
+      offset the equivalent of about 5% of energy-related emissions in 2035</a> — but
+      only if adoption is widespread, and nobody can yet trace which savings would
+      truly not have happened without AI. That claim is therefore disclosed rather
+      than counted, and a reader who weights it heavily should treat this page's total
+      as the pessimistic end of a wider question. Two further possibilities are queued
+      for measurement with preliminary bounds: a coal plant kept alive next to newly
+      built solar may prove cheaper to retire when conditions shift, refunding some of
+      the delay's cost; and today's construction boom may push solar and battery
+      prices further down their long cost decline, enlarging what 2035 can build. On
+      current evidence each is worth at most a few tens of millions of tonnes against
+      the +412 central answer — softening, not
+      sign-flipping.<sup class="fn" data-fn="19">19</sup></p>
 
       <p>Two blunter caveats close the ledger. Everything here is a national average,
       while the real story differs sharply by region — Texas, with its fast-connecting
       market, and the utility-dominated Southeast are almost different countries for
-      this purpose — and regional resolution is the analysis's next planned step. And
-      this page counts carbon only: the water that data centers drink, the land they
-      occupy, and the local air quality around their diesel backup fleets are real
-      concerns outside its scope. The buildout, meanwhile, is not waiting for anyone's
-      error bars to narrow. The next hard evidence arrives on a schedule — Texas's
+      this purpose — and regional resolution is our next planned step. And this page
+      counts carbon only: the water that data centers drink, the land they occupy, and
+      the local air quality around their diesel backup fleets are real concerns
+      outside its scope. The buildout, meanwhile, is not waiting for anyone's error
+      bars to narrow. The next hard evidence arrives on a schedule — Texas's
       put-up-or-withdraw deadline in mid-2027, the industry's first 2027 spending
-      guidance, the depreciation schedules quietly keeping score — and the analysis
-      will re-run as each lands. The assumptions are load-bearing. So far, the load
+      guidance, the depreciation schedules quietly keeping score — and we will re-run
+      the analysis as each lands. The assumptions are load-bearing. So far, the load
       is holding.</p>
 
       <div class="colophon-meta">
         <dl>
-          <dt>Model</dt><dd class="num">run 7 · 2026-07-12 · 20,000 samples, uniform over evidence ranges (rate feedback: triangular around its central, per the 2026-07-12 correction)</dd>
+          <dt>Model</dt><dd class="num">figures as of 2026-07-12 · 20,000 samples, uniform over evidence ranges (rate feedback: triangular around its central estimate, after a 2026-07-12 correction)</dd>
           <dt>Accounting</dt><dd>consequential (against a no-buildout counterfactual); marginal, not average, emission rates</dd>
           <dt>Sources</dt><dd>EIA, FERC, ERCOT, LBNL, NREL, EPA, state utility regulators; company and press claims carried with motivation flags</dd>
           <dt>Falsification</dt><dd>five headline conclusions attacked with logged searches; four stand, one weakened, none broke</dd>
@@ -825,9 +881,11 @@ sup.fn:hover, sup.fn:focus-visible { text-decoration: underline; }
         most viral numbers. The same lab's
         <a href="https://emp.lbl.gov/publications/queued-2025-edition-characteristics">Queued
         Up</a> series is the definitive record of the interconnection queue and its
-        attrition rates. For historical humility, Jonathan Koomey's 2011 analysis of
-        the last data-center panic — when demand grew a third as fast as official
-        projections — shows these forecasts have overshot before.</p>
+        attrition rates. For historical humility,
+        <a href="https://www.missioncriticalmagazine.com/articles/84451-growth-in-data-center-electricity-use-2005-to-2010">Jonathan
+        Koomey's 2011 analysis</a> of the last data-center panic — when demand grew a
+        third as fast as official projections — shows these forecasts have overshot
+        before.</p>
         <p><strong>The system-level question.</strong> The International Energy
         Agency's <a href="https://www.iea.org/reports/energy-and-ai">Energy and AI</a>
         (2025) is the broadest independent treatment of AI's electricity demand and
@@ -864,33 +922,31 @@ sup.fn:hover, sup.fn:focus-visible { text-decoration: underline; }
         be true). On the financial side, Sequoia Capital's
         <a href="https://sequoiacap.com/article/ais-600b-question/">AI's $600B
         Question</a> states the revenue-gap argument behind this page's bust scenario —
-        written, worth noting, by a major AI investor cautioning its own industry.</p>
+        written by a major AI investor cautioning its own industry.</p>
       </div>
 
       <div class="footnotes" id="footnotes">
         <h3>Notes</h3>
         <ol>
-          <li id="fn-1">Headline figures: model run 7 (2026-07-12), probability-weighted across four demand futures; middle-80% range +105 to +791 Mt; odds of a positive total ~97%; transition verdict "delaying" at 0.53 of weighted probability. Car equivalence uses ~4.6 tonnes CO₂ per gasoline car per year (EPA); US power-sector emissions ~1,550 Mt/yr (2024).</li>
-          <li id="fn-2">One gigawatt ≈ output of a large nuclear reactor; at typical household use, ~750,000 homes. US electricity demand was roughly flat 2005–2020 (EIA) before the current growth resumed.</li>
-          <li id="fn-3">Data centers ~4.4% of US electricity in 2023 (LBNL 2024 report); consensus 2030 anchor ~765 TWh/yr against total US generation ~4,300 TWh/yr (2024). Forecast, not fact — see the demand-futures section.</li>
-          <li id="fn-4">The interconnection process, utility obligation-to-serve, and PPA institutions are described here for PJM-style organized markets and traditional regulated states alike; Texas's ERCOT market differs in ways that matter and is flagged where it does.</li>
-          <li id="fn-5">Formally, consequential accounting per the project's emissions-accounting standard; certificate-based claims answer an ownership question, not a causal one. A 2025 preprint ("Certificates without electrons?") documents fully certificate-covered consumption that still raises system emissions.</li>
-          <li id="fn-6">The statistics are deliberately simple: each evidence range is sampled uniformly and independently, 20,000 times, and the results' spread is reported — interval propagation, not statistical inference; no distribution is fitted to any data. One exception, introduced 2026-07-12: the rate-feedback channel is drawn around its module's central estimate (a triangular draw over scenario-matched bands), after an audit found the flat range double-counting scenario spread. Distribution-shape and correlation stress tests (documented in the repository) move the headline by at most ~2% of its uncertainty span.</li>
-          <li id="fn-7">LBNL, "Queued Up" (2026 edition): of generation requests entering queues 2000–2019, ~20% reached operation, ~71% withdrew. As-of 2025-12-31. US generating fleet ~1,300 GW (EIA).</li>
-          <li id="fn-8">ERCOT large-load queue: ~275 GW tracked (2025-10-14); 17.7% through planning studies, 5.9% approved to energize, 0.96% observed drawing power; Texas peak ~85 GW. Dominion: 47 GW contracted vs 16.6 GW forecast (July 2025). Oncor (Texas): 271 GW requested vs 9 GW signed. Utility figures are from investor materials and testimony — note the incentive runs toward inflating pipelines, and these are the utilities discounting their own.</li>
-          <li id="fn-9">Blended speculative-load discount 37–61% (registry: `phantom-load-haircut`; status contested). Firmness evidence: take-or-pay attrition ~2–15% vs ~55–75% for loose letters; AEP Ohio's take-or-pay tariff shrank its speculative pool 57% at the first gate; Georgia Power's pipeline recorded its first-ever decline in late 2025 when a quarter of its announced-stage projects exited in one quarter. Texas SB6 (June 2025): financial-security deadline ~June 2027.</li>
-          <li id="fn-10">NREL Cambium 2024 long-run marginal emission rates, Mid-case national blend: ~0.37 tCO₂/MWh (2025) → 0.23 (2030) → 0.10 (2035). The national interpolation is the project's own simplification, flagged as crude.</li>
-          <li id="fn-11">The surprise-demand alternative uses short-run marginal rates (0.37–0.56 tCO₂/MWh, held flat); on those the consensus decade rises from ~574 to ~885 Mt. The two rate families measure different questions and are never blended — an explicit, recorded methods decision.</li>
-          <li id="fn-12">S&amp;P Global count, ~Q4 2025: &gt;80 GW cumulative US data-center clean-power contracts. The audit ledger covers ~35% of that universe; 42 of 46 rows rest on company or trade-press disclosures, each carried with a note on who published it and what they gain.</li>
-          <li id="fn-13">Amazon–Susquehanna (1,920 MW) and Meta–Clinton (1,121 MW), classified as reallocation of existing output. Clinton is the ledger's largest judgment call — if Illinois's expiring subsidy would otherwise have closed the plant, the deal partially caused clean supply to persist; it is classified conservatively. Genuine restarts (Three Mile Island Unit 1 for Microsoft; Duane Arnold for Google) are counted as new.</li>
-          <li id="fn-14">xAI's Memphis campus (~247 MW of on-site gas turbines, ~1.2 GW more nearby), Oracle-VoltaGrid (~2.3 GW), the Abilene build (~360 MW). By energy, contracted-or-better deals: ~52% new-build, ~35% re-labeled existing, ~11% restart, ~1% capacity upgrades.</li>
-          <li id="fn-15">PJM Independent Market Monitor counterfactual auction re-runs: +$9.3bn (2025/26), +$7.3bn (2026/27). Pepco (Washington, DC): the ~$21/month standard-offer increase from June 2025 is the total; ~$10 of it is the PJM capacity-price surge, of which data-center demand drove roughly half (the rest is fuel, distribution and transmission costs). National counter-evidence, each with its motivation: an EPRI causal study (industry-funded) finds data-center growth lowered average residential prices ~3.5% over 2015–2024 by spreading fixed costs; an E3 analysis (funded by the Data Center Coalition, the industry's lobby) finds no state-level correlation between data-center concentration and rate increases; LBNL's independent decomposition attributes most of 2019–2025's +33% residential rise to grid capex, fuel and storms. Heat-pump adoption is measurably price-sensitive; electric-vehicle adoption barely. The FERC-approved price cap saved ~$2.9bn on one auction. One honesty note on this page's own tally: through model run 6 this channel entered at +8 Mt/yr — the mean of a range that mixed all four demand futures; the 2026-07-12 correction (applied in run 7, shown here) samples it around the underlying module's central estimate of +2.4 instead, and the channel now enters at +4.6 Mt/yr.</li>
-          <li id="fn-16">EIA-860M vintage comparison, May 2025–May 2026: 13 coal units, 5,964 MW, measured capacity factor 0.33 (capacity factor: actual output divided by running-flat-out output). Seven units (2,958 MW) under DOE §202(c) federal emergency orders; the one named data-center case is We Energies' South Oak Creek. The circulated ~68 Mt figure is those plants' total annual emissions — a different question from the delay's added emissions (~4 Mt/yr).</li>
-          <li id="fn-17">Embodied carbon anchored on Google's published chip lifecycle assessment (manufacturing ~10–25% of lifecycle emissions; ~30% at facility level with construction). Export controls: US Commerce licenses (2025-11-20) allow ~35,000 top-tier chips per Gulf buyer — 50–100 MW-equivalent each against 11.4 GW of announced Gulf ambition. Flexibility: the Arizona demonstration (Oracle GPU cluster, −25% power for 3 hours, zero service violations; EPRI DCFlex) proves feasibility; contracted reality is ~1 GW of enrolled demand response (~3% of incremental consensus load), and DOE orders of 2026-06-30 direct large PJM data centers to switch to on-site diesel within 15 minutes of an emergency signal. The flip-test: reaching a negative decade requires ~37× the contracted flexible share.</li>
-          <li id="fn-18">2026 capital-expenditure guidance ~$635–725bn combined (company filings); NVIDIA–OpenAI up to $100bn equity-for-capacity; GPU-collateralized loans maturing 2026–27; Amazon server lives 6→5 years (−$677m income), Meta →5.5 years (+$2.9bn). Every source in this census is motivated: bulls sell the supercycle, bears sell the crash. US utility+grid annual capex for comparison: ~$180bn/yr.</li>
-          <li id="fn-19">Weights are proposed against an equal-odds prior and are the analysis's most contestable input. Six monitoring indicators (guidance revisions, depreciation moves, credit spreads, contract conversion, queue withdrawals, tariff uptake) stand watch; as of July 2026 none has crossed its threshold.</li>
-          <li id="fn-20">2001 telecom precedent: built capacity strands and stays (85% of laid fiber sat dark through 2005); planned construction cancels and forward contracts get repudiated in bankruptcy. Of the ~23 GW of contracted-or-better clean supply, ~10 GW is under construction or operating; ~13 GW is paper.</li>
-          <li id="fn-21">IEA, "Energy and AI" (2025): AI-enabled efficiency "could be equivalent to around 5% of energy-related emissions in 2035", conditional on widespread adoption; excluded because attribution is unbounded, disclosed here by project rule. The same report projects data-centre emissions rising to 300–500 Mt/yr by 2035 — independently agreeing with this page on direction. Retirement-option value and learning-curve proposals: approved 2026-07-12 as bounded, default-off sensitivities (0–10 Mt cumulative and 0–8 Mt/yr respectively).</li>
+          <li id="fn-1">Headline figures as of 2026-07-12, probability-weighted across the four demand futures described below: middle-80% range +105 to +791 Mt; odds of a positive total ~97%; transition verdict "delaying" at 0.53 of weighted probability. The comparator arithmetic: the +412 Mt total averages out near 37 Mt a year, <a href="https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle">a typical gasoline car emits about 4.6 tonnes of CO₂ a year</a>, and <a href="https://www.eia.gov/environment/emissions/carbon/">US power plants emitted about 1,427 Mt in 2024</a> — hence roughly eight million cars, and roughly 2–3% of the power sector's current emissions.</li>
+          <li id="fn-2">The ~765 TWh-by-2030 anchor is our own central figure, interpolated across the major public forecasts rather than taken from any single one; total US generation runs about 4,300 TWh a year (2024, EIA). A forecast, not a fact — the demand-futures section takes the doubt seriously.</li>
+          <li id="fn-3">The interconnection process, the utility obligation to serve, and PPAs are described here in the form they take in PJM-style organized markets and traditional regulated states alike; Texas's separately run grid (ERCOT) differs in ways that matter and is flagged where it does.</li>
+          <li id="fn-4">Formally, our accounting is consequential: every effect is measured against a world in which the buildout never happened. Certificate-based claims answer an ownership question, not a causal one; a 2025 preprint, <a href="https://arxiv.org/abs/2606.00811">"Certificates without electrons?"</a>, documents fully certificate-covered consumption that still raises system emissions.</li>
+          <li id="fn-5">The statistics are deliberately simple: each evidence range is sampled uniformly and independently, 20,000 times, and the spread of results is reported — interval propagation, not statistical inference; no distribution is fitted to any data. One exception, a 2026-07-12 correction: the rate-feedback channel is drawn around its central estimate (a triangular draw over scenario-matched bands), after an audit found the flat range double-counting scenario spread. Distribution-shape and correlation stress tests move the headline by at most ~2% of its uncertainty span.</li>
+          <li id="fn-6">ERCOT's large-load queue tracked ~275 GW as of 2025-10-14 — 17.7% through planning studies, 5.9% approved to energize, 0.96% observed drawing power — against a Texas all-time peak near 85 GW; the stage shares come from ERCOT's board and committee reporting. Dominion: 47 GW contracted vs 16.6 GW forecast (July 2025). Oncor, the Dallas-area utility: ~271 GW requested against <a href="https://www.utilitydive.com/news/oncor-sempra-interconnection-texas-data-center-earnings/757262/">about 9 GW actually signed</a>; the 271 figure is a specific quarter's investor-materials vintage. These utility figures come from investor materials and testimony — the incentive runs toward inflating pipelines, which makes them more credible, not less, as evidence of attrition, because these are the utilities discounting their own books.</li>
+          <li id="fn-7">The blended speculative-load discount is 37–61%, and it is the most contested assumption we carry. The firmness evidence: attrition on take-or-pay contracts runs only ~2–15%, versus ~55–75% for loose letters; <a href="https://puco.ohio.gov/news/puco-orders-aep-ohio-to-create-data-center-specific-tariff">AEP Ohio's take-or-pay tariff</a> <a href="https://www.datacenterdynamics.com/en/news/aep-ohio-slashes-data-center-pipeline-by-more-than-half-report/">shrank its speculative pool 57%</a> at the first gate; and Georgia Power's pipeline recorded its first-ever decline in late 2025, when a quarter of its announced-stage projects exited in a single quarter. Texas SB6 (June 2025) sets the financial-security deadline around June 2027.</li>
+          <li id="fn-8"><a href="https://www.osti.gov/biblio/2305481">NREL Cambium 2024</a> long-run marginal emission rates, Mid-case national blend, falling from ~0.37 tCO₂/MWh in 2025 to 0.23 in 2030 and 0.10 in 2035. The national interpolation is our own simplification, and a crude one; regional resolution is the next planned step.</li>
+          <li id="fn-9">The surprise-demand alternative uses short-run marginal rates (0.37–0.56 tCO₂/MWh, held flat); on those, the consensus decade rises from ~574 to ~885 Mt. The two rate families measure different questions — what dispatches today versus what a decade of anticipated load calls into existence — and we never blend them.</li>
+          <li id="fn-10">The &gt;80 GW count is S&amp;P Global's, ~Q4 2025. Our audit ledger covers about 35% of that universe; 42 of its 46 rows rest on company or trade-press disclosures, each carried with a note on who published it and what they gain.</li>
+          <li id="fn-11">Amazon–Susquehanna (1,920 MW) and Meta–Clinton (1,121 MW) are classified as reallocation of existing output. Clinton is the ledger's largest judgment call: if Illinois's expiring subsidy would otherwise have closed the plant, the deal partially caused clean supply to persist; we classify it conservatively. Genuine restarts — <a href="https://www.constellationenergy.com/news/2024/Constellation-to-Launch-Crane-Clean-Energy-Center-Restoring-Jobs-and-Carbon-Free-Power-to-The-Grid.html">Three Mile Island Unit 1 for Microsoft</a>, <a href="https://newsroom.nexteraenergy.com/NextEra-Energy-and-Google-Announce-New-Collaboration-to-Accelerate-Nuclear-Energy-Deployment-in-the-U-S?l=12">Duane Arnold for Google</a> — are counted as new.</li>
+          <li id="fn-12">xAI's Memphis campus runs <a href="https://www.selc.org/press-release/groups-appeal-permit-for-xais-south-memphis-data-center-decisions-around-unpermitted-methane-gas-turbines/">~247 MW of on-site gas turbines, with ~1.2 GW more nearby</a>; the turbine counts come from the Southern Environmental Law Center, an advocacy group litigating against the facility, and match <a href="https://www.datacenterdynamics.com/en/news/elon-musk-xai-gas-turbines-memphis/">trade-press reporting</a>. Oracle–VoltaGrid (~2.3 GW) and the Abilene build (~360 MW) round out the wave. By energy, contracted-or-better deals split ~52% new-build, ~35% re-labeled existing, ~11% restart, ~1% capacity upgrades.</li>
+          <li id="fn-13">The monitor is Monitoring Analytics, PJM's independent market monitor; its counterfactual auction re-runs attribute +$9.3bn (2025/26) and +$7.3bn (2026/27) to data-center demand. In Washington, DC, the ~$21/month standard-offer rise from June 2025 is the total; ~$10 of it is the PJM capacity-price surge, the rest fuel, distribution and transmission. Motivations, since much of the counter-evidence is interested: the causal price study is EPRI's — a utility-industry research consortium, funded by companies with a benign story to tell — and finds average residential prices roughly 6% lower over 2019–2024 than they would have been without data-center load growth (<a href="https://www.marketplace.org/story/2026/07/10/data-centers-lowered-electric-bills-in-some-places-for-now">an accessible summary at Marketplace</a>); the no-correlation analysis is E3's, commissioned by the Data Center Coalition, the industry's lobby; and the 24-state tariff tally is the Edison Electric Institute's, the utilities' own trade group. LBNL's independent decomposition attributes most of 2019–2025's +33% residential rise to grid capital spending, fuel and storms. Electric-vehicle adoption, unlike heat pumps, is <a href="https://www.nber.org/papers/w29842">barely electricity-price-sensitive</a>. A <a href="https://insidelines.pjm.com/ferc-approves-capacity-auction-price-collar-to-next-two-capacity-auctions/">FERC-approved price collar</a> saved ~$2.9bn on one auction. One honesty note on our own tally: an earlier version of this analysis carried this channel at +8 Mt/yr, the mean of a range that mixed all four demand futures; a 2026-07-12 correction draws it around the underlying central estimate of +2.4 instead, and the channel now enters at +4.6 Mt/yr.</li>
+          <li id="fn-14">An EIA-860M vintage comparison, May 2025 to May 2026: 13 coal units, 5,964 MW, at a measured capacity factor of 0.33 (capacity factor: actual output divided by running-flat-out output). Seven units (2,958 MW) sit under federal emergency orders; the one named data-center case is We Energies' Oak Creek units in Wisconsin. The circulated ~68 Mt figure is those plants' total annual emissions — a different question from the delay's added emissions (~4 Mt/yr).</li>
+          <li id="fn-15">Embodied carbon is anchored on <a href="https://cloud.google.com/blog/topics/sustainability/tpus-improved-carbon-efficiency-of-ai-workloads-by-3x">Google's published chip lifecycle assessment</a> — a company sustainability disclosure — with manufacturing at ~10–25% of lifecycle emissions and ~30% at facility level once construction is included. Export licenses (US Commerce, 2025-11) allow ~35,000 top-tier chips per approved Gulf buyer, 50–100 MW-equivalent each against 11.4 GW of announced Gulf ambition. On flexibility: <a href="https://arxiv.org/abs/2507.00909">a field demonstration in Arizona</a> cut an Oracle GPU cluster's power 25% for three hours with zero service violations, proving feasibility; contracted reality is ~1 GW of enrolled demand response, about 3% of the incremental consensus load, and <a href="https://www.utilitydive.com/news/pjm-doe-emergency-order-curtail-data-centers/820571/">a June 2026 federal order</a> directs large PJM data centers to switch to on-site diesel within 15 minutes of an emergency signal. The flip-test: reaching a negative decade requires ~37 times the contracted flexible share.</li>
+          <li id="fn-16">The ~$635–725bn range aggregates four companies' guidance from their own filings. NVIDIA–OpenAI: up to $100bn of equity-for-capacity, a letter of intent NVIDIA later cautioned carries "no assurance" of a final deal. The GPU-collateralized loans mature 2026–27. Amazon's server-life change (six years to five) cut reported income by $677 million; Meta's move to 5.5 years added $2.9bn, per its own FY2024 filing. Every source in this census is motivated — bulls sell the supercycle, bears sell the crash. US utility and grid annual capital spending, for comparison: ~$180bn a year.</li>
+          <li id="fn-17">The weights are set against an equal-odds starting point and are our most contestable input. Six monitoring indicators — guidance revisions, depreciation moves, credit spreads, contract conversion, queue withdrawals, tariff uptake — stand watch; as of July 2026 none has crossed its threshold.</li>
+          <li id="fn-18">In the 2001 telecom crash, built capacity stranded and stayed — the oft-quoted figure that 85% of laid fiber sat dark through 2005 is widely repeated but traces to no clean primary source, and is carried here as illustration rather than evidence. Planned construction cancels, and forward contracts get repudiated in bankruptcy. Of the ~23 GW of contracted-or-better clean supply in our ledger, ~10 GW is under construction or operating; ~13 GW is paper.</li>
+          <li id="fn-19">IEA, "Energy and AI" (2025): AI-enabled efficiency "could be equivalent to around 5% of energy-related emissions in 2035", conditional on widespread adoption; we exclude it because the attribution is unbounded, and disclose it instead. The same report projects data-center emissions rising to 300–500 Mt a year by 2035 — independently agreeing with this page on direction. The retirement-option and learning-curve possibilities are carried as bounded, default-off sensitivities: 0–10 Mt cumulative and 0–8 Mt a year respectively, as of 2026-07-12.</li>
         </ol>
       </div>
     </section>
@@ -2235,7 +2291,7 @@ if (typeof module !== "undefined") module.exports = GridModel;
           '<span class="chip accel"><span class="swatch"></span>Accel. <span class="num">0.27</span></span>' +
           '<span class="chip mixed"><span class="swatch"></span>Mixed <span class="num">0.20</span></span>' +
         '</div>' +
-        '<div class="dash-note">Four demand futures, probability-weighted. Run 7, as of 2026-07-12.</div>';
+        '<div class="dash-note">Four demand futures, probability-weighted. As of 2026-07-12.</div>';
       var ds = document.getElementById('dashStrip');
       if (ds) quantileStrip(ds, PUB.weightedCumulative, { compact: true, height: 40, domain: [-250, 1350], width: 320 });
       return;
@@ -2367,7 +2423,7 @@ if (typeof module !== "undefined") module.exports = GridModel;
     return pins;
   }
   var PRESETS = [
-    { id: 'run6', label: 'Run 6 central', apply: function () { state.pins = {}; state.weights = defaultWeights(); state.regime = 'orders-continue'; state.mefFamily = 'longrun'; } },
+    { id: 'run6', label: 'Published central', apply: function () { state.pins = {}; state.weights = defaultWeights(); state.regime = 'orders-continue'; state.mefFamily = 'longrun'; } },
     { id: 'hyperscaler', label: 'Hyperscaler report', apply: function () {
         state.pins = pinsAt({ phantom_haircut: 'high', additionality_share: 'high', clean_cf: 'high', embodied_band: 'low', leakage_band: 'low', rate_feedback_band: 'low' });
         state.weights = normalize({ 'consensus': 0.5, 'efficiency-tempered': 0.4, 'jevons-high': 0.05, 'demand-disappointment': 0.05 });
