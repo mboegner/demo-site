@@ -2332,6 +2332,7 @@ if (typeof module !== "undefined") module.exports = GridModel;
   /* ---------- TOC + progress + section observer ---------- */
   function initTocAndDash() {
     var toc = document.getElementById('toc');
+    if (!toc) return; // page without the essay chrome (e.g. the review index)
     var sections = Array.prototype.slice.call(document.querySelectorAll('.essay section'));
     sections.forEach(function (s) {
       var a = document.createElement('a');
@@ -2357,7 +2358,7 @@ if (typeof module !== "undefined") module.exports = GridModel;
     sections.forEach(function (s) { io.observe(s); });
 
     var fill = document.getElementById('progressFill');
-    window.addEventListener('scroll', function () {
+    if (fill) window.addEventListener('scroll', function () {
       var h = document.documentElement;
       fill.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
     }, { passive: true });
@@ -2468,7 +2469,7 @@ if (typeof module !== "undefined") module.exports = GridModel;
   function buildControls() {
     var host = document.getElementById('controlList');
     var presetHost = document.getElementById('presets');
-    if (!host) return;
+    if (!host || !presetHost) return;
     clear(host); clear(presetHost);
 
     PRESETS.forEach(function (p) {
@@ -2687,7 +2688,8 @@ if (typeof module !== "undefined") module.exports = GridModel;
     var f = document.getElementById('funnelChart'); if (f) funnelChart(f);
     var l = document.getElementById('lrmerChart'); if (l) lrmerChart(l);
     var a = document.getElementById('additionalityChart'); if (a) additionalityChart(a);
-    var w = document.getElementById('waterfallChart'); if (w) waterfall(w, PUB.channels2030, { catchAll: {
+    var w = document.getElementById('waterfallChart');
+    if (w) waterfall(w, PUB.channels2030, w.dataset.catchall === 'off' ? {} : { catchAll: {
       label: 'Smaller, less-certain channels', center: 4, band: [-12, 18],
       note: 'a dozen channels sized to order of magnitude only; largest: transmission unlocking queued renewables (−), annual-vs-hourly certificates (+). Not in the net.' } });
     var fu = document.getElementById('futuresChart'); if (fu) futuresChart(fu);
