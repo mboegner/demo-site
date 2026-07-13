@@ -1,6 +1,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Queue conversion — analysis review</title>
+<title>Retirement delays — analysis review</title>
 <style>
 
 @font-face {
@@ -240,21 +240,21 @@ figure { margin: 1.6rem 0 1.4rem; }
 </style>
 <div class="review-bar">
   <div class="review-bar-inner">
-    <span class="where">Analysis review · brief 1 of 9</span>
-    <nav aria-label="brief sequence"><a href="../">All briefs</a><a class="" href="../m2-retirement-emissions/">2 · retirement delays →</a></nav>
+    <span class="where">Analysis review · brief 2 of 9</span>
+    <nav aria-label="brief sequence"><a class="" href="../m1-queue-conversion/">← 1 · queue conversion</a><a href="../">All briefs</a><a class="" href="../m3-procurement-impact/">3 · procurement impact →</a></nav>
   </div>
 </div>
 <header class="masthead">
-  <div class="rubric">AI and the grid<span class="sep">·</span>module M1<span class="sep">·</span>queue conversion</div>
-  <h1>Most requested data-center load never plugs in. How much never arrives depends on the stage.</h1>
-  <p class="dek">Utilities book hundreds of gigawatts of interconnection requests and then forecast a fraction of it; the honest discount collapses from most of the pile at the announcement stage to almost none once construction starts</p>
-  <div class="byline">Figures as of October 2025 (Texas large-load queue) and December 2025 (interconnection queue) · two decisions recorded 7–8 July 2026 · first pass and load-side pass complete</div>
+  <div class="rubric">AI and the grid<span class="sep">·</span>module M2<span class="sep">·</span>retirement delays</div>
+  <h1>Delayed coal retirements are keeping carbon online. Measured dispatch makes it smaller than advertised, and federal orders, not data centers, are mostly the reason.</h1>
+  <p class="dek">Thirteen coal units pushed back their shutdown dates in a single year, but counting how they actually run — not their nameplate — cuts the emissions to a fraction, and only one of those delays so much as names a data center</p>
+  <div class="byline">Figures as of May 2026 (retirement vintages) and 2024–2025 (measured dispatch) · two decisions recorded 7–12 July 2026 · first empirical pass complete</div>
 </header>
 
 <div class="state-strip" role="list" aria-label="review state">
   <span class="chip" role="listitem">resolves one assumption</span>
   <span class="chip contested" role="listitem">contested</span>
-  <span class="chip approved" role="listitem">two decisions, 7–8 Jul 2026 — approved</span>
+  <span class="chip approved" role="listitem">decisions of 7 &amp; 12 Jul 2026 — approved</span>
   <span class="chip" role="listitem">0 awaiting your review</span>
 </div>
 
@@ -262,141 +262,100 @@ figure { margin: 1.6rem 0 1.4rem; }
 
 <section aria-labelledby="s-answer">
   <h2 id="s-answer">The answer first</h2>
-  <p>No number in this project is more load-bearing, or more abused, than the size of data-center demand. The requests are real and enormous: the Electric Reliability Council of Texas, the state's grid operator, tracks <a href="https://www.utilitydive.com/news/ercots-large-load-queue-jumped-almost-300-last-year-official/808820/">about 275 gigawatts of large-load interconnection requests</a> as of October 2025 — more than three times the entire Texas grid at its <a href="https://www.ercot.com/gridmktinfo/dashboards">all-time peak of roughly 85 gigawatts</a>, a record set on the hottest afternoon of 2023. Read literally, one state's request pile is three Texases. It cannot be real load arriving soon, because <a href="https://www.volts.wtf/p/whats-the-deal-with-interconnection">a queue position is a request to study a connection</a>, not a plant under construction, and reading the raw queue as demand would triple-count a grid that does not yet exist.</p>
-  <p>Our analysis prices how much of that requested load to discount as speculative, the share that never gets built, and finds it depends almost entirely on how far a project has travelled. At the announcement stage, where a developer has filed a request but signed nothing binding, the discount runs 60 to 90 percent; by the time a project is under construction it falls to 3 to 15 percent. The contracted middle is where the story turns. A single blended band of 20 to 38 percent hides a split visible only on the load side: a firm take-or-pay contract, which bills the customer whether or not the power is used, behaves like construction and is discounted just 2 to 15 percent, while a loose letter of authorization behaves like an announcement, discounted around 55 to 75 percent.</p>
-  <p>Three things would move these numbers. The load queues are young — most of the 275 gigawatts was filed in 2025 — so today's conversion rates are floors that will rise as projects age, which makes the discounts ceilings that will fall. Texas's new financial-security gate, which forces a developer to post money or drop out, faces its first real test around June 2027 and could compress the announcement-stage discount if it deters speculative filings. And the single largest unmeasured piece is the same project sitting in several utilities' queues at once, a double-count still folded into the announcement band because the tool to detect it does not yet exist.</p>
+  <p>The most visceral climate charge against the buildout is that it is keeping coal alive: plants scheduled to close are staying open to feed data centers. The first half of that sentence is true and measurable. Between May 2025 and May 2026, thirteen coal-fired units totalling 5,964 megawatts pushed their planned retirement to a later date, the raw signal from diffing two vintages of the <a href="https://www.eia.gov/electricity/data/eia860m/">US Energy Information Administration's monthly generator inventory</a>, the federal record of every power plant's status. Our analysis prices the emissions those specific delays cause, built from how the units actually run rather than from their nameplate, at a net roughly 8.7 million tonnes of CO₂ over the delay windows, with a gross figure of about 15.7 million tonnes before crediting the gas those coal units displace.</p>
+  <p>Set against the yardsticks this project uses, 8.7 million tonnes is a real but modest entry: about 1.9 million gasoline cars driven for a year (<a href="https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle">at the Environmental Protection Agency's 4.6 tonnes per car</a>), or roughly six-tenths of one percent of what US power plants put into the air in 2024 (<a href="https://www.eia.gov/environment/emissions/carbon/">1,427 million tonnes, per the same agency</a>). What that number shows is that delayed retirements are a small, real drag on the transition. What it does not show is the figure the advocacy coverage reaches for. An <a href="https://www.desmog.com/2025/12/12/15-coal-plant-retirements-delayed-ai-data-centers-trump-doe-orders/">analysis by DeSmog and the Frontier Group</a>, an environmental-research nonprofit, puts about 68 million tonnes on this story, but that is the delayed plants' entire 2024 output, everything they emit standing still, not the slice the delays caused. The gap between 8.7 and 68 is the gap between a stock and a consequence.</p>
+  <p>Three things would move our number, and none of them is the demand forecast. The first is whether the federal emergency orders now holding several of these units open keep renewing, which grows the delay, or lapse on schedule, which caps it near this window. The second is direct hourly metering of the ordered units, which idle far more than the annual averages we used suggest, so their share is more likely an over-estimate than an under-estimate. The third is the unfinished question of how much of the reliability-driven deferrals is itself downstream of anticipated data-center load, the one place where the AI channel could quietly grow.</p>
 </section>
 
 <section aria-labelledby="s-how">
   <h2 id="s-how">How the channel works</h2>
-  <div class="chain" role="img" aria-label="Causal chain: requested load, to a discount by lifecycle stage, to real load, to the emissions consequence">
-    <div class="node"><b>Requested load</b><span>interconnection requests, hundreds of gigawatts, by demand future</span></div>
+  <div class="chain" role="img" aria-label="Causal chain: anticipated load and reliability pressure, to a retirement delayed, to the unit dispatched at its measured capacity factor, to emissions caused net of displaced gas">
+    <div class="node"><b>Anticipated load</b><span>data-center growth, DOE emergency orders, and reliability tightening press to keep capacity</span></div>
     <div class="arrow" aria-hidden="true">→</div>
-    <div class="node"><b>Discount by stage</b><span>most requests withdraw; the discount collapses from announced to contracted to under construction</span></div>
+    <div class="node"><b>Retirement delayed</b><span>a capacity fact: gigawatts of coal held online past the planned close date</span></div>
     <div class="arrow" aria-hidden="true">→</div>
-    <div class="node"><b>Real load</b><span>the fraction that energizes, plus firm take-or-pay contracts that hold</span></div>
+    <div class="node"><b>Dirtier dispatch</b><span>the unit runs at its measured capacity factor, about a third of the year, not flat out</span></div>
     <div class="arrow" aria-hidden="true">→</div>
-    <div class="node"><b>Emissions consequence</b><span>supply built against load that never arrives, or surplus capacity that later helps</span></div>
+    <div class="node"><b>Emissions caused</b><span>coal tonnes over the delay window, net of the gas the coal displaces</span></div>
   </div>
-  <p>The dose is the raw volume of requested load; the response is the discount that shrinks it to something buildable. Two forces pull in opposite directions. Take-or-pay tariffs and interconnection collateral, money a developer forfeits by walking away, push requested load toward realness and off the ratepayer, deflating the speculative share; that mechanism belongs to the market-structure work (M4, who bears demand risk) and is consumed here rather than decided. Pulling the other way, a regulated utility's legal duty to serve its territory can justify building capacity ahead of even half-speculative load, so obligation-to-serve regions inflate the share. The discount runs inside the four demand futures, from consensus through the bust, whose weights the demand-durability work (M9) sets and this module consumes.</p>
+  <p>A delayed retirement is a capacity fact, measured in gigawatts held online for a stretch of time. It only becomes tonnes of carbon through a capacity factor, the share of the year a unit actually generates. This is the whole reason the module exists, because the tempting shortcut is to multiply nameplate capacity by every hour in the year, which assumes a unit runs flat out. These units do not: the thirteen ran at a capacity-weighted 0.33, meaning a third of the time, and the trend is downward as they age toward the exit. The dose is the gigawatt-hours of delay; the response is that measured capacity factor; and the result is netted against the marginal generator the coal shoulders aside, mostly gas, so the consequential figure sits below the gross one. The cap is honesty about the window: our estimate counts only the observed slips of one to twenty-four months, not each unit's ultimate fate, so rolling renewals of the federal orders would grow it and an on-time close at the new date roughly holds it here.</p>
 </section>
 
 <section aria-labelledby="s-evidence">
-  <h2 id="s-evidence">What the evidence says, and what it won't</h2>
-  <p>The strongest evidence is not about data centers at all. The best-measured record of how often a queued request becomes real is the US generation interconnection queue, catalogued for two decades by Lawrence Berkeley National Laboratory, a US Department of Energy lab: of generation projects that entered a queue between 2000 and 2019, old enough to have resolved, <a href="https://emp.lbl.gov/publications/queued-2025-edition-characteristics">only about a fifth were ever built and roughly seven in ten withdrew</a>. That is not a measurement of data-center load, which is mostly proprietary, but it is a defensible prior for how a request-to-reality funnel behaves, and where public load data exists it points the same way.</p>
-  <p>Two direct load-side reads confirm the shape. Texas's grid operator publishes an actual large-load funnel: of the <a href="https://www.utilitydive.com/news/ercots-large-load-queue-jumped-almost-300-last-year-official/808820/">roughly 275 gigawatts tracked in October 2025</a>, about 6 percent had cleared the approval-to-energize milestone and under 1 percent was observed drawing power, a collapse from request to reality even steeper than the generation queue, and one heavily flattered by how young the queue is. Several large utilities also discount their own pipelines in public. <a href="https://www.pjm.com/-/media/DotCom/planning/res-adeq/load-forecast/dominion-documentation.pdf">Dominion Energy, Virginia's largest utility, reported about 47 gigawatts of data-center load under contract in mid-2025 but forecast only 16.6 gigawatts of it as realized demand</a>, discounting its own book by roughly two-thirds. <a href="https://puco.ohio.gov/news/puco-orders-aep-ohio-to-create-data-center-specific-tariff">AEP Ohio, the American Electric Power utility, watched a 30-gigawatt inquiry pool shrink to about 11 gigawatts</a> once its tariff imposed 85-percent take-or-pay terms. <a href="https://www.utilitydive.com/news/oncor-sempra-interconnection-texas-data-center-earnings/757262/">Oncor, the largest Texas transmission utility, logged around 200 gigawatts of requests against roughly 9 gigawatts carrying signed agreements</a>. Each of these is a motivated disclosure — a big pipeline justifies the capital these utilities recover from ratepayers — which makes the part they discount themselves the most telling.</p>
-  <p>Two honest caveats cut against reading too much into this. First, the Texas reform meant to deter speculative requests has not visibly bent the curve: the state's large-load queue kept climbing straight through the <a href="https://capitol.texas.gov/BillLookup/History.aspx?LegSess=89R&amp;Bill=SB6">mid-2025 law that added financial-security requirements</a>, and the first measured pipeline shrinkage anywhere came from a different state's framework, not this one. The reform's real test does not arrive until 2027. Second, and less comfortable, the load-side figures here were assembled under a network that blocked every primary source host, so all but one were transcribed from search results quoting the original filings rather than downloaded and checked against them. They are plausible and internally consistent, but until the underlying reports are re-fetched and verified they carry a lower grade of confidence than the citations alone suggest.</p>
+  <h2 id="s-evidence">What the evidence says, and what it refuses to say</h2>
+  <p>Retirements are slipping across the board, not only for coal. Of about <a href="https://www.eia.gov/todayinenergy/detail.php?id=67206">12.3 gigawatts of generating capacity utilities planned to retire in 2025, only 4.6 gigawatts actually went</a>, and coal accounted for most of the shortfall. Against that backdrop the module takes the thirteen coal units that verifiably slipped, joins them to measured monthly generation from EIA Form 923, the federal plant-level generation and fuel survey, and reads their real dispatch: capacity factors run from 0.11 to 0.60, nine of the thirteen ran lower in 2025 than in 2024, and the emission rates land where subbituminous and bituminous coal belong. This is dispatch evidence, not nameplate arithmetic, and it is the admissible way to turn a capacity delay into an emissions number.</p>
+  <p>The attribution is where the popular story breaks. Reading the public record for why each unit stayed open, the dominant driver is federal policy: seven of the thirteen units, and roughly half the megawatts, are held open by <a href="https://www.energy.gov/ceser/2025-doe-202c-orders">the Department of Energy's Section 202(c) emergency orders</a>, a wartime-era authority the department has invoked <a href="https://www.powermag.com/doe-has-issued-more-than-40-section-202c-emergency-orders-since-may-2025-heres-an-updated-log/">more than forty times since May 2025</a>. Reliability settlements and utility resource plans account for the rest. Data centers are the sole stated driver of none of the thirteen. They appear exactly once, as a co-stated reason, at Oak Creek in Wisconsin, where <a href="https://news.we-energies.com/we-energies-announces-updated-timeline-for-oak-creek-plant-retirements/">We Energies delayed two units</a> citing both regional grid tightening and the Mount Pleasant and Port Washington developments the utility expects to roughly double its demand by 2030. That is the clearest direct link in the cohort, and it is a single co-signature, not a smoking gun.</p>
+  <p>We went looking for a retirement delayed solely because of data-center demand and did not find one in this cohort. The honest reading is that the currently slipping coal fleet is held online more by the federal-orders regime than by AI load directly, which routes the live uncertainty into the policy branch, whether the orders continue or lapse, rather than into the demand forecast. That is not the same as saying the channel is zero or safe. The mechanism is real and documented elsewhere: peer-reviewed capacity-expansion modelling finds that <a href="https://www.cell.com/iscience/fulltext/S2589-0042(26)01872-9">flexible data-center operation can lower costs yet raise emissions by keeping coal online</a>. The finding here is narrower and more specific: on the units actually slipping today, the trigger on record is Washington, not the hyperscalers, and nameplate arithmetic overstates the measured emissions by roughly two- to fivefold (see chart).</p>
 
   <figure>
-    <div class="fig-title">The discount collapses down the ladder, unless the contract is loose</div>
-    <div class="fig-sub">Share of requested data-center load discounted as never-energizing, by lifecycle stage; the contracted stage split by contract firmness</div>
+    <div class="fig-title">Nameplate arithmetic overstates the delay two- to fivefold</div>
+    <div class="fig-sub">Emissions caused by delaying 13 coal-unit retirements, three ways to count the same delay, in Mt CO₂ over the observed May 2025–May 2026 slip windows</div>
     <div class="fig-scroll">
-    <svg class="range-svg" viewBox="0 0 680 236" role="img" aria-label="Discount by lifecycle stage. Announced: 60 to 90 percent, central 80. Contracted, blended: 20 to 38 percent, central 29. Contracted firm take-or-pay: 2 to 15 percent, central 8. Contracted loose letters: 55 to 75 percent, central 65. Under construction: 3 to 15 percent, central 9.">
-      <!-- x scale: v in [0,100] -> x = 175 + v*4.7 -->
-      <line class="grid" x1="175" y1="28" x2="175" y2="204"/>
-      <line class="grid" x1="292.5" y1="28" x2="292.5" y2="204"/>
-      <line class="grid" x1="410" y1="28" x2="410" y2="204"/>
-      <line class="grid" x1="527.5" y1="28" x2="527.5" y2="204"/>
-      <line class="grid" x1="645" y1="28" x2="645" y2="204"/>
-      <text class="val" x="175" y="220" text-anchor="middle">0</text>
-      <text class="val" x="292.5" y="220" text-anchor="middle">25%</text>
-      <text class="val" x="410" y="220" text-anchor="middle">50%</text>
-      <text class="val" x="527.5" y="220" text-anchor="middle">75%</text>
-      <text class="val" x="645" y="220" text-anchor="middle">100%</text>
+    <svg class="range-svg" viewBox="0 0 680 190" role="img" aria-label="Three ways to count the same delay, in Mt CO2. Nameplate arithmetic, assuming the units run flat out: 41.3. Measured dispatch, gross: 15.7. Net consequential, after crediting displaced gas: 8.7. Measured dispatch is roughly a fifth to a third of the nameplate figure.">
+      <!-- x scale: v Mt in [0,45] -> x = 175 + v*(480/45), i.e. 175 + v*10.6667 -->
+      <line class="grid" x1="175" y1="26" x2="175" y2="158"/>
+      <line class="grid" x1="281.7" y1="26" x2="281.7" y2="158"/>
+      <line class="grid" x1="388.3" y1="26" x2="388.3" y2="158"/>
+      <line class="grid" x1="495" y1="26" x2="495" y2="158"/>
+      <line class="grid" x1="601.7" y1="26" x2="601.7" y2="158"/>
+      <text class="val" x="175" y="172" text-anchor="middle">0</text>
+      <text class="val" x="281.7" y="172" text-anchor="middle">10</text>
+      <text class="val" x="388.3" y="172" text-anchor="middle">20</text>
+      <text class="val" x="495" y="172" text-anchor="middle">30</text>
+      <text class="val" x="601.7" y="172" text-anchor="middle">40</text>
+      <text class="val" x="655" y="172" text-anchor="end">Mt CO₂</text>
 
-      <g class="row"><title>Announced: 60 to 90 percent discounted, central 80</title>
-        <text class="rowlab" x="150" y="46" text-anchor="end">Announced</text>
-        <line class="band" x1="457" y1="42" x2="598" y2="42"/>
-        <circle class="dot-emit" cx="551" cy="42" r="6"/>
-        <text class="cval" x="551" y="30" text-anchor="middle">80%</text>
-        <text class="val" x="449" y="46" text-anchor="end">60%</text>
-        <text class="val" x="606" y="46">90%</text>
+      <g class="row"><title>Nameplate arithmetic, run flat out: 41.3 Mt — the calculation this project bans</title>
+        <text class="rowlab" x="166" y="53" text-anchor="end">Nameplate arithmetic</text>
+        <rect class="bar-neutral" x="175" y="40" width="440.5" height="16"/>
+        <text class="cval" x="623.5" y="53">41.3</text>
       </g>
-      <g class="row"><title>Contracted, blended band: 20 to 38 percent discounted, central 29</title>
-        <text class="rowlab" x="150" y="84" text-anchor="end">Contracted</text>
-        <line class="band" x1="269" y1="80" x2="353.6" y2="80"/>
-        <circle class="dot-emit" cx="311.3" cy="80" r="6"/>
-        <text class="cval" x="311.3" y="68" text-anchor="middle">29%</text>
-        <text class="val" x="261" y="84" text-anchor="end">20%</text>
-        <text class="val" x="362" y="84">38%</text>
+      <g class="row"><title>Measured dispatch, gross: 15.7 Mt</title>
+        <text class="rowlab" x="166" y="95" text-anchor="end">Measured, gross</text>
+        <rect class="bar-emit" x="175" y="82" width="167.5" height="16"/>
+        <text class="cval" x="350.5" y="95">15.7</text>
       </g>
-      <g class="row"><title>Contracted, firm take-or-pay: 2 to 15 percent discounted, central 8</title>
-        <text class="rowlab" x="150" y="122" text-anchor="end">· firm take-or-pay</text>
-        <line class="band" x1="184.4" y1="118" x2="245.5" y2="118"/>
-        <circle class="dot-emit" cx="215" cy="118" r="6"/>
-        <text class="cval" x="215" y="106" text-anchor="middle">8%</text>
-        <text class="val" x="176" y="122" text-anchor="end">2%</text>
-        <text class="val" x="253.5" y="122">15%</text>
-      </g>
-      <g class="row"><title>Contracted, loose letters of authorization: 55 to 75 percent discounted, central 65</title>
-        <text class="rowlab" x="150" y="160" text-anchor="end">· loose letters</text>
-        <line class="band" x1="433.5" y1="156" x2="527.5" y2="156"/>
-        <circle class="dot-emit" cx="480.5" cy="156" r="6"/>
-        <text class="cval" x="480.5" y="144" text-anchor="middle">65%</text>
-        <text class="val" x="425.5" y="160" text-anchor="end">55%</text>
-        <text class="val" x="535.5" y="160">75%</text>
-      </g>
-      <g class="row"><title>Under construction: 3 to 15 percent discounted, central 9</title>
-        <text class="rowlab" x="150" y="198" text-anchor="end">Under construction</text>
-        <line class="band" x1="189.1" y1="194" x2="245.5" y2="194"/>
-        <circle class="dot-emit" cx="217.3" cy="194" r="6"/>
-        <text class="cval" x="217.3" y="182" text-anchor="middle">9%</text>
-        <text class="val" x="181.1" y="198" text-anchor="end">3%</text>
-        <text class="val" x="253.5" y="198">15%</text>
+      <g class="row"><title>Net consequential, after crediting displaced gas: 8.7 Mt</title>
+        <text class="rowlab" x="166" y="137" text-anchor="end">Net consequential</text>
+        <rect class="bar-emit" x="175" y="124" width="92.8" height="16"/>
+        <text class="cval" x="275.8" y="137">8.7</text>
       </g>
     </svg>
     </div>
-    <div class="fig-src">Source: M1 queue-conversion bands for the speculative-load discount, anchored on <a href="https://emp.lbl.gov/publications/queued-2025-edition-characteristics">LBNL's twenty-year interconnection-queue history</a> and <a href="https://www.utilitydive.com/news/ercots-large-load-queue-jumped-almost-300-last-year-official/808820/">Texas's large-load funnel</a> · bands as of 8 Jul 2026, underlying evidence Oct–Dec 2025</div>
+    <div class="fig-src">Source: module M2, from measured <a href="https://www.eia.gov/electricity/data/eia860m/">EIA-860M retirement vintages</a> and EIA-923 dispatch; net figure after a marginal-displacement credit of ~0.45 t CO₂/MWh · as of May 2026</div>
   </figure>
 </section>
 
 <section aria-labelledby="s-assumptions">
   <h2 id="s-assumptions">The assumption this rides on</h2>
-  <p>Everything above resolves a single registry entry: the speculative-load discount. Its contracted stage carries a second, newer refinement — the contract-firmness split — that this module added on its load-side pass. Both are marked contested, estimated with real anchors but with named gaps a reviewer could reasonably attack. The bands below are what an approval endorses and what a contest changes. The demand futures the discount runs inside, and the tariff rules that set contract firmness, are owned and reviewed on the demand-durability (M9) and market-structure (M4) briefs.</p>
+  <p>Everything above resolves a single registry entry: the mapping from a delayed retirement to its emissions. It is marked contested, not because the dispatch measurement is shaky but because the load-bearing uncertainty sits one layer down, in how much of the reliability and resource-adequacy deferrals is itself a data-center story that the filings have not yet been read closely enough to settle. The bands below are what an approval endorses and what a contest changes. The marginal-displacement rate that turns the gross figure into the net one is owned elsewhere, on the emissions-factor work, and consumed here.</p>
 
   <article class="acard">
-    <div class="acard-head"><h3>The speculative-load discount</h3><span class="aid mono">phantom-load-haircut</span><span class="chip contested">contested</span></div>
-    <p class="plain">The share of requested data-center interconnection load that never gets built — discounted as speculative or double-counted across regions — resolved by how far a project has progressed and, where the data allows, by region.</p>
+    <div class="acard-head"><h3>The retirement-delay emissions mapping</h3><span class="aid mono">retirement-delay-dispatch</span><span class="chip contested">contested</span></div>
+    <p class="plain">How a delayed fossil retirement becomes tonnes of CO₂: the measured capacity factors and dispatch of the delayed units, and the split of each delay across data-center demand, federal emergency orders, and ordinary reliability tightening.</p>
     <dl>
-      <dt>By lifecycle stage</dt><dd class="num">announced 60–90% · contracted 20–38% · under construction 3–15% (share discounted)</dd>
-      <dt>Raw-request basis</dt><dd class="num">75–90% of a raw request pile never energizes</dd>
-      <dt>Regional structure</dt><dd>a multiplier on the early-stage discount: Texas (ERCOT) lowest at ×0.80, California (CAISO) highest at ×1.12; the model consumes the national blend for now</dd>
-      <dt>Scope</dt><dd>fraction that never energizes, by stage and region; the same project counted in multiple regions is folded, unmeasured, into the announced band</dd>
-      <dt>Last validated</dt><dd>8 July 2026</dd>
-      <dt>Consumed by</dt><dd>retirement-delay mapping (M2), market structure (M4), transmission (M5), rate feedback (M7), and the synthesis</dd>
+      <dt>Measured capacity factor</dt><dd class="num">0.11–0.60 across the 13 units; capacity-weighted 0.33, trend declining (2024 median 0.40 → 2025 median 0.30)</dd>
+      <dt>Delay-window CO₂</dt><dd class="num">gross ~15.7 Mt · net consequential ~8.7 Mt · naive nameplate ~41.3 Mt (kept only for contrast)</dd>
+      <dt>Attribution split</dt><dd class="num">DOE 202(c) orders 7 units / 2,958 MW · reliability &amp; resource-adequacy 6 units / 3,006 MW · data centers as sole driver 0 units, as co-stated driver 2 (Oak Creek)</dd>
+      <dt>Scope</dt><dd>the observed 1–24 month slips in one 12-month inventory diff, not ultimate retirement fates; plant-level dispatch shared across a plant's coal units, since unit-level resolution needs hourly metering</dd>
+      <dt>Last validated</dt><dd>7 July 2026</dd>
+      <dt>Consumed by</dt><dd>this module, market structure (M4), and the synthesis</dd>
     </dl>
-    <div class="settle"><b>What would settle it:</b> the 2025-vintage queue aging into measured conversion rates; the June 2027 Texas financial-security gate as a natural experiment on whether a hard money gate compresses the announced band; a multi-region double-counting detector; and re-fetching the load-side filings to verify figures this pass could only surface through search.</div>
+    <div class="settle"><b>What would settle it:</b> hourly Environmental Protection Agency emissions monitoring on the ordered units to measure their post-order dispatch directly; reading the actual resource plans and regulatory dockets to attribute how much reliability deferral is downstream of data-center load; and a monthly inventory panel plus order-renewal tracking to turn the slip window into a realized figure.</div>
     <ul class="srcs">
-      <li><span class="tier">Tier 1</span><a href="https://emp.lbl.gov/publications/queued-2025-edition-characteristics">LBNL, Queued Up (2025/2026 edition)</a> — the generation-queue prior: ~20% built, ~71% withdrew for mature 2000–2019 cohorts (as of Dec 2025)</li>
-      <li><span class="tier motivated">Tier 2 · trade press</span><a href="https://www.utilitydive.com/news/ercots-large-load-queue-jumped-almost-300-last-year-official/808820/">Utility Dive relaying ERCOT's large-load queue</a> — ~275 GW tracked, ~6% approved-to-energize, &lt;1% energized (Oct 2025); the exact ERCOT snapshot lives in committee decks, not a single public URL</li>
-      <li><span class="tier motivated">Tier 2 · motivated</span><a href="https://www.pjm.com/-/media/DotCom/planning/res-adeq/load-forecast/dominion-documentation.pdf">Dominion via PJM load-forecast documentation</a> (47 GW contracted vs 16.6 GW forecast) — utility; a large pipeline justifies recoverable capex</li>
-      <li><span class="tier">Tier 1</span><a href="https://puco.ohio.gov/news/puco-orders-aep-ohio-to-create-data-center-specific-tariff">Public Utilities Commission of Ohio, AEP Ohio data-center tariff order</a> — 85% take-or-pay, 12-year terms; the 30→11 GW shrink is corroborated by trade press</li>
-      <li><span class="tier motivated">Tier 2 · motivated</span><a href="https://www.utilitydive.com/news/oncor-sempra-interconnection-texas-data-center-earnings/757262/">Utility Dive on Oncor's interconnection book</a> (~200 GW requested vs ~9 GW signed) — utility earnings-call framing</li>
-    </ul>
-  </article>
-
-  <article class="acard">
-    <div class="acard-head"><h3>Contract firmness</h3><span class="aid mono">phantom-load-haircut.contract_firmness_conditioner</span><span class="chip contested">contested</span></div>
-    <p class="plain">Within the contracted stage, how much a project is discounted depends on how costly it is to cancel. A firm take-or-pay contract, which bills the customer even when the power goes unused, rarely walks; a loose letter of authorization behaves like an early announcement. This is the one thing the generation queue cannot show, because it has no take-or-pay analog.</p>
-    <dl>
-      <dt>Firm take-or-pay or executed service agreement</dt><dd class="num">2–15% discount</dd>
-      <dt>Loose letter of authorization</dt><dd class="num">55–75% discount</dd>
-      <dt>Why it matters</dt><dd>the single 20–38% contracted band, inherited from the generation queue, hides this split and may overstate the discount on genuinely firm load</dd>
-      <dt>Scope</dt><dd>applies to the contracted stage on the load side only</dd>
-      <dt>Shared with</dt><dd>market structure (M4, who bears demand risk) — the split is a function of tariff regime, so both modules must use one firmness-to-discount mapping</dd>
-      <dt>Last validated</dt><dd>8 July 2026</dd>
-    </dl>
-    <div class="settle"><b>What would settle it:</b> re-deriving the firm-versus-loose split from the market-structure module's multi-state tariff panel rather than four utilities, and watching approved load actually ramp to separate genuine construction lag from non-arrival.</div>
-    <ul class="srcs">
-      <li><span class="tier">Tier 1</span><a href="https://puco.ohio.gov/news/puco-orders-aep-ohio-to-create-data-center-specific-tariff">Public Utilities Commission of Ohio, AEP Ohio tariff order</a> — ~85% take-or-pay; the firm pool held at ~11 GW once the terms bit</li>
-      <li><span class="tier motivated">Tier 2 · motivated</span><a href="https://www.pjm.com/-/media/DotCom/planning/res-adeq/load-forecast/dominion-documentation.pdf">Dominion via PJM load-forecast documentation</a> — its firm contract tiers roughly equal its 16.6 GW realized forecast, while the loose ~30 GW tier is almost absent from it</li>
+      <li><span class="tier">Tier 1</span><a href="https://www.eia.gov/electricity/data/eia860m/">EIA-860M monthly generator inventory</a> — the vintage diff that identifies the 13 slipped coal units (as of May 2026); broad context: <a href="https://www.eia.gov/todayinenergy/detail.php?id=67206">12.3 GW planned vs 4.6 GW actual 2025 retirements</a></li>
+      <li><span class="tier">Tier 1</span>EIA Form 923, 2024 final and 2025 early release — measured monthly net generation and fuel burn, the source of every capacity factor and emission rate</li>
+      <li><span class="tier">Tier 1</span><a href="https://www.energy.gov/ceser/2025-doe-202c-orders">DOE Section 202(c) emergency-order pages</a> (Campbell, Craig, Schahfer, Culley) — the federal driver behind 7 of 13 units</li>
+      <li><span class="tier motivated">Tier 2 · motivated</span><a href="https://news.we-energies.com/we-energies-announces-updated-timeline-for-oak-creek-plant-retirements/">We Energies Oak Creek retirement timeline</a> — the one data-center co-signature; utility release, motivated to justify reliability and capital decisions</li>
+      <li><span class="tier motivated">Tier 2 · motivated</span><a href="https://www.powermag.com/doe-has-issued-more-than-40-section-202c-emergency-orders-since-may-2025-heres-an-updated-log/">POWER Magazine 202(c) order log</a> (40+ orders since May 2025) — trade press compiling Tier-1 orders</li>
+      <li><span class="tier motivated">Tier 2 · motivated</span><a href="https://www.desmog.com/2025/12/12/15-coal-plant-retirements-delayed-ai-data-centers-trump-doe-orders/">DeSmog / Frontier Group</a> (~68 Mt) — context only; a full-year stock figure, not a delay counterfactual; advocacy against the buildout</li>
     </ul>
   </article>
 </section>
 
 <section aria-labelledby="s-decision">
   <h2 id="s-decision">The decisions on record</h2>
-  <p>This module's resolution reached the registry through two proposals a week apart, both approved. The first fitted the discount to evidence; the second re-anchored that evidence on direct load data and added the contract-firmness split.</p>
+  <p>This module reached the registry through two approved changes. The first replaced a reasoned guess about how hard these units run with a measurement. The second added a second-order credit at the synthesis level, recognising that a life-extended coal unit becomes easier to retire once the clean capacity that justified its delay finally arrives.</p>
 
   <div class="decision">
     <div class="decision-head">
@@ -404,41 +363,45 @@ figure { margin: 1.6rem 0 1.4rem; }
       <span class="chip approved">Approved and applied</span>
     </div>
     <div class="decision-body">
-      <p>The first pass proposed setting the discount from the best-measured analog available, the twenty-year generation interconnection queue, cross-checked against Texas's one public large-load funnel. The evidence confirmed the registry's existing by-stage shape, let the analysis narrow two of the bands, and added an explicit regional structure: projects convert about 2.3 times better in light-study Texas than in cluster-study California. The status stayed contested, because the load-bearing uncertainty was never the band widths but the leap from generation data to load.</p>
+      <p>The registry had carried the delayed units' capacity factor as a seeded range topping out around 0.46 and the delay's emissions as reasoning rather than measurement. The module refuted the seed and replaced the reasoning. Joining the slipped units to measured federal generation data put the capacity factors at 0.11 to 0.60, capacity-weighted 0.33 and falling, and the delay-window emissions at a measured 15.7 million tonnes gross and 8.7 million net, against the 41.3 million that nameplate arithmetic would have claimed. The first empirical attribution landed seven of thirteen units on federal emergency orders and none on data-center demand as a sole driver. The status stayed contested: the load-bearing gap was never the capacity-factor width but how much of the reliability deferrals is itself a data-center story, which needs the dockets read.</p>
     </div>
     <div class="effects">
-      <div class="effect"><div class="k">Contracted band</div><div class="v num"><span class="from">0.20–0.40</span><span class="arr">→</span>0.20–0.38</div></div>
-      <div class="effect"><div class="k">Under-construction band</div><div class="v num"><span class="from">0.05–0.20</span><span class="arr">→</span>0.03–0.15</div></div>
-      <div class="effect"><div class="k">Regional structure</div><div class="v num"><span class="from">flat national</span><span class="arr">→</span>×0.80 to ×1.12</div></div>
+      <div class="effect"><div class="k">Capacity-factor range</div><div class="v num"><span class="from">0.0–0.46</span><span class="arr">→</span>0.11–0.60</div></div>
+      <div class="effect"><div class="k">Delay CO₂, net</div><div class="v num"><span class="from">reasoned</span><span class="arr">→</span>8.7 Mt measured</div></div>
+      <div class="effect"><div class="k">On data-center demand</div><div class="v num"><span class="from">assumed</span><span class="arr">→</span>0 of 13 units</div></div>
     </div>
   </div>
 
   <div class="decision">
     <div class="decision-head">
-      <span class="t">Decision record · 8 July 2026</span>
-      <span class="chip approved">Approved and applied</span>
+      <span class="t">Decision record · 12 July 2026</span>
+      <span class="chip approved">Approved, default off</span>
     </div>
     <div class="decision-body">
-      <p>The load-side pass replaced the generation-queue prior with direct large-load evidence (the Texas funnel as a time series, plus four utilities' pipeline disclosures) and found it agreed with the prior on both the funnel's shape and the announcement-stage band. It changed no numbers. What it added was structural: the contracted stage bifurcates by contract firmness, a distinction the generation queue cannot show, so a firmness split was attached rather than a new band. The evidence basis moved from a prior to a corroborated prior, and the gap from generation data to load went from open to partially closed. The status stayed contested, now for two named reasons — the load queues are too young to have resolved, and utilities count stages in incompatible ways.</p>
+      <p>A later review asked whether some of these delay emissions come back. A coal unit held available but rarely run, sitting beside newly built clean capacity and storage, becomes cheap to retire once the reliability gap that justified its delay is filled, clawing back a fraction of the tail-year emissions through an earlier-than-otherwise close. The evidence for treating this as more than wishful thinking is the module's own measurement: these units' capacity factors are already declining and most are held idle under federal orders, precisely the profile of a plant that is easy to let go. The credit was approved as a registry entry but left switched off by default, because it only bites if the clean replacement physically energizes and the federal-orders regime relents, both uncertain. It can shrink an already-small channel; it cannot flip its sign.</p>
+    </div>
+    <div class="effects">
+      <div class="effect"><div class="k">Tail emissions recovered</div><div class="v num"><span class="from">0</span><span class="arr">→</span>~20% central (0–50%)</div></div>
+      <div class="effect"><div class="k">Cumulative refund</div><div class="v num"><span class="from">none</span><span class="arr">→</span>~−4 Mt (0 to −10)</div></div>
     </div>
   </div>
 </section>
 
 <section aria-labelledby="s-respond">
   <h2 id="s-respond">Respond</h2>
-  <p>Responses land in the project inbox and become dated proposals — the evidence, the exact change, and nothing applied until a decision is recorded on this page. Approving takes one line; contesting takes two: the band you would use, and why.</p>
+  <p>Responses land in the project inbox and become dated proposals — the evidence, the exact change, and nothing applied until a decision is recorded on this page. Approving takes one line; contesting takes two: the value you would use, and why.</p>
   <div class="respond">
-    <a href="mailto:matt.boegner@gmail.com?subject=%5Breview%5D%20M1%20queue%20conversion%20%E2%80%94%20approve&body=I%27ve%20read%20the%20M1%20brief.%20Approved%20as%20it%20stands.">
+    <a href="mailto:matt.boegner@gmail.com?subject=%5Breview%5D%20M2%20retirement%20delays%20%E2%80%94%20approve&body=I%27ve%20read%20the%20M2%20brief.%20Approved%20as%20it%20stands.">
       <b>Approve as it stands</b>
-      <span>Endorse the current by-stage bands and the firmness split for this channel.</span>
+      <span>Endorse the measured capacity factors, the delay-window emissions, and the attribution split.</span>
       <span class="go">Send the one-liner →</span>
     </a>
-    <a href="mailto:matt.boegner@gmail.com?subject=%5Breview%5D%20speculative-load%20discount%20%E2%80%94%20contest&body=Assumption%3A%20the%20speculative-load%20discount%20%28the%20share%20of%20requested%20load%20that%20never%20gets%20built%29%0A%0AThe%20stage%20or%20band%20I%27d%20contest%20%28announced%2060-90%25%20%2F%20contracted%2020-38%25%20%2F%20under%20construction%203-15%25%20%2F%20the%20firm-vs-loose%20split%29%3A%0A%0AThe%20value%20I%27d%20use%2C%20and%20the%20evidence%3A%0A">
-      <b>Contest the discount</b>
-      <span>Name the stage or band you disagree with; it becomes a proposal.</span>
+    <a href="mailto:matt.boegner@gmail.com?subject=%5Breview%5D%20delayed-coal%20emissions%20and%20their%20drivers%20%E2%80%94%20contest&body=Assumption%3A%20how%20much%20a%20delayed%20coal%20retirement%20emits%2C%20measured%20from%20dispatch%2C%20and%20what%20is%20driving%20the%20delay%20%28retirement-delay-dispatch%29%0A%0AWhat%20I%27d%20contest%20%28the%20capacity%20factors%2C%20the%20gross-or-net%20emissions%2C%20or%20the%20data-center%20attribution%29%3A%0A%0AThe%20value%20I%27d%20use%2C%20and%20the%20evidence%3A%0A">
+      <b>Contest an assumption</b>
+      <span>Name the capacity factors, the emissions figure, or the driver split you disagree with; it becomes a proposal.</span>
       <span class="go">Open a pre-filled note →</span>
     </a>
-    <a href="mailto:matt.boegner@gmail.com?subject=%5Breview%5D%20M1%20%E2%80%94%20source%20or%20figure%20flag&body=Page%3A%20M1%20analysis%20brief%0A%0AThe%20figure%20or%20source%20in%20question%3A%0A%0AWhat%20looks%20wrong%3A%0A">
+    <a href="mailto:matt.boegner@gmail.com?subject=%5Breview%5D%20M2%20%E2%80%94%20source%20or%20figure%20flag&body=Page%3A%20M2%20analysis%20brief%0A%0AThe%20figure%20or%20source%20in%20question%3A%0A%0AWhat%20looks%20wrong%3A%0A">
       <b>Flag a source or figure</b>
       <span>Point at a citation, a date, or a number that looks off.</span>
       <span class="go">Flag it →</span>
@@ -449,7 +412,7 @@ figure { margin: 1.6rem 0 1.4rem; }
 </main>
 
 <footer class="seq">
-  <div class="seq-row"><span></span><a class="next" href="../m2-retirement-emissions/"><span class="lab">Next brief →</span>2 · Retirement delays</a></div>
+  <div class="seq-row"><a class="" href="../m1-queue-conversion/"><span class="lab">← Previous brief</span>1 · Queue conversion</a><a class="next" href="../m3-procurement-impact/"><span class="lab">Next brief →</span>3 · Procurement impact</a></div>
   <div class="seq-idx">
     <a href="../">All briefs</a> · <a href="https://demo.mattboegner.com/">The essay</a> · <a href="https://demo.mattboegner.com/explorer/">The explorer</a>
   </div>

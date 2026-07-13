@@ -1,6 +1,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Queue conversion — analysis review</title>
+<title>Procurement impact — analysis review</title>
 <style>
 
 @font-face {
@@ -240,21 +240,21 @@ figure { margin: 1.6rem 0 1.4rem; }
 </style>
 <div class="review-bar">
   <div class="review-bar-inner">
-    <span class="where">Analysis review · brief 1 of 9</span>
-    <nav aria-label="brief sequence"><a href="../">All briefs</a><a class="" href="../m2-retirement-emissions/">2 · retirement delays →</a></nav>
+    <span class="where">Analysis review · brief 3 of 9</span>
+    <nav aria-label="brief sequence"><a class="" href="../m2-retirement-emissions/">← 2 · retirement delays</a><a href="../">All briefs</a><span class="stub " title="Brief not yet written">4 · market structure →</span></nav>
   </div>
 </div>
 <header class="masthead">
-  <div class="rubric">AI and the grid<span class="sep">·</span>module M1<span class="sep">·</span>queue conversion</div>
-  <h1>Most requested data-center load never plugs in. How much never arrives depends on the stage.</h1>
-  <p class="dek">Utilities book hundreds of gigawatts of interconnection requests and then forecast a fraction of it; the honest discount collapses from most of the pile at the announcement stage to almost none once construction starts</p>
-  <div class="byline">Figures as of October 2025 (Texas large-load queue) and December 2025 (interconnection queue) · two decisions recorded 7–8 July 2026 · first pass and load-side pass complete</div>
+  <div class="rubric">AI and the grid<span class="sep">·</span>module M3<span class="sep">·</span>procurement impact</div>
+  <h1>Most of the clean power AI has contracted is genuinely new. About a third of the energy is not.</h1>
+  <p class="dek">How much of the "gigawatts contracted" headline is solar, wind, and nuclear that would not otherwise exist, and how much is a purchase agreement with a plant that was already running</p>
+  <div class="byline">Figures as of 6 July 2026 (deals ledger) · two decisions recorded 7 and 12 July 2026 · first pass complete, coverage-limited to the largest named deals</div>
 </header>
 
 <div class="state-strip" role="list" aria-label="review state">
-  <span class="chip" role="listitem">resolves one assumption</span>
-  <span class="chip contested" role="listitem">contested</span>
-  <span class="chip approved" role="listitem">two decisions, 7–8 Jul 2026 — approved</span>
+  <span class="chip" role="listitem">resolves two assumptions</span>
+  <span class="chip contested" role="listitem">both contested</span>
+  <span class="chip approved" role="listitem">two decisions, 7–12 Jul 2026 — approved</span>
   <span class="chip" role="listitem">0 awaiting your review</span>
 </div>
 
@@ -262,141 +262,131 @@ figure { margin: 1.6rem 0 1.4rem; }
 
 <section aria-labelledby="s-answer">
   <h2 id="s-answer">The answer first</h2>
-  <p>No number in this project is more load-bearing, or more abused, than the size of data-center demand. The requests are real and enormous: the Electric Reliability Council of Texas, the state's grid operator, tracks <a href="https://www.utilitydive.com/news/ercots-large-load-queue-jumped-almost-300-last-year-official/808820/">about 275 gigawatts of large-load interconnection requests</a> as of October 2025 — more than three times the entire Texas grid at its <a href="https://www.ercot.com/gridmktinfo/dashboards">all-time peak of roughly 85 gigawatts</a>, a record set on the hottest afternoon of 2023. Read literally, one state's request pile is three Texases. It cannot be real load arriving soon, because <a href="https://www.volts.wtf/p/whats-the-deal-with-interconnection">a queue position is a request to study a connection</a>, not a plant under construction, and reading the raw queue as demand would triple-count a grid that does not yet exist.</p>
-  <p>Our analysis prices how much of that requested load to discount as speculative, the share that never gets built, and finds it depends almost entirely on how far a project has travelled. At the announcement stage, where a developer has filed a request but signed nothing binding, the discount runs 60 to 90 percent; by the time a project is under construction it falls to 3 to 15 percent. The contracted middle is where the story turns. A single blended band of 20 to 38 percent hides a split visible only on the load side: a firm take-or-pay contract, which bills the customer whether or not the power is used, behaves like construction and is discounted just 2 to 15 percent, while a loose letter of authorization behaves like an announcement, discounted around 55 to 75 percent.</p>
-  <p>Three things would move these numbers. The load queues are young — most of the 275 gigawatts was filed in 2025 — so today's conversion rates are floors that will rise as projects age, which makes the discounts ceilings that will fall. Texas's new financial-security gate, which forces a developer to post money or drop out, faces its first real test around June 2027 and could compress the announcement-stage discount if it deters speculative filings. And the single largest unmeasured piece is the same project sitting in several utilities' queues at once, a double-count still folded into the announcement band because the tool to detect it does not yet exist.</p>
+  <p>Procurement is the one channel in this project where AI demand is supposed to help the climate rather than hurt it: when the largest cloud-computing companies sign long-term contracts to buy clean power, the theory is that their money pays for solar farms, wind farms, and reactors that would not otherwise get built. Whether it works turns on a question the marketing never asks — is the deal additional, meaning does it cause clean generation that would not otherwise exist? Our audit of the largest named US data-center clean-power deals finds that most of the contracted capacity clears that bar, but the energy tells a softer story, because the single biggest contracts are purchase agreements with nuclear plants that were already running.</p>
+  <p>Add up only the generation these deals genuinely cause, and the gross climate benefit at steady state is roughly 25 to 38 million tonnes of CO₂ avoided a year. Against the <a href="https://www.eia.gov/environment/emissions/carbon/">~1,427 million tonnes US power plants emitted in 2024, the Energy Information Administration's tally</a>, that is between about two and three percent of the sector; put another way, it is the yearly tailpipe output of five to eight million cars taken off the road, at <a href="https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle">the Environmental Protection Agency's 4.6 tonnes per car</a>. What that figure shows is a real but modest contribution to cutting emissions. What it does not show is the transition's scorecard: it is a gross ceiling, counted before netting out whether these buyers simply outbid other customers for clean projects that would have been built anyway, and it rests on a short-run emissions accounting the project now keeps only as a cross-check rather than its <a href="https://www.osti.gov/biblio/2305481">central long-run method</a>, which would place the number lower.</p>
+  <p>Three things would move the estimate. The largest single lever is one nuclear contract: Meta's twenty-year deal with the Clinton plant in Illinois, classified conservatively as re-labeled existing output, would instead count as saved clean capacity — worth about nine more terawatt-hours of additional generation a year — if the plant would otherwise retire when its state subsidy lapses in 2027. The second is the pile of clean power that exists today only as announcements: about 27 gigawatts, roughly three-quarters of it small modular reactors, a still-unbuilt class of compact nuclear that is largely non-binding and none of it operating, excluded from every number here by rule. The third is whether this buying displaces other clean-energy customers or expands the industry, a question this pass sizes but leaves unresolved, with the near-term signal pointing to displacement.</p>
 </section>
 
 <section aria-labelledby="s-how">
   <h2 id="s-how">How the channel works</h2>
-  <div class="chain" role="img" aria-label="Causal chain: requested load, to a discount by lifecycle stage, to real load, to the emissions consequence">
-    <div class="node"><b>Requested load</b><span>interconnection requests, hundreds of gigawatts, by demand future</span></div>
+  <div class="chain" role="img" aria-label="Causal chain: contracted deals, to classification by counterfactual, to additional clean energy, to emissions avoided">
+    <div class="node"><b>Contracted deals</b><span>the largest named data-center clean-power agreements, by lifecycle stage</span></div>
     <div class="arrow" aria-hidden="true">→</div>
-    <div class="node"><b>Discount by stage</b><span>most requests withdraw; the discount collapses from announced to contracted to under construction</span></div>
+    <div class="node"><b>Classified by counterfactual</b><span>new build, restart, and uprate add clean power; existing-plant agreements re-label it</span></div>
     <div class="arrow" aria-hidden="true">→</div>
-    <div class="node"><b>Real load</b><span>the fraction that energizes, plus firm take-or-pay contracts that hold</span></div>
+    <div class="node"><b>Additional clean energy</b><span>only the genuinely new generation, converted to terawatt-hours with per-technology run rates</span></div>
     <div class="arrow" aria-hidden="true">→</div>
-    <div class="node"><b>Emissions consequence</b><span>supply built against load that never arrives, or surplus capacity that later helps</span></div>
+    <div class="node"><b>Emissions avoided</b><span>additional clean energy times the rate of the generator it displaces — a gross ceiling</span></div>
   </div>
-  <p>The dose is the raw volume of requested load; the response is the discount that shrinks it to something buildable. Two forces pull in opposite directions. Take-or-pay tariffs and interconnection collateral, money a developer forfeits by walking away, push requested load toward realness and off the ratepayer, deflating the speculative share; that mechanism belongs to the market-structure work (M4, who bears demand risk) and is consumed here rather than decided. Pulling the other way, a regulated utility's legal duty to serve its territory can justify building capacity ahead of even half-speculative load, so obligation-to-serve regions inflate the share. The discount runs inside the four demand futures, from consensus through the bust, whose weights the demand-durability work (M9) sets and this module consumes.</p>
+  <p>The dose is the contracted capacity, the gigawatts of clean power under signed agreement. The response is the fraction of it that is genuinely additional, which the classification decides deal by deal against the counterfactual: a contract that takes a project to financial close is new build; a contract that brings a retired reactor back is a restart; a contract that squeezes extra megawatts from a running plant is an uprate; and a contract that simply buys the output of a plant already spinning is reallocation, which adds essentially no new clean electricity. Two caps keep the number honest. Deals that are only announced never enter a headline figure, because pre-energized capacity drops out heavily before it is ever built; and existing-plant reallocation is excluded from the avoided-emissions offset, because the load it serves would otherwise be met by the next generator on the grid.</p>
 </section>
 
 <section aria-labelledby="s-evidence">
-  <h2 id="s-evidence">What the evidence says, and what it won't</h2>
-  <p>The strongest evidence is not about data centers at all. The best-measured record of how often a queued request becomes real is the US generation interconnection queue, catalogued for two decades by Lawrence Berkeley National Laboratory, a US Department of Energy lab: of generation projects that entered a queue between 2000 and 2019, old enough to have resolved, <a href="https://emp.lbl.gov/publications/queued-2025-edition-characteristics">only about a fifth were ever built and roughly seven in ten withdrew</a>. That is not a measurement of data-center load, which is mostly proprietary, but it is a defensible prior for how a request-to-reality funnel behaves, and where public load data exists it points the same way.</p>
-  <p>Two direct load-side reads confirm the shape. Texas's grid operator publishes an actual large-load funnel: of the <a href="https://www.utilitydive.com/news/ercots-large-load-queue-jumped-almost-300-last-year-official/808820/">roughly 275 gigawatts tracked in October 2025</a>, about 6 percent had cleared the approval-to-energize milestone and under 1 percent was observed drawing power, a collapse from request to reality even steeper than the generation queue, and one heavily flattered by how young the queue is. Several large utilities also discount their own pipelines in public. <a href="https://www.pjm.com/-/media/DotCom/planning/res-adeq/load-forecast/dominion-documentation.pdf">Dominion Energy, Virginia's largest utility, reported about 47 gigawatts of data-center load under contract in mid-2025 but forecast only 16.6 gigawatts of it as realized demand</a>, discounting its own book by roughly two-thirds. <a href="https://puco.ohio.gov/news/puco-orders-aep-ohio-to-create-data-center-specific-tariff">AEP Ohio, the American Electric Power utility, watched a 30-gigawatt inquiry pool shrink to about 11 gigawatts</a> once its tariff imposed 85-percent take-or-pay terms. <a href="https://www.utilitydive.com/news/oncor-sempra-interconnection-texas-data-center-earnings/757262/">Oncor, the largest Texas transmission utility, logged around 200 gigawatts of requests against roughly 9 gigawatts carrying signed agreements</a>. Each of these is a motivated disclosure — a big pipeline justifies the capital these utilities recover from ratepayers — which makes the part they discount themselves the most telling.</p>
-  <p>Two honest caveats cut against reading too much into this. First, the Texas reform meant to deter speculative requests has not visibly bent the curve: the state's large-load queue kept climbing straight through the <a href="https://capitol.texas.gov/BillLookup/History.aspx?LegSess=89R&amp;Bill=SB6">mid-2025 law that added financial-security requirements</a>, and the first measured pipeline shrinkage anywhere came from a different state's framework, not this one. The reform's real test does not arrive until 2027. Second, and less comfortable, the load-side figures here were assembled under a network that blocked every primary source host, so all but one were transcribed from search results quoting the original filings rather than downloaded and checked against them. They are plausible and internally consistent, but until the underlying reports are re-fetched and verified they carry a lower grade of confidence than the citations alone suggest.</p>
+  <h2 id="s-evidence">What the evidence says, and what it refuses to say</h2>
+  <p>Sorted by what each contract actually causes, the largest named deals break cleanly (see chart). By capacity, better than three-quarters is new-build solar, wind, storage, and two nuclear restarts. By energy the picture softens: existing-plant nuclear agreements, which add nothing, carry about a third of the contracted generation, because a reactor runs around the clock while a solar farm sits near a quarter of its nameplate. New build alone slips from 77 percent of the capacity to 52 percent of the energy. This is an audit of the largest named deals, about 27.9 gigawatts at headline stages, roughly a third of the <a href="https://www.spglobal.com/sustainable1/en/insights/special-editorial/hyperscaler-procurement-to-shape-us-power-investment">more-than-80-gigawatt universe S&amp;P Global counts</a>, a market-data vendor's figure; the uncounted remainder is a long tail of smaller solar and wind contracts that would, if anything, raise the new-build share.</p>
 
   <figure>
-    <div class="fig-title">The discount collapses down the ladder, unless the contract is loose</div>
-    <div class="fig-sub">Share of requested data-center load discounted as never-energizing, by lifecycle stage; the contracted stage split by contract firmness</div>
+    <div class="fig-title">By capacity it is mostly new build; by energy a third is re-labeled</div>
+    <div class="fig-sub">Consequential class as a share of the contracted-and-beyond fleet — upper bar capacity (MW), lower bar energy (TWh/yr); blue adds new clean power, red re-labels existing output. Announced-only deals excluded</div>
     <div class="fig-scroll">
-    <svg class="range-svg" viewBox="0 0 680 236" role="img" aria-label="Discount by lifecycle stage. Announced: 60 to 90 percent, central 80. Contracted, blended: 20 to 38 percent, central 29. Contracted firm take-or-pay: 2 to 15 percent, central 8. Contracted loose letters: 55 to 75 percent, central 65. Under construction: 3 to 15 percent, central 9.">
-      <!-- x scale: v in [0,100] -> x = 175 + v*4.7 -->
-      <line class="grid" x1="175" y1="28" x2="175" y2="204"/>
-      <line class="grid" x1="292.5" y1="28" x2="292.5" y2="204"/>
-      <line class="grid" x1="410" y1="28" x2="410" y2="204"/>
-      <line class="grid" x1="527.5" y1="28" x2="527.5" y2="204"/>
-      <line class="grid" x1="645" y1="28" x2="645" y2="204"/>
-      <text class="val" x="175" y="220" text-anchor="middle">0</text>
-      <text class="val" x="292.5" y="220" text-anchor="middle">25%</text>
-      <text class="val" x="410" y="220" text-anchor="middle">50%</text>
-      <text class="val" x="527.5" y="220" text-anchor="middle">75%</text>
-      <text class="val" x="645" y="220" text-anchor="middle">100%</text>
+    <svg class="range-svg" viewBox="0 0 680 300" role="img" aria-label="Consequential class shares of the headline data-center clean fleet, capacity versus energy. New build: 77 percent of capacity, 52 percent of energy. Existing-plant reallocation: 18 percent of capacity, 35 percent of energy. Restart: 5 percent of capacity, 11 percent of energy. Uprate: 0.6 percent of capacity, 1 percent of energy.">
+      <!-- x scale: share% in [0,100] -> x = 175 + pct*4.7 -->
+      <line class="grid" x1="175" y1="40" x2="175" y2="252"/>
+      <line class="grid" x1="292.5" y1="40" x2="292.5" y2="252"/>
+      <line class="grid" x1="410" y1="40" x2="410" y2="252"/>
+      <line class="grid" x1="527.5" y1="40" x2="527.5" y2="252"/>
+      <line class="grid" x1="645" y1="40" x2="645" y2="252"/>
+      <text class="val" x="175" y="268" text-anchor="middle">0</text>
+      <text class="val" x="292.5" y="268" text-anchor="middle">25%</text>
+      <text class="val" x="410" y="268" text-anchor="middle">50%</text>
+      <text class="val" x="527.5" y="268" text-anchor="middle">75%</text>
+      <text class="val" x="645" y="268" text-anchor="middle">100%</text>
 
-      <g class="row"><title>Announced: 60 to 90 percent discounted, central 80</title>
-        <text class="rowlab" x="150" y="46" text-anchor="end">Announced</text>
-        <line class="band" x1="457" y1="42" x2="598" y2="42"/>
-        <circle class="dot-emit" cx="551" cy="42" r="6"/>
-        <text class="cval" x="551" y="30" text-anchor="middle">80%</text>
-        <text class="val" x="449" y="46" text-anchor="end">60%</text>
-        <text class="val" x="606" y="46">90%</text>
+      <g class="row"><title>New build: 77% of capacity, 52% of energy</title>
+        <text class="rowlab" x="165" y="66" text-anchor="end">new build</text>
+        <rect class="bar-abate" x="175" y="52" width="361.9" height="12"/>
+        <text class="cval" x="544" y="61.5">77% capacity</text>
+        <rect class="bar-abate" x="175" y="68" width="244.4" height="12" opacity="0.6"/>
+        <text class="cval" x="426" y="77.5">52% energy</text>
       </g>
-      <g class="row"><title>Contracted, blended band: 20 to 38 percent discounted, central 29</title>
-        <text class="rowlab" x="150" y="84" text-anchor="end">Contracted</text>
-        <line class="band" x1="269" y1="80" x2="353.6" y2="80"/>
-        <circle class="dot-emit" cx="311.3" cy="80" r="6"/>
-        <text class="cval" x="311.3" y="68" text-anchor="middle">29%</text>
-        <text class="val" x="261" y="84" text-anchor="end">20%</text>
-        <text class="val" x="362" y="84">38%</text>
+      <g class="row"><title>Existing-plant reallocation: 18% of capacity, 35% of energy</title>
+        <text class="rowlab" x="165" y="122" text-anchor="end">existing plant</text>
+        <rect class="bar-emit" x="175" y="108" width="84.6" height="12"/>
+        <text class="cval" x="267" y="117.5">18% capacity</text>
+        <rect class="bar-emit" x="175" y="124" width="164.5" height="12" opacity="0.6"/>
+        <text class="cval" x="347" y="133.5">35% energy</text>
       </g>
-      <g class="row"><title>Contracted, firm take-or-pay: 2 to 15 percent discounted, central 8</title>
-        <text class="rowlab" x="150" y="122" text-anchor="end">· firm take-or-pay</text>
-        <line class="band" x1="184.4" y1="118" x2="245.5" y2="118"/>
-        <circle class="dot-emit" cx="215" cy="118" r="6"/>
-        <text class="cval" x="215" y="106" text-anchor="middle">8%</text>
-        <text class="val" x="176" y="122" text-anchor="end">2%</text>
-        <text class="val" x="253.5" y="122">15%</text>
+      <g class="row"><title>Restart: 5% of capacity, 11% of energy</title>
+        <text class="rowlab" x="165" y="178" text-anchor="end">restart</text>
+        <rect class="bar-abate" x="175" y="164" width="23.5" height="12"/>
+        <text class="cval" x="206" y="173.5">5% capacity</text>
+        <rect class="bar-abate" x="175" y="180" width="51.7" height="12" opacity="0.6"/>
+        <text class="cval" x="234" y="189.5">11% energy</text>
       </g>
-      <g class="row"><title>Contracted, loose letters of authorization: 55 to 75 percent discounted, central 65</title>
-        <text class="rowlab" x="150" y="160" text-anchor="end">· loose letters</text>
-        <line class="band" x1="433.5" y1="156" x2="527.5" y2="156"/>
-        <circle class="dot-emit" cx="480.5" cy="156" r="6"/>
-        <text class="cval" x="480.5" y="144" text-anchor="middle">65%</text>
-        <text class="val" x="425.5" y="160" text-anchor="end">55%</text>
-        <text class="val" x="535.5" y="160">75%</text>
-      </g>
-      <g class="row"><title>Under construction: 3 to 15 percent discounted, central 9</title>
-        <text class="rowlab" x="150" y="198" text-anchor="end">Under construction</text>
-        <line class="band" x1="189.1" y1="194" x2="245.5" y2="194"/>
-        <circle class="dot-emit" cx="217.3" cy="194" r="6"/>
-        <text class="cval" x="217.3" y="182" text-anchor="middle">9%</text>
-        <text class="val" x="181.1" y="198" text-anchor="end">3%</text>
-        <text class="val" x="253.5" y="198">15%</text>
+      <g class="row"><title>Uprate: 0.6% of capacity, 1% of energy</title>
+        <text class="rowlab" x="165" y="234" text-anchor="end">uprate</text>
+        <rect class="bar-abate" x="175" y="220" width="2.82" height="12"/>
+        <text class="cval" x="185" y="229.5">0.6% capacity</text>
+        <rect class="bar-abate" x="175" y="236" width="4.7" height="12" opacity="0.6"/>
+        <text class="cval" x="187" y="245.5">1% energy</text>
       </g>
     </svg>
     </div>
-    <div class="fig-src">Source: M1 queue-conversion bands for the speculative-load discount, anchored on <a href="https://emp.lbl.gov/publications/queued-2025-edition-characteristics">LBNL's twenty-year interconnection-queue history</a> and <a href="https://www.utilitydive.com/news/ercots-large-load-queue-jumped-almost-300-last-year-official/808820/">Texas's large-load funnel</a> · bands as of 8 Jul 2026, underlying evidence Oct–Dec 2025</div>
+    <div class="fig-src">Source: M3 deals ledger — 46 deals, 27.9 GW at headline stages, classified per the project's deal taxonomy; universe context from <a href="https://www.spglobal.com/sustainable1/en/insights/special-editorial/hyperscaler-procurement-to-shape-us-power-investment">S&amp;P Global's &gt;80 GW</a> · ledger as of 6 Jul 2026</div>
   </figure>
+
+  <p>The re-labeling concentrates in three contracts. Amazon's roughly 1,920-megawatt agreement with <a href="https://ir.talenenergy.com/news-releases/news-release-details/talen-energy-expands-nuclear-energy-relationship-amazon">the Susquehanna nuclear plant</a>, operating since the 1980s, and Meta's roughly 1,121-megawatt deal with <a href="https://www.constellationenergy.com/news/2025/constellation-meta-sign-20-year-deal-for-clean-reliable-nuclear-energy-in-illinois.html">the still-running Clinton plant</a> are agreements with reactors that were already on the grid; a third, an undisclosed buyer at the Comanche Peak plant in Texas, is the same shape. None causes new generation. The genuinely additional nuclear is different in kind: <a href="https://www.constellationenergy.com/news/2024/Constellation-to-Launch-Crane-Clean-Energy-Center-Restoring-Jobs-and-Carbon-Free-Power-to-The-Grid.html">Three Mile Island Unit 1, shut in 2019, is being restarted for Microsoft</a>, and <a href="https://newsroom.nexteraenergy.com/NextEra-Energy-and-Google-Announce-New-Collaboration-to-Accelerate-Nuclear-Energy-Deployment-in-the-U-S?l=12">Duane Arnold, shut in 2020, for Google</a> — retired plants returning to service because a contract now pays for them. The split is keyed strictly to whether the plant is on or off absent the deal, not to the press releases, which call all five "new clean energy." Every one of these deals rests on a company or developer announcement, a motivated source we grade Tier 2; the counterfactual reasoning, not the framing, decides the class.</p>
+  <p>Re-labeled output is not merely a bookkeeping nicety. When a buyer claims a running plant's clean attributes through certificates, the electricity on the grid does not change; <a href="https://www.nature.com/articles/s41558-022-01379-5">independent work finds that certificate-based matching can leave a company's real emissions untouched</a>, and <a href="https://arxiv.org/abs/2606.00811">a recent analysis shows the timing gap</a> between when clean power is generated and when a data center draws it can raise emissions even under full annual certificate coverage. This is why the audit credits only the generation a contract causes, never the generation it merely claims.</p>
+  <p>We went looking for the opposite of a good-news story: the claim that data-center clean procurement is mostly re-contracted existing nuclear and hydro with near-zero additionality, greenwashing dressed as a buildout. At headline stages it does not hold. Reallocation is 18 percent of contracted capacity and 35 percent of the energy, real but not a majority, while the bulk of contracted capacity is genuinely new solar, wind, and storage. The larger error runs the other way, and the audit is built to block it: counting the 27-gigawatt announced pile, almost all of it non-binding small modular reactors with nothing yet operating, would nearly double "additional clean," and the announced-stage exclusion is what keeps that vapor out of every number.</p>
+  <p>One finding is an absence. The newest and fastest-moving wave of AI power — the on-site turbines and gas-fed fuel cells behind the largest new compute campuses — is overwhelmingly natural gas, which is not clean under any definition this project uses, so it earns no row in a clean-energy ledger. The point is that procurement momentum should not be read as decarbonization: the most aggressive buildout of the moment is contributing close to zero additional clean generation and a large amount of new gas, an emissions story that belongs to the retirement and leakage channels, not this one.</p>
 </section>
 
 <section aria-labelledby="s-assumptions">
-  <h2 id="s-assumptions">The assumption this rides on</h2>
-  <p>Everything above resolves a single registry entry: the speculative-load discount. Its contracted stage carries a second, newer refinement — the contract-firmness split — that this module added on its load-side pass. Both are marked contested, estimated with real anchors but with named gaps a reviewer could reasonably attack. The bands below are what an approval endorses and what a contest changes. The demand futures the discount runs inside, and the tariff rules that set contract firmness, are owned and reviewed on the demand-durability (M9) and market-structure (M4) briefs.</p>
+  <h2 id="s-assumptions">The two assumptions this resolves</h2>
+  <p>Every number above resolves two registry entries. Both are marked contested — empirically anchored, but built from a hand-curated top slice of the deal universe rather than a census, which a reviewer could reasonably attack. The bands below are what an approval endorses and what a contest changes. The direction question, whether this buying displaces other clean-energy customers, is supplied on the volume side here but left unresolved on its sign; it is flagged in the decisions below.</p>
 
   <article class="acard">
-    <div class="acard-head"><h3>The speculative-load discount</h3><span class="aid mono">phantom-load-haircut</span><span class="chip contested">contested</span></div>
-    <p class="plain">The share of requested data-center interconnection load that never gets built — discounted as speculative or double-counted across regions — resolved by how far a project has progressed and, where the data allows, by region.</p>
+    <div class="acard-head"><h3>How much contracted clean power is genuinely new</h3><span class="aid mono">ppa-additionality-shares</span><span class="chip contested">contested</span></div>
+    <p class="plain">Of the clean capacity data centers have contracted, the share in each class — new build, restart, uprate, or an agreement with a plant already running — carried on two axes, capacity and energy, because a round-the-clock reactor carries far more energy per megawatt than a solar or wind farm.</p>
     <dl>
-      <dt>By lifecycle stage</dt><dd class="num">announced 60–90% · contracted 20–38% · under construction 3–15% (share discounted)</dd>
-      <dt>Raw-request basis</dt><dd class="num">75–90% of a raw request pile never energizes</dd>
-      <dt>Regional structure</dt><dd>a multiplier on the early-stage discount: Texas (ERCOT) lowest at ×0.80, California (CAISO) highest at ×1.12; the model consumes the national blend for now</dd>
-      <dt>Scope</dt><dd>fraction that never energizes, by stage and region; the same project counted in multiple regions is folded, unmeasured, into the announced band</dd>
-      <dt>Last validated</dt><dd>8 July 2026</dd>
-      <dt>Consumed by</dt><dd>retirement-delay mapping (M2), market structure (M4), transmission (M5), rate feedback (M7), and the synthesis</dd>
+      <dt>Headline capacity shares</dt><dd class="num">new build 77% · existing-plant reallocation 18% · restart 5% · uprate 0.6%</dd>
+      <dt>Headline energy shares</dt><dd class="num">new build 52% · reallocation 35% · restart 11% · uprate 1%</dd>
+      <dt>Announced vs energized</dt><dd class="num">27.9 GW at headline stages; a further 26.7 GW announced-only (all new build, ~21 GW small modular reactors), excluded — ~0% of that nuclear is operating</dd>
+      <dt>Scope</dt><dd>the largest named US deals, about a third of the &gt;80 GW contracted universe; announced-only never enters a headline; energy shares are a lower bound, because the ledger over-samples nuclear relative to the renewables-heavy universe</dd>
+      <dt>Last validated</dt><dd>7 July 2026</dd>
+      <dt>Consumed by</dt><dd>this module, market structure (M4), and the synthesis</dd>
     </dl>
-    <div class="settle"><b>What would settle it:</b> the 2025-vintage queue aging into measured conversion rates; the June 2027 Texas financial-security gate as a natural experiment on whether a hard money gate compresses the announced band; a multi-region double-counting detector; and re-fetching the load-side filings to verify figures this pass could only surface through search.</div>
+    <div class="settle"><b>What would settle it:</b> a licensed deal feed to close the long tail beyond the biggest names; a would-it-retire determination on the Clinton nuclear plant, the single largest classification lever at about nine terawatt-hours a year; and nameplate verification of buyer-reported megawatts against federal generator records.</div>
     <ul class="srcs">
-      <li><span class="tier">Tier 1</span><a href="https://emp.lbl.gov/publications/queued-2025-edition-characteristics">LBNL, Queued Up (2025/2026 edition)</a> — the generation-queue prior: ~20% built, ~71% withdrew for mature 2000–2019 cohorts (as of Dec 2025)</li>
-      <li><span class="tier motivated">Tier 2 · trade press</span><a href="https://www.utilitydive.com/news/ercots-large-load-queue-jumped-almost-300-last-year-official/808820/">Utility Dive relaying ERCOT's large-load queue</a> — ~275 GW tracked, ~6% approved-to-energize, &lt;1% energized (Oct 2025); the exact ERCOT snapshot lives in committee decks, not a single public URL</li>
-      <li><span class="tier motivated">Tier 2 · motivated</span><a href="https://www.pjm.com/-/media/DotCom/planning/res-adeq/load-forecast/dominion-documentation.pdf">Dominion via PJM load-forecast documentation</a> (47 GW contracted vs 16.6 GW forecast) — utility; a large pipeline justifies recoverable capex</li>
-      <li><span class="tier">Tier 1</span><a href="https://puco.ohio.gov/news/puco-orders-aep-ohio-to-create-data-center-specific-tariff">Public Utilities Commission of Ohio, AEP Ohio data-center tariff order</a> — 85% take-or-pay, 12-year terms; the 30→11 GW shrink is corroborated by trade press</li>
-      <li><span class="tier motivated">Tier 2 · motivated</span><a href="https://www.utilitydive.com/news/oncor-sempra-interconnection-texas-data-center-earnings/757262/">Utility Dive on Oncor's interconnection book</a> (~200 GW requested vs ~9 GW signed) — utility earnings-call framing</li>
+      <li><span class="tier motivated">Tier 2 · data vendor</span><a href="https://www.spglobal.com/sustainable1/en/insights/special-editorial/hyperscaler-procurement-to-shape-us-power-investment">S&amp;P Global, &gt;80 GW US data-center clean contracted</a> — the universe denominator; sells power-market data to the industry it covers</li>
+      <li><span class="tier motivated">Tier 2 · company</span><a href="https://ir.talenenergy.com/news-releases/news-release-details/talen-energy-expands-nuclear-energy-relationship-amazon">Amazon–Talen Susquehanna</a> and <a href="https://www.constellationenergy.com/news/2025/constellation-meta-sign-20-year-deal-for-clean-reliable-nuclear-energy-in-illinois.html">Meta–Constellation Clinton</a> — the two largest existing-plant agreements (reallocation)</li>
+      <li><span class="tier motivated">Tier 2 · company</span><a href="https://www.constellationenergy.com/news/2024/Constellation-to-Launch-Crane-Clean-Energy-Center-Restoring-Jobs-and-Carbon-Free-Power-to-The-Grid.html">Microsoft–Constellation Three Mile Island</a> and <a href="https://newsroom.nexteraenergy.com/NextEra-Energy-and-Google-Announce-New-Collaboration-to-Accelerate-Nuclear-Energy-Deployment-in-the-U-S?l=12">Google–NextEra Duane Arnold</a> — the two contracted reactor restarts (additional)</li>
+      <li><span class="tier">Tier 1</span><a href="https://www.nature.com/articles/s41558-022-01379-5">Bjørn et al. (2022), certificates threaten corporate targets</a> and the <a href="https://arxiv.org/abs/2606.00811">"Certificates without electrons?" analysis</a> — why re-labeled output is not additional</li>
     </ul>
   </article>
 
   <article class="acard">
-    <div class="acard-head"><h3>Contract firmness</h3><span class="aid mono">phantom-load-haircut.contract_firmness_conditioner</span><span class="chip contested">contested</span></div>
-    <p class="plain">Within the contracted stage, how much a project is discounted depends on how costly it is to cancel. A firm take-or-pay contract, which bills the customer even when the power goes unused, rarely walks; a loose letter of authorization behaves like an early announcement. This is the one thing the generation queue cannot show, because it has no take-or-pay analog.</p>
+    <div class="acard-head"><h3>The run rate that turns contracted gigawatts into energy</h3><span class="aid mono">contracted-clean-capacity-factor</span><span class="chip contested">contested</span></div>
+    <p class="plain">The blended share of the year the contracted clean fleet actually runs, used to convert the &gt;80-gigawatt capacity headline into annual terawatt-hours. Nuclear runs nearly all the time; solar and wind far less, so the technology mix drives the number.</p>
     <dl>
-      <dt>Firm take-or-pay or executed service agreement</dt><dd class="num">2–15% discount</dd>
-      <dt>Loose letter of authorization</dt><dd class="num">55–75% discount</dd>
-      <dt>Why it matters</dt><dd>the single 20–38% contracted band, inherited from the generation queue, hides this split and may overstate the discount on genuinely firm load</dd>
-      <dt>Scope</dt><dd>applies to the contracted stage on the load side only</dd>
-      <dt>Shared with</dt><dd>market structure (M4, who bears demand risk) — the split is a function of tariff regime, so both modules must use one firmness-to-discount mapping</dd>
-      <dt>Last validated</dt><dd>8 July 2026</dd>
+      <dt>Central</dt><dd class="num">0.31 (range 0.27–0.42) — low end renewables-only, high end the nuclear-heavier sampled fleet</dd>
+      <dt>Basis</dt><dd class="num">renewables-only blend 0.30; full sampled fleet with ~21% nuclear 0.43; component run rates from federal capacity-factor tables</dd>
+      <dt>Why it moved</dt><dd>replaces an interim placeholder of 0.35–0.55, whose ~0.45 midpoint over-converted nameplate by assuming a firmer, more nuclear-heavy blend than the contracted universe has</dd>
+      <dt>Scope</dt><dd>applied to the renewables-dominant &gt;80 GW universe</dd>
+      <dt>Last validated</dt><dd>7 July 2026</dd>
+      <dt>Consumed by</dt><dd>this module and the synthesis</dd>
     </dl>
-    <div class="settle"><b>What would settle it:</b> re-deriving the firm-versus-loose split from the market-structure module's multi-state tariff panel rather than four utilities, and watching approved load actually ramp to separate genuine construction lag from non-arrival.</div>
+    <div class="settle"><b>What would settle it:</b> resolving the true technology mix of the full &gt;80-gigawatt universe rather than the nuclear-over-sampled top slice, and reconciling the alternating-current versus direct-current nameplate bases that differ across developers.</div>
     <ul class="srcs">
-      <li><span class="tier">Tier 1</span><a href="https://puco.ohio.gov/news/puco-orders-aep-ohio-to-create-data-center-specific-tariff">Public Utilities Commission of Ohio, AEP Ohio tariff order</a> — ~85% take-or-pay; the firm pool held at ~11 GW once the terms bit</li>
-      <li><span class="tier motivated">Tier 2 · motivated</span><a href="https://www.pjm.com/-/media/DotCom/planning/res-adeq/load-forecast/dominion-documentation.pdf">Dominion via PJM load-forecast documentation</a> — its firm contract tiers roughly equal its 16.6 GW realized forecast, while the loose ~30 GW tier is almost absent from it</li>
+      <li><span class="tier">Tier 1</span>EIA Electric Power Monthly capacity-factor tables — the per-technology run rates behind the blend</li>
+      <li><span class="tier motivated">Tier 2 · data vendor</span><a href="https://www.spglobal.com/sustainable1/en/insights/special-editorial/hyperscaler-procurement-to-shape-us-power-investment">S&amp;P Global, &gt;80 GW universe</a> — the capacity anchor this run rate converts</li>
     </ul>
   </article>
 </section>
 
 <section aria-labelledby="s-decision">
   <h2 id="s-decision">The decisions on record</h2>
-  <p>This module's resolution reached the registry through two proposals a week apart, both approved. The first fitted the discount to evidence; the second re-anchored that evidence on direct load data and added the contract-firmness split.</p>
+  <p>This module's resolution reached the registry through one proposal, approved a day later; a second, broader decision then handled the long-run version of the direction question this channel raises.</p>
 
   <div class="decision">
     <div class="decision-head">
@@ -404,41 +394,41 @@ figure { margin: 1.6rem 0 1.4rem; }
       <span class="chip approved">Approved and applied</span>
     </div>
     <div class="decision-body">
-      <p>The first pass proposed setting the discount from the best-measured analog available, the twenty-year generation interconnection queue, cross-checked against Texas's one public large-load funnel. The evidence confirmed the registry's existing by-stage shape, let the analysis narrow two of the bands, and added an explicit regional structure: projects convert about 2.3 times better in light-study Texas than in cluster-study California. The status stayed contested, because the load-bearing uncertainty was never the band widths but the leap from generation data to load.</p>
+      <p>An earlier review pass had seeded a defensible guess — that 60 to 80 percent of contracted clean capacity is new build — and asked the module to test it against real deals. On a capacity basis it held: new build came in at 77 percent. But the audit added an energy axis the guess lacked, because existing-plant nuclear runs near its full nameplate and so carries 35 percent of the energy while adding nothing, which pulls new build down to 52 percent of the energy. Restart came in higher than seeded, because two real reactor restarts are contracted rather than merely floated. And the audit gave the synthesis a real run rate to convert gigawatts into energy, replacing a placeholder that assumed a firmer, more nuclear-heavy fleet than the contracted universe actually has.</p>
     </div>
     <div class="effects">
-      <div class="effect"><div class="k">Contracted band</div><div class="v num"><span class="from">0.20–0.40</span><span class="arr">→</span>0.20–0.38</div></div>
-      <div class="effect"><div class="k">Under-construction band</div><div class="v num"><span class="from">0.05–0.20</span><span class="arr">→</span>0.03–0.15</div></div>
-      <div class="effect"><div class="k">Regional structure</div><div class="v num"><span class="from">flat national</span><span class="arr">→</span>×0.80 to ×1.12</div></div>
+      <div class="effect"><div class="k">New-build basis</div><div class="v num"><span class="from">capacity only</span><span class="arr">→</span>capacity + energy</div></div>
+      <div class="effect"><div class="k">Restart share</div><div class="v num"><span class="from">1–3%</span><span class="arr">→</span>3–8%</div></div>
+      <div class="effect"><div class="k">Blended run rate</div><div class="v num"><span class="from">0.35–0.55</span><span class="arr">→</span>0.27–0.42</div></div>
     </div>
   </div>
 
   <div class="decision">
     <div class="decision-head">
-      <span class="t">Decision record · 8 July 2026</span>
+      <span class="t">Decision record · 12 July 2026</span>
       <span class="chip approved">Approved and applied</span>
     </div>
     <div class="decision-body">
-      <p>The load-side pass replaced the generation-queue prior with direct large-load evidence (the Texas funnel as a time series, plus four utilities' pipeline disclosures) and found it agreed with the prior on both the funnel's shape and the announcement-stage band. It changed no numbers. What it added was structural: the contracted stage bifurcates by contract firmness, a distinction the generation queue cannot show, so a firmness split was attached rather than a new band. The evidence basis moved from a prior to a corroborated prior, and the gap from generation data to load went from open to partially closed. The status stayed contested, now for two named reasons — the load queues are too young to have resolved, and utilities count stages in incompatible ways.</p>
+      <p>The channel raises a direction question it cannot close: does this buying displace other clean-energy customers, near-term, or expand the whole industry as scale drives manufacturing costs down? The near-term reading is displacement — these buyers now account for more than half of US corporate clean-power procurement, and the transformers and switchgear everyone needs carry multi-year lead times. The long-run expansion case is real but two-sided and unquantified. Rather than fold a contested effect into the same entry, the decision split the long-run version into a separate, default-off learning-curve sensitivity, which adds a swing of zero to about eight million tonnes a year of extra abatement onto the 2035 offset. No modeled value changed; the near-term direction stays on record as displacement.</p>
     </div>
   </div>
 </section>
 
 <section aria-labelledby="s-respond">
   <h2 id="s-respond">Respond</h2>
-  <p>Responses land in the project inbox and become dated proposals — the evidence, the exact change, and nothing applied until a decision is recorded on this page. Approving takes one line; contesting takes two: the band you would use, and why.</p>
+  <p>Responses land in the project inbox and become dated proposals — the evidence, the exact change, and nothing applied until a decision is recorded on this page. Approving takes one line; contesting takes two: the share you would use, and why.</p>
   <div class="respond">
-    <a href="mailto:matt.boegner@gmail.com?subject=%5Breview%5D%20M1%20queue%20conversion%20%E2%80%94%20approve&body=I%27ve%20read%20the%20M1%20brief.%20Approved%20as%20it%20stands.">
+    <a href="mailto:matt.boegner@gmail.com?subject=%5Breview%5D%20M3%20procurement%20impact%20%E2%80%94%20approve&body=I%27ve%20read%20the%20M3%20brief.%20Approved%20as%20it%20stands.">
       <b>Approve as it stands</b>
-      <span>Endorse the current by-stage bands and the firmness split for this channel.</span>
+      <span>Endorse the current class shares and run rate for this channel.</span>
       <span class="go">Send the one-liner →</span>
     </a>
-    <a href="mailto:matt.boegner@gmail.com?subject=%5Breview%5D%20speculative-load%20discount%20%E2%80%94%20contest&body=Assumption%3A%20the%20speculative-load%20discount%20%28the%20share%20of%20requested%20load%20that%20never%20gets%20built%29%0A%0AThe%20stage%20or%20band%20I%27d%20contest%20%28announced%2060-90%25%20%2F%20contracted%2020-38%25%20%2F%20under%20construction%203-15%25%20%2F%20the%20firm-vs-loose%20split%29%3A%0A%0AThe%20value%20I%27d%20use%2C%20and%20the%20evidence%3A%0A">
-      <b>Contest the discount</b>
-      <span>Name the stage or band you disagree with; it becomes a proposal.</span>
+    <a href="mailto:matt.boegner@gmail.com?subject=%5Breview%5D%20the%20genuinely-new%20vs%20re-labeled%20split%20%E2%80%94%20contest&body=Assumption%3A%20how%20much%20contracted%20clean%20power%20is%20genuinely%20new%20vs%20re-labeled%20from%20plants%20already%20running%20%28ppa-additionality-shares%29%0A%0AThe%20class%20or%20share%20I%27d%20contest%20%28new%20build%20%2F%20restart%20%2F%20uprate%20%2F%20existing-plant%20reallocation%3B%20capacity%20or%20energy%20axis%29%3A%0A%0AThe%20value%20I%27d%20use%2C%20and%20the%20evidence%3A">
+      <b>Contest the split</b>
+      <span>Name the class or axis you disagree with; it becomes a proposal.</span>
       <span class="go">Open a pre-filled note →</span>
     </a>
-    <a href="mailto:matt.boegner@gmail.com?subject=%5Breview%5D%20M1%20%E2%80%94%20source%20or%20figure%20flag&body=Page%3A%20M1%20analysis%20brief%0A%0AThe%20figure%20or%20source%20in%20question%3A%0A%0AWhat%20looks%20wrong%3A%0A">
+    <a href="mailto:matt.boegner@gmail.com?subject=%5Breview%5D%20M3%20%E2%80%94%20source%20or%20figure%20flag&body=Page%3A%20M3%20analysis%20brief%0A%0AThe%20figure%20or%20source%20in%20question%3A%0A%0AWhat%20looks%20wrong%3A">
       <b>Flag a source or figure</b>
       <span>Point at a citation, a date, or a number that looks off.</span>
       <span class="go">Flag it →</span>
@@ -449,7 +439,7 @@ figure { margin: 1.6rem 0 1.4rem; }
 </main>
 
 <footer class="seq">
-  <div class="seq-row"><span></span><a class="next" href="../m2-retirement-emissions/"><span class="lab">Next brief →</span>2 · Retirement delays</a></div>
+  <div class="seq-row"><a class="" href="../m2-retirement-emissions/"><span class="lab">← Previous brief</span>2 · Retirement delays</a><span class="stub next" title="Brief not yet written"><span class="lab">Next brief →</span>4 · Market structure</span></div>
   <div class="seq-idx">
     <a href="../">All briefs</a> · <a href="https://demo.mattboegner.com/">The essay</a> · <a href="https://demo.mattboegner.com/explorer/">The explorer</a>
   </div>
