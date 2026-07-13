@@ -484,6 +484,11 @@ figure { margin: 1.6rem 0 1.4rem; }
 .idx .calc #controlList .ctl:nth-child(-n+2) { border-top: 0; }
 @media (max-width: 640px) { .idx .calc #controlList { grid-template-columns: 1fr; } .idx .calc #controlList .ctl:nth-child(2) { border-top: 1px solid var(--hairline); } }
 
+/* collaboration-patterns table */
+.collab-table { width: 100%; border-collapse: collapse; font-size: .88rem; line-height: 1.5; margin-top: .4rem; }
+.collab-table th { text-align: left; font-size: .68rem; letter-spacing: .09em; text-transform: uppercase; font-weight: 700; color: var(--ink-3); padding: .45em .65em; border-bottom: 1px solid var(--baseline); width: 50%; }
+.collab-table td { padding: .55em .65em; border-bottom: 1px solid var(--hairline); vertical-align: top; color: var(--ink-2); }
+
 /* data-sources table */
 .src-table-wrap { overflow-x: auto; margin-top: .4rem; }
 .src-table { width: 100%; min-width: 720px; border-collapse: collapse; font-size: .78rem; line-height: 1.45; }
@@ -506,8 +511,9 @@ figure { margin: 1.6rem 0 1.4rem; }
 
 </style>
 <header class="masthead">
-  <div class="rubric">AI and the grid</div>
+  <div class="rubric">AI &amp; the green energy transition</div>
   <h1>Analysis Review</h1>
+  <p class="dek">Is the US AI data center buildout accelerating or delaying the green energy transition, and what is its net effect on CO2 emissions?</p>
   <div class="byline">6 of 9 briefs live</div>
 </header>
 <main class="idx">
@@ -601,6 +607,28 @@ figure { margin: 1.6rem 0 1.4rem; }
   </div>
 </section>
 
+  <section>
+    <h2>Possible Collaboration Patterns</h2>
+    <table class="collab-table">
+      <thead>
+        <tr><th>Andy</th><th>Matt</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Problem selection, judgment, narrative, and deciding what matters</td>
+          <td>Research decomposition, data gathering, modeling, and testing</td>
+        </tr>
+        <tr>
+          <td>Establish areas of thought leadership and the blog’s intellectual identity</td>
+          <td>Build reusable research frameworks and datasets that support many pieces of work</td>
+        </tr>
+        <tr>
+          <td>Write the public-facing work</td>
+          <td>Supply trusted background research, documented assumptions, and updateable analysis</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
   <section>
     <h2>Analysis Deep-Dive</h2>
     <p>Each analysis is presented for individual review. They take inspiration from a formal pattern used in banking &amp; risk analysis: a review of the headline conclusions, then the evidence and its tiers, then the specific assumptions a reader is invited to endorse or contest, then any decisions already taken. All analyses are currently in draft form for demonstration purposes only.</p>
