@@ -471,6 +471,26 @@ figure { margin: 1.6rem 0 1.4rem; }
 .idx { max-width: 44rem; margin: 0 auto; padding: 0 1.25rem 4rem; }
 .idx section { padding: 1.6rem 0 .6rem; }
 .idx section + section { border-top: 1px solid var(--hairline); margin-top: 1.4rem; }
+
+/* wide sections (interactive explorer, source table) break out of the text column */
+@media (min-width: 66rem) { .idx section.breakout { margin-inline: -8rem; } }
+
+/* interactive explorer: controls stacked above full-width results so the
+   distribution and channel-breakdown charts stay readable */
+.idx .calc-grid { grid-template-columns: 1fr; }
+.idx .calc .outputs { position: static; }
+.idx .calc #controlList { display: grid; grid-template-columns: 1fr 1fr; column-gap: 2rem; align-items: start; }
+.idx .calc #controlList .ctl { border-top: 1px solid var(--hairline); }
+.idx .calc #controlList .ctl:nth-child(-n+2) { border-top: 0; }
+@media (max-width: 640px) { .idx .calc #controlList { grid-template-columns: 1fr; } .idx .calc #controlList .ctl:nth-child(2) { border-top: 1px solid var(--hairline); } }
+
+/* data-sources table */
+.src-table-wrap { overflow-x: auto; margin-top: .4rem; }
+.src-table { width: 100%; min-width: 720px; border-collapse: collapse; font-size: .78rem; line-height: 1.45; }
+.src-table th { text-align: left; font-size: .66rem; letter-spacing: .09em; text-transform: uppercase; font-weight: 700; color: var(--ink-3); padding: .45em .65em; border-bottom: 1px solid var(--baseline); }
+.src-table td { padding: .5em .65em; border-bottom: 1px solid var(--hairline); vertical-align: top; color: var(--ink-2); }
+.src-table td.domain { font-weight: 600; color: var(--ink); }
+.src-table td.src { font-weight: 600; color: var(--ink); white-space: nowrap; }
 .idx-row {
   display: flex; gap: 1.1rem; align-items: baseline; padding: 1.05rem .2rem;
   border-bottom: 1px solid var(--hairline);
@@ -527,8 +547,8 @@ figure { margin: 1.6rem 0 1.4rem; }
   </div>
 </section>
 
-<section>
-  <h2>Set the Assumptions Yourself</h2>
+<section class="breakout">
+  <h2>Interactive Explorer</h2>
 
   <div class="calc">
     <div class="calc-grid">
@@ -653,10 +673,6 @@ figure { margin: 1.6rem 0 1.4rem; }
   </div>
   </section>
   <section>
-    <h2>Data Sources</h2>
-    <p>A full accounting of the raw sources and derived datasets behind these results will appear here.</p>
-  </section>
-  <section>
     <h2>Safeguards and Quality Control</h2>
     <ul>
       <li><strong>Decision Log</strong>: Records every methodological choice made during development —  scope boundaries, metric definitions, and tooling. Most changes a collaborator might propose have been considered: check the log before proposing, and any methodological changes require a new decision entry.</li>
@@ -669,6 +685,151 @@ figure { margin: 1.6rem 0 1.4rem; }
       <li><strong>Append-only findings</strong>: Corrections are dated entries citing what they correct. Automatic postmortens for errors.</li>
     </ul>
   </section>
+<!-- Data-sources table for the review index, translated from METHODOLOGY.md's
+     source-archive inventory (2026-07-13): tier references removed, methods
+     compressed to retrieval mode + linked source. URLs come from the raw
+     snapshot MANIFESTs (recorded provenance), displayed as site names. -->
+<section class="breakout">
+  <h2>Data Sources</h2>
+  <div class="src-table-wrap">
+  <table class="src-table">
+    <thead>
+      <tr><th>Domain</th><th>Data Source</th><th>Description</th><th>Method</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="domain" rowspan="3">Federal Statistical Data</td>
+        <td class="src">EIA-860M generator inventory</td>
+        <td>Monthly generator-unit inventory (operating, planned, retired) from the US Energy Information Administration; two vintages a year apart, so retirement-date changes can be reconstructed by diffing.</td>
+        <td>Direct download, <a href="https://www.eia.gov/electricity/data/eia860m/">eia.gov</a></td>
+      </tr>
+      <tr>
+        <td class="src">EIA-923 plant operations</td>
+        <td>Plant-level monthly generation and fuel burn; 2024 final plus 2025 early release.</td>
+        <td>Direct download, <a href="https://www.eia.gov/electricity/data/eia923/">eia.gov</a></td>
+      </tr>
+      <tr>
+        <td class="src">NREL Cambium 2024 workbook</td>
+        <td>Long-run marginal emission rates from the national lab's capacity-expansion and dispatch modeling; 8 scenarios, 18 regions, milestone years to 2050.</td>
+        <td>Internet Archive retrieval, <a href="https://data.nrel.gov/submissions/289">nrel.gov</a></td>
+      </tr>
+      <tr>
+        <td class="domain" rowspan="4">Interconnection Queues</td>
+        <td class="src">LBNL "Queued Up"</td>
+        <td>The national lab's compilation of essentially every US generation/storage interconnection request (~97% of capacity), two annual vintages (through 2024 and through 2025).</td>
+        <td>Mirror download, <a href="https://eta-publications.lbl.gov/sites/default/files/2026-05/lbnl_ix_queue_data_file_thru2025.xlsx">lbl.gov</a></td>
+      </tr>
+      <tr>
+        <td class="src">ERCOT generation queue</td>
+        <td>The Texas grid operator's live generator-interconnection status workbook.</td>
+        <td>Direct download, <a href="https://www.ercot.com/misdownload/servlets/mirDownload?mimic_duns=000000000&amp;doclookupId=1245185620">ercot.com</a></td>
+      </tr>
+      <tr>
+        <td class="src">MISO generation queue</td>
+        <td>The mid-continent grid operator's queue via its public API (~3,800 projects).</td>
+        <td>Direct API pull, <a href="https://www.misoenergy.org/api/giqueue/getprojects">misoenergy.org</a></td>
+      </tr>
+      <tr>
+        <td class="src">FERC Order 2023 status</td>
+        <td>Notes on the federal queue-reform order and its rollout, including the regulator's 2026 show-cause on large-load interconnection.</td>
+        <td>Compiled research notes</td>
+      </tr>
+      <tr>
+        <td class="domain" rowspan="3">Load-Side Demand</td>
+        <td class="src">ERCOT large-load reports</td>
+        <td>The one public ISO time series of data-center load interconnection by stage: a March-2026 committee deck plus a supplemental 2024–2026 figure series.</td>
+        <td>Direct download, <a href="https://www.ercot.com/files/docs/2026/03/12/March-TAC-Report.pdf">ercot.com</a>; supplemental series search-surfaced</td>
+      </tr>
+      <tr>
+        <td class="src">Utility load pipelines</td>
+        <td>Data-center pipeline stage-ladders disclosed by four utilities (Georgia Power, Dominion, AEP Ohio, Oncor) in commission filings and investor decks, with verbatim stage vocabulary.</td>
+        <td>Search-surfaced from filings and decks</td>
+      </tr>
+      <tr>
+        <td class="src">Load forecasts</td>
+        <td>~19 sub-snapshots of US load forecasts carrying data-center components: ISO/RTO long-term forecasts, utility resource plans, federal outlooks, the national lab's data-center energy report, and hyperscaler announcements.</td>
+        <td>Direct downloads and transcribed extracts, e.g. <a href="https://www.pjm.com/-/media/DotCom/library/reports-notices/load-forecast/2026-load-report.pdf">pjm.com</a></td>
+      </tr>
+      <tr>
+        <td class="domain" rowspan="4">Procurement &amp; Market Structure</td>
+        <td class="src">Deals claims</td>
+        <td>Hand-curated ledger of the largest publicly reported US data-center clean-energy procurement deals, with per-deal citations.</td>
+        <td>Hand-curated from cited announcements and filings</td>
+      </tr>
+      <tr>
+        <td class="src">Market-structure tariffs</td>
+        <td>Per-region structural descriptors and large-load tariff terms (take-or-pay minimums, exit fees, collateral) from enacted statutes and commission dockets.</td>
+        <td>Web research</td>
+      </tr>
+      <tr>
+        <td class="src">Load-flexibility tariffs</td>
+        <td>Census of curtailable and flexible large-load tariffs and verified operational-curtailment events.</td>
+        <td>Web research</td>
+      </tr>
+      <tr>
+        <td class="src">BTM gas census</td>
+        <td>Verified cases of behind-the-meter gas built to serve data centers (air permits, county records), a correction of a widely repeated ~97 GW misattribution, and permanence evidence.</td>
+        <td>Compiled from permits and press</td>
+      </tr>
+      <tr>
+        <td class="domain" rowspan="2">Rates &amp; Price Feedback</td>
+        <td class="src">Rate-impact memos</td>
+        <td>Five research memos: the PJM capacity-auction cost attribution, two utility tariff cases, a 24-state large-load tariff census, and an elasticity falsification check.</td>
+        <td>Research memos</td>
+      </tr>
+      <tr>
+        <td class="src">Rate-feedback calibration</td>
+        <td>Derived calibration bands (rate-slope, suppression factors, elasticity sensitivities) computed from the memos, with the arithmetic documented.</td>
+        <td>Derived from the rate-impact memos</td>
+      </tr>
+      <tr>
+        <td class="domain" rowspan="3">Transmission &amp; Congestion</td>
+        <td class="src">Market-monitor congestion reports</td>
+        <td>The independent market monitors' 2024 state-of-the-market reports for four RTOs, with congestion-cost figures extracted.</td>
+        <td>Direct download, <a href="https://www.monitoringanalytics.com/reports/PJM_State_of_the_Market/2024/2024-som-pjm-sec11.pdf">monitoringanalytics.com</a> and <a href="https://www.potomaceconomics.com/wp-content/uploads/2025/06/2024-State-of-the-Market-Report.pdf">potomaceconomics.com</a></td>
+      </tr>
+      <tr>
+        <td class="src">LBNL capture rates</td>
+        <td>National-lab solar and wind market reports; value-factor and capture-rate figures by ISO.</td>
+        <td>Direct download, <a href="https://emp.lbl.gov/sites/default/files/2025-10/Utility%20Scale%20Solar%202025%20Edition%20Slides.pdf">lbl.gov</a></td>
+      </tr>
+      <tr>
+        <td class="src">Renewable curtailment</td>
+        <td>CAISO's curtailment report and the ERCOT market monitor's curtailment figures for 2024.</td>
+        <td>Direct download, <a href="https://www.caiso.com/documents/wind-solar-real-time-dispatch-curtailment-report-dec-31-2024.pdf">caiso.com</a></td>
+      </tr>
+      <tr>
+        <td class="domain" rowspan="4">Leakage &amp; Embodied Emissions</td>
+        <td class="src">International AI-DC census</td>
+        <td>Announced international AI data-center projects (Gulf, Southeast Asia, India, Europe) with attribution signals for "pushed offshore by US constraints" versus "would have happened anyway".</td>
+        <td>Web research</td>
+      </tr>
+      <tr>
+        <td class="src">Destination grid intensity</td>
+        <td>Country-level average grid CO2 intensity (Ember data via Our World in Data).</td>
+        <td>Direct fetch, <a href="https://ourworldindata.org/grapher/carbon-intensity-electricity">ourworldindata.org</a></td>
+      </tr>
+      <tr>
+        <td class="src">Embodied-emissions evidence</td>
+        <td>Lifecycle-assessment memos for accelerators and data-center construction: Google's TPU study, an academic A100 LCA, and vendor carbon disclosures.</td>
+        <td>Research memos, <a href="https://arxiv.org/abs/2502.01671">arxiv.org</a></td>
+      </tr>
+      <tr>
+        <td class="src">China supply chain</td>
+        <td>Notes on the US clean-energy response's dependence on Chinese solar/battery manufacturing and its trade-policy exposure.</td>
+        <td>Research notes</td>
+      </tr>
+      <tr>
+        <td class="domain">Demand Durability</td>
+        <td class="src">Durability evidence</td>
+        <td>Ledger of AI-capex financial evidence: capex guidance, circular-financing census, depreciation-versus-revenue arguments, credit indicators.</td>
+        <td>Research pass over filings and financial press</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
 </main>
 <footer class="seq">
   <div class="seq-idx"><a href="https://demo.mattboegner.com/">The essay</a> · <a href="https://demo.mattboegner.com/explorer/">The explorer</a></div>

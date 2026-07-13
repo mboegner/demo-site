@@ -227,6 +227,26 @@ figure { margin: 1.6rem 0 1.4rem; }
 .idx { max-width: 44rem; margin: 0 auto; padding: 0 1.25rem 4rem; }
 .idx section { padding: 1.6rem 0 .6rem; }
 .idx section + section { border-top: 1px solid var(--hairline); margin-top: 1.4rem; }
+
+/* wide sections (interactive explorer, source table) break out of the text column */
+@media (min-width: 66rem) { .idx section.breakout { margin-inline: -8rem; } }
+
+/* interactive explorer: controls stacked above full-width results so the
+   distribution and channel-breakdown charts stay readable */
+.idx .calc-grid { grid-template-columns: 1fr; }
+.idx .calc .outputs { position: static; }
+.idx .calc #controlList { display: grid; grid-template-columns: 1fr 1fr; column-gap: 2rem; align-items: start; }
+.idx .calc #controlList .ctl { border-top: 1px solid var(--hairline); }
+.idx .calc #controlList .ctl:nth-child(-n+2) { border-top: 0; }
+@media (max-width: 640px) { .idx .calc #controlList { grid-template-columns: 1fr; } .idx .calc #controlList .ctl:nth-child(2) { border-top: 1px solid var(--hairline); } }
+
+/* data-sources table */
+.src-table-wrap { overflow-x: auto; margin-top: .4rem; }
+.src-table { width: 100%; min-width: 720px; border-collapse: collapse; font-size: .78rem; line-height: 1.45; }
+.src-table th { text-align: left; font-size: .66rem; letter-spacing: .09em; text-transform: uppercase; font-weight: 700; color: var(--ink-3); padding: .45em .65em; border-bottom: 1px solid var(--baseline); }
+.src-table td { padding: .5em .65em; border-bottom: 1px solid var(--hairline); vertical-align: top; color: var(--ink-2); }
+.src-table td.domain { font-weight: 600; color: var(--ink); }
+.src-table td.src { font-weight: 600; color: var(--ink); white-space: nowrap; }
 .idx-row {
   display: flex; gap: 1.1rem; align-items: baseline; padding: 1.05rem .2rem;
   border-bottom: 1px solid var(--hairline);
