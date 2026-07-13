@@ -1,6 +1,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Analysis review — AI and the grid</title>
+<title>Queue conversion — analysis review</title>
 <style>
 
 @font-face {
@@ -238,87 +238,219 @@ figure { margin: 1.6rem 0 1.4rem; }
 .idx-status { flex: 0 0 auto; }
 
 </style>
+<div class="review-bar">
+  <div class="review-bar-inner">
+    <span class="where">Analysis review · brief 1 of 9</span>
+    <nav aria-label="brief sequence"><a href="../">All briefs</a><span class="stub " title="Brief not yet written">2 · retirement delays →</span></nav>
+  </div>
+</div>
 <header class="masthead">
-  <div class="rubric">AI and the grid<span class="sep">·</span>analysis review</div>
-  <h1>The briefs behind the answer</h1>
-  <p class="dek">One page per analysis: the question, the evidence, the assumptions under review, and the decisions on record</p>
-  <div class="byline">2 of 9 briefs live · companion to <a href="https://demo.mattboegner.com/">the essay</a> and <a href="https://demo.mattboegner.com/explorer/">the interactive explorer</a></div>
+  <div class="rubric">AI and the grid<span class="sep">·</span>module M1<span class="sep">·</span>queue conversion</div>
+  <h1>Most requested data-center load never plugs in. How much never arrives depends on the stage.</h1>
+  <p class="dek">Utilities book hundreds of gigawatts of interconnection requests and then forecast a fraction of it; the honest discount collapses from most of the pile at the announcement stage to almost none once construction starts</p>
+  <div class="byline">Figures as of October 2025 (Texas large-load queue) and December 2025 (interconnection queue) · two decisions recorded 7–8 July 2026 · first pass and load-side pass complete</div>
 </header>
-<main class="idx">
-  <p>Each brief walks one causal channel of the headline estimate the way an analyst would walk a reviewer through it: the answer first, then the evidence and its tiers, then the specific assumptions a reader is invited to endorse or contest, then any decisions already taken. The briefs read in sequence, but each stands alone.</p>
-  <div class="idx-row">
-    <div class="idx-num">1</div>
-    <div class="idx-main">
-      <div class="idx-title"><a href="m1-queue-conversion/">Queue conversion</a></div>
-      <div class="idx-dek">How much of the requested data-center load is real</div>
-    </div>
-    <div class="idx-status"><span class="chip">live</span></div>
+
+<div class="state-strip" role="list" aria-label="review state">
+  <span class="chip" role="listitem">resolves one assumption</span>
+  <span class="chip contested" role="listitem">contested</span>
+  <span class="chip approved" role="listitem">two decisions, 7–8 Jul 2026 — approved</span>
+  <span class="chip" role="listitem">0 awaiting your review</span>
+</div>
+
+<main class="brief">
+
+<section aria-labelledby="s-answer">
+  <h2 id="s-answer">The answer first</h2>
+  <p>No number in this project is more load-bearing, or more abused, than the size of data-center demand. The requests are real and enormous: the Electric Reliability Council of Texas, the state's grid operator, tracks <a href="https://www.utilitydive.com/news/ercots-large-load-queue-jumped-almost-300-last-year-official/808820/">about 275 gigawatts of large-load interconnection requests</a> as of October 2025 — more than three times the entire Texas grid at its <a href="https://www.ercot.com/gridmktinfo/dashboards">all-time peak of roughly 85 gigawatts</a>, a record set on the hottest afternoon of 2023. Read literally, one state's request pile is three Texases. It cannot be real load arriving soon, because <a href="https://www.volts.wtf/p/whats-the-deal-with-interconnection">a queue position is a request to study a connection</a>, not a plant under construction, and reading the raw queue as demand would triple-count a grid that does not yet exist.</p>
+  <p>Our analysis prices how much of that requested load to discount as speculative, the share that never gets built, and finds it depends almost entirely on how far a project has travelled. At the announcement stage, where a developer has filed a request but signed nothing binding, the discount runs 60 to 90 percent; by the time a project is under construction it falls to 3 to 15 percent. The contracted middle is where the story turns. A single blended band of 20 to 38 percent hides a split visible only on the load side: a firm take-or-pay contract, which bills the customer whether or not the power is used, behaves like construction and is discounted just 2 to 15 percent, while a loose letter of authorization behaves like an announcement, discounted around 55 to 75 percent.</p>
+  <p>Three things would move these numbers. The load queues are young — most of the 275 gigawatts was filed in 2025 — so today's conversion rates are floors that will rise as projects age, which makes the discounts ceilings that will fall. Texas's new financial-security gate, which forces a developer to post money or drop out, faces its first real test around June 2027 and could compress the announcement-stage discount if it deters speculative filings. And the single largest unmeasured piece is the same project sitting in several utilities' queues at once, a double-count still folded into the announcement band because the tool to detect it does not yet exist.</p>
+</section>
+
+<section aria-labelledby="s-how">
+  <h2 id="s-how">How the channel works</h2>
+  <div class="chain" role="img" aria-label="Causal chain: requested load, to a discount by lifecycle stage, to real load, to the emissions consequence">
+    <div class="node"><b>Requested load</b><span>interconnection requests, hundreds of gigawatts, by demand future</span></div>
+    <div class="arrow" aria-hidden="true">→</div>
+    <div class="node"><b>Discount by stage</b><span>most requests withdraw; the discount collapses from announced to contracted to under construction</span></div>
+    <div class="arrow" aria-hidden="true">→</div>
+    <div class="node"><b>Real load</b><span>the fraction that energizes, plus firm take-or-pay contracts that hold</span></div>
+    <div class="arrow" aria-hidden="true">→</div>
+    <div class="node"><b>Emissions consequence</b><span>supply built against load that never arrives, or surplus capacity that later helps</span></div>
   </div>
-  <div class="idx-row">
-    <div class="idx-num">2</div>
-    <div class="idx-main">
-      <div class="idx-title"><span class="planned-t">Retirement delays</span></div>
-      <div class="idx-dek">What keeping old fossil plants alive costs in carbon</div>
+  <p>The dose is the raw volume of requested load; the response is the discount that shrinks it to something buildable. Two forces pull in opposite directions. Take-or-pay tariffs and interconnection collateral, money a developer forfeits by walking away, push requested load toward realness and off the ratepayer, deflating the speculative share; that mechanism belongs to the market-structure work (M4, who bears demand risk) and is consumed here rather than decided. Pulling the other way, a regulated utility's legal duty to serve its territory can justify building capacity ahead of even half-speculative load, so obligation-to-serve regions inflate the share. The discount runs inside the four demand futures, from consensus through the bust, whose weights the demand-durability work (M9) sets and this module consumes.</p>
+</section>
+
+<section aria-labelledby="s-evidence">
+  <h2 id="s-evidence">What the evidence says, and what it won't</h2>
+  <p>The strongest evidence is not about data centers at all. The best-measured record of how often a queued request becomes real is the US generation interconnection queue, catalogued for two decades by Lawrence Berkeley National Laboratory, a US Department of Energy lab: of generation projects that entered a queue between 2000 and 2019, old enough to have resolved, <a href="https://emp.lbl.gov/publications/queued-2025-edition-characteristics">only about a fifth were ever built and roughly seven in ten withdrew</a>. That is not a measurement of data-center load, which is mostly proprietary, but it is a defensible prior for how a request-to-reality funnel behaves, and where public load data exists it points the same way.</p>
+  <p>Two direct load-side reads confirm the shape. Texas's grid operator publishes an actual large-load funnel: of the <a href="https://www.utilitydive.com/news/ercots-large-load-queue-jumped-almost-300-last-year-official/808820/">roughly 275 gigawatts tracked in October 2025</a>, about 6 percent had cleared the approval-to-energize milestone and under 1 percent was observed drawing power, a collapse from request to reality even steeper than the generation queue, and one heavily flattered by how young the queue is. Several large utilities also discount their own pipelines in public. <a href="https://www.pjm.com/-/media/DotCom/planning/res-adeq/load-forecast/dominion-documentation.pdf">Dominion Energy, Virginia's largest utility, reported about 47 gigawatts of data-center load under contract in mid-2025 but forecast only 16.6 gigawatts of it as realized demand</a>, discounting its own book by roughly two-thirds. <a href="https://puco.ohio.gov/news/puco-orders-aep-ohio-to-create-data-center-specific-tariff">AEP Ohio, the American Electric Power utility, watched a 30-gigawatt inquiry pool shrink to about 11 gigawatts</a> once its tariff imposed 85-percent take-or-pay terms. <a href="https://www.utilitydive.com/news/oncor-sempra-interconnection-texas-data-center-earnings/757262/">Oncor, the largest Texas transmission utility, logged around 200 gigawatts of requests against roughly 9 gigawatts carrying signed agreements</a>. Each of these is a motivated disclosure — a big pipeline justifies the capital these utilities recover from ratepayers — which makes the part they discount themselves the most telling.</p>
+  <p>Two honest caveats cut against reading too much into this. First, the Texas reform meant to deter speculative requests has not visibly bent the curve: the state's large-load queue kept climbing straight through the <a href="https://capitol.texas.gov/BillLookup/History.aspx?LegSess=89R&amp;Bill=SB6">mid-2025 law that added financial-security requirements</a>, and the first measured pipeline shrinkage anywhere came from a different state's framework, not this one. The reform's real test does not arrive until 2027. Second, and less comfortable, the load-side figures here were assembled under a network that blocked every primary source host, so all but one were transcribed from search results quoting the original filings rather than downloaded and checked against them. They are plausible and internally consistent, but until the underlying reports are re-fetched and verified they carry a lower grade of confidence than the citations alone suggest.</p>
+
+  <figure>
+    <div class="fig-title">The discount collapses down the ladder, unless the contract is loose</div>
+    <div class="fig-sub">Share of requested data-center load discounted as never-energizing, by lifecycle stage; the contracted stage split by contract firmness</div>
+    <div class="fig-scroll">
+    <svg class="range-svg" viewBox="0 0 680 236" role="img" aria-label="Discount by lifecycle stage. Announced: 60 to 90 percent, central 80. Contracted, blended: 20 to 38 percent, central 29. Contracted firm take-or-pay: 2 to 15 percent, central 8. Contracted loose letters: 55 to 75 percent, central 65. Under construction: 3 to 15 percent, central 9.">
+      <!-- x scale: v in [0,100] -> x = 175 + v*4.7 -->
+      <line class="grid" x1="175" y1="28" x2="175" y2="204"/>
+      <line class="grid" x1="292.5" y1="28" x2="292.5" y2="204"/>
+      <line class="grid" x1="410" y1="28" x2="410" y2="204"/>
+      <line class="grid" x1="527.5" y1="28" x2="527.5" y2="204"/>
+      <line class="grid" x1="645" y1="28" x2="645" y2="204"/>
+      <text class="val" x="175" y="220" text-anchor="middle">0</text>
+      <text class="val" x="292.5" y="220" text-anchor="middle">25%</text>
+      <text class="val" x="410" y="220" text-anchor="middle">50%</text>
+      <text class="val" x="527.5" y="220" text-anchor="middle">75%</text>
+      <text class="val" x="645" y="220" text-anchor="middle">100%</text>
+
+      <g class="row"><title>Announced: 60 to 90 percent discounted, central 80</title>
+        <text class="rowlab" x="150" y="46" text-anchor="end">Announced</text>
+        <line class="band" x1="457" y1="42" x2="598" y2="42"/>
+        <circle class="dot-emit" cx="551" cy="42" r="6"/>
+        <text class="cval" x="551" y="30" text-anchor="middle">80%</text>
+        <text class="val" x="449" y="46" text-anchor="end">60%</text>
+        <text class="val" x="606" y="46">90%</text>
+      </g>
+      <g class="row"><title>Contracted, blended band: 20 to 38 percent discounted, central 29</title>
+        <text class="rowlab" x="150" y="84" text-anchor="end">Contracted</text>
+        <line class="band" x1="269" y1="80" x2="353.6" y2="80"/>
+        <circle class="dot-emit" cx="311.3" cy="80" r="6"/>
+        <text class="cval" x="311.3" y="68" text-anchor="middle">29%</text>
+        <text class="val" x="261" y="84" text-anchor="end">20%</text>
+        <text class="val" x="362" y="84">38%</text>
+      </g>
+      <g class="row"><title>Contracted, firm take-or-pay: 2 to 15 percent discounted, central 8</title>
+        <text class="rowlab" x="150" y="122" text-anchor="end">· firm take-or-pay</text>
+        <line class="band" x1="184.4" y1="118" x2="245.5" y2="118"/>
+        <circle class="dot-emit" cx="215" cy="118" r="6"/>
+        <text class="cval" x="215" y="106" text-anchor="middle">8%</text>
+        <text class="val" x="176" y="122" text-anchor="end">2%</text>
+        <text class="val" x="253.5" y="122">15%</text>
+      </g>
+      <g class="row"><title>Contracted, loose letters of authorization: 55 to 75 percent discounted, central 65</title>
+        <text class="rowlab" x="150" y="160" text-anchor="end">· loose letters</text>
+        <line class="band" x1="433.5" y1="156" x2="527.5" y2="156"/>
+        <circle class="dot-emit" cx="480.5" cy="156" r="6"/>
+        <text class="cval" x="480.5" y="144" text-anchor="middle">65%</text>
+        <text class="val" x="425.5" y="160" text-anchor="end">55%</text>
+        <text class="val" x="535.5" y="160">75%</text>
+      </g>
+      <g class="row"><title>Under construction: 3 to 15 percent discounted, central 9</title>
+        <text class="rowlab" x="150" y="198" text-anchor="end">Under construction</text>
+        <line class="band" x1="189.1" y1="194" x2="245.5" y2="194"/>
+        <circle class="dot-emit" cx="217.3" cy="194" r="6"/>
+        <text class="cval" x="217.3" y="182" text-anchor="middle">9%</text>
+        <text class="val" x="181.1" y="198" text-anchor="end">3%</text>
+        <text class="val" x="253.5" y="198">15%</text>
+      </g>
+    </svg>
     </div>
-    <div class="idx-status"><span class="chip planned">planned</span></div>
-  </div>
-  <div class="idx-row">
-    <div class="idx-num">3</div>
-    <div class="idx-main">
-      <div class="idx-title"><span class="planned-t">Procurement impact</span></div>
-      <div class="idx-dek">What hyperscaler clean-power deals actually add</div>
+    <div class="fig-src">Source: M1 queue-conversion bands for the speculative-load discount, anchored on <a href="https://emp.lbl.gov/publications/queued-2025-edition-characteristics">LBNL's twenty-year interconnection-queue history</a> and <a href="https://www.utilitydive.com/news/ercots-large-load-queue-jumped-almost-300-last-year-official/808820/">Texas's large-load funnel</a> · bands as of 8 Jul 2026, underlying evidence Oct–Dec 2025</div>
+  </figure>
+</section>
+
+<section aria-labelledby="s-assumptions">
+  <h2 id="s-assumptions">The assumption this rides on</h2>
+  <p>Everything above resolves a single registry entry: the speculative-load discount. Its contracted stage carries a second, newer refinement — the contract-firmness split — that this module added on its load-side pass. Both are marked contested, estimated with real anchors but with named gaps a reviewer could reasonably attack. The bands below are what an approval endorses and what a contest changes. The demand futures the discount runs inside, and the tariff rules that set contract firmness, are owned and reviewed on the demand-durability (M9) and market-structure (M4) briefs.</p>
+
+  <article class="acard">
+    <div class="acard-head"><h3>The speculative-load discount</h3><span class="aid mono">phantom-load-haircut</span><span class="chip contested">contested</span></div>
+    <p class="plain">The share of requested data-center interconnection load that never gets built — discounted as speculative or double-counted across regions — resolved by how far a project has progressed and, where the data allows, by region.</p>
+    <dl>
+      <dt>By lifecycle stage</dt><dd class="num">announced 60–90% · contracted 20–38% · under construction 3–15% (share discounted)</dd>
+      <dt>Raw-request basis</dt><dd class="num">75–90% of a raw request pile never energizes</dd>
+      <dt>Regional structure</dt><dd>a multiplier on the early-stage discount: Texas (ERCOT) lowest at ×0.80, California (CAISO) highest at ×1.12; the model consumes the national blend for now</dd>
+      <dt>Scope</dt><dd>fraction that never energizes, by stage and region; the same project counted in multiple regions is folded, unmeasured, into the announced band</dd>
+      <dt>Last validated</dt><dd>8 July 2026</dd>
+      <dt>Consumed by</dt><dd>retirement-delay mapping (M2), market structure (M4), transmission (M5), rate feedback (M7), and the synthesis</dd>
+    </dl>
+    <div class="settle"><b>What would settle it:</b> the 2025-vintage queue aging into measured conversion rates; the June 2027 Texas financial-security gate as a natural experiment on whether a hard money gate compresses the announced band; a multi-region double-counting detector; and re-fetching the load-side filings to verify figures this pass could only surface through search.</div>
+    <ul class="srcs">
+      <li><span class="tier">Tier 1</span><a href="https://emp.lbl.gov/publications/queued-2025-edition-characteristics">LBNL, Queued Up (2025/2026 edition)</a> — the generation-queue prior: ~20% built, ~71% withdrew for mature 2000–2019 cohorts (as of Dec 2025)</li>
+      <li><span class="tier motivated">Tier 2 · trade press</span><a href="https://www.utilitydive.com/news/ercots-large-load-queue-jumped-almost-300-last-year-official/808820/">Utility Dive relaying ERCOT's large-load queue</a> — ~275 GW tracked, ~6% approved-to-energize, &lt;1% energized (Oct 2025); the exact ERCOT snapshot lives in committee decks, not a single public URL</li>
+      <li><span class="tier motivated">Tier 2 · motivated</span><a href="https://www.pjm.com/-/media/DotCom/planning/res-adeq/load-forecast/dominion-documentation.pdf">Dominion via PJM load-forecast documentation</a> (47 GW contracted vs 16.6 GW forecast) — utility; a large pipeline justifies recoverable capex</li>
+      <li><span class="tier">Tier 1</span><a href="https://puco.ohio.gov/news/puco-orders-aep-ohio-to-create-data-center-specific-tariff">Public Utilities Commission of Ohio, AEP Ohio data-center tariff order</a> — 85% take-or-pay, 12-year terms; the 30→11 GW shrink is corroborated by trade press</li>
+      <li><span class="tier motivated">Tier 2 · motivated</span><a href="https://www.utilitydive.com/news/oncor-sempra-interconnection-texas-data-center-earnings/757262/">Utility Dive on Oncor's interconnection book</a> (~200 GW requested vs ~9 GW signed) — utility earnings-call framing</li>
+    </ul>
+  </article>
+
+  <article class="acard">
+    <div class="acard-head"><h3>Contract firmness</h3><span class="aid mono">phantom-load-haircut.contract_firmness_conditioner</span><span class="chip contested">contested</span></div>
+    <p class="plain">Within the contracted stage, how much a project is discounted depends on how costly it is to cancel. A firm take-or-pay contract, which bills the customer even when the power goes unused, rarely walks; a loose letter of authorization behaves like an early announcement. This is the one thing the generation queue cannot show, because it has no take-or-pay analog.</p>
+    <dl>
+      <dt>Firm take-or-pay or executed service agreement</dt><dd class="num">2–15% discount</dd>
+      <dt>Loose letter of authorization</dt><dd class="num">55–75% discount</dd>
+      <dt>Why it matters</dt><dd>the single 20–38% contracted band, inherited from the generation queue, hides this split and may overstate the discount on genuinely firm load</dd>
+      <dt>Scope</dt><dd>applies to the contracted stage on the load side only</dd>
+      <dt>Shared with</dt><dd>market structure (M4, who bears demand risk) — the split is a function of tariff regime, so both modules must use one firmness-to-discount mapping</dd>
+      <dt>Last validated</dt><dd>8 July 2026</dd>
+    </dl>
+    <div class="settle"><b>What would settle it:</b> re-deriving the firm-versus-loose split from the market-structure module's multi-state tariff panel rather than four utilities, and watching approved load actually ramp to separate genuine construction lag from non-arrival.</div>
+    <ul class="srcs">
+      <li><span class="tier">Tier 1</span><a href="https://puco.ohio.gov/news/puco-orders-aep-ohio-to-create-data-center-specific-tariff">Public Utilities Commission of Ohio, AEP Ohio tariff order</a> — ~85% take-or-pay; the firm pool held at ~11 GW once the terms bit</li>
+      <li><span class="tier motivated">Tier 2 · motivated</span><a href="https://www.pjm.com/-/media/DotCom/planning/res-adeq/load-forecast/dominion-documentation.pdf">Dominion via PJM load-forecast documentation</a> — its firm contract tiers roughly equal its 16.6 GW realized forecast, while the loose ~30 GW tier is almost absent from it</li>
+    </ul>
+  </article>
+</section>
+
+<section aria-labelledby="s-decision">
+  <h2 id="s-decision">The decisions on record</h2>
+  <p>This module's resolution reached the registry through two proposals a week apart, both approved. The first fitted the discount to evidence; the second re-anchored that evidence on direct load data and added the contract-firmness split.</p>
+
+  <div class="decision">
+    <div class="decision-head">
+      <span class="t">Decision record · 7 July 2026</span>
+      <span class="chip approved">Approved and applied</span>
     </div>
-    <div class="idx-status"><span class="chip planned">planned</span></div>
-  </div>
-  <div class="idx-row">
-    <div class="idx-num">4</div>
-    <div class="idx-main">
-      <div class="idx-title"><span class="planned-t">Market structure</span></div>
-      <div class="idx-dek">Who bears demand risk, and what that does to the buildout</div>
+    <div class="decision-body">
+      <p>The first pass proposed setting the discount from the best-measured analog available, the twenty-year generation interconnection queue, cross-checked against Texas's one public large-load funnel. The evidence confirmed the registry's existing by-stage shape, let the analysis narrow two of the bands, and added an explicit regional structure: projects convert about 2.3 times better in light-study Texas than in cluster-study California. The status stayed contested, because the load-bearing uncertainty was never the band widths but the leap from generation data to load.</p>
     </div>
-    <div class="idx-status"><span class="chip planned">planned</span></div>
-  </div>
-  <div class="idx-row">
-    <div class="idx-num">5</div>
-    <div class="idx-main">
-      <div class="idx-title"><span class="planned-t">Transmission</span></div>
-      <div class="idx-dek">Whether the wires, not the generators, set the pace</div>
+    <div class="effects">
+      <div class="effect"><div class="k">Contracted band</div><div class="v num"><span class="from">0.20–0.40</span><span class="arr">→</span>0.20–0.38</div></div>
+      <div class="effect"><div class="k">Under-construction band</div><div class="v num"><span class="from">0.05–0.20</span><span class="arr">→</span>0.03–0.15</div></div>
+      <div class="effect"><div class="k">Regional structure</div><div class="v num"><span class="from">flat national</span><span class="arr">→</span>×0.80 to ×1.12</div></div>
     </div>
-    <div class="idx-status"><span class="chip planned">planned</span></div>
   </div>
-  <div class="idx-row">
-    <div class="idx-num">6</div>
-    <div class="idx-main">
-      <div class="idx-title"><span class="planned-t">Load flexibility</span></div>
-      <div class="idx-dek">What data-center flexibility is worth, and when it backfires</div>
+
+  <div class="decision">
+    <div class="decision-head">
+      <span class="t">Decision record · 8 July 2026</span>
+      <span class="chip approved">Approved and applied</span>
     </div>
-    <div class="idx-status"><span class="chip planned">planned</span></div>
-  </div>
-  <div class="idx-row">
-    <div class="idx-num">7</div>
-    <div class="idx-main">
-      <div class="idx-title"><a href="m7-price-feedback/">Price feedback</a></div>
-      <div class="idx-dek">Whether higher bills slow electrification</div>
+    <div class="decision-body">
+      <p>The load-side pass replaced the generation-queue prior with direct large-load evidence (the Texas funnel as a time series, plus four utilities' pipeline disclosures) and found it agreed with the prior on both the funnel's shape and the announcement-stage band. It changed no numbers. What it added was structural: the contracted stage bifurcates by contract firmness, a distinction the generation queue cannot show, so a firmness split was attached rather than a new band. The evidence basis moved from a prior to a corroborated prior, and the gap from generation data to load went from open to partially closed. The status stayed contested, now for two named reasons — the load queues are too young to have resolved, and utilities count stages in incompatible ways.</p>
     </div>
-    <div class="idx-status"><span class="chip">live</span></div>
   </div>
-  <div class="idx-row">
-    <div class="idx-num">8</div>
-    <div class="idx-main">
-      <div class="idx-title"><span class="planned-t">Leakage and embodied carbon</span></div>
-      <div class="idx-dek">The emissions that cross the border with the supply chain</div>
-    </div>
-    <div class="idx-status"><span class="chip planned">planned</span></div>
+</section>
+
+<section aria-labelledby="s-respond">
+  <h2 id="s-respond">Respond</h2>
+  <p>Responses land in the project inbox and become dated proposals — the evidence, the exact change, and nothing applied until a decision is recorded on this page. Approving takes one line; contesting takes two: the band you would use, and why.</p>
+  <div class="respond">
+    <a href="mailto:matt.boegner@gmail.com?subject=%5Breview%5D%20M1%20queue%20conversion%20%E2%80%94%20approve&body=I%27ve%20read%20the%20M1%20brief.%20Approved%20as%20it%20stands.">
+      <b>Approve as it stands</b>
+      <span>Endorse the current by-stage bands and the firmness split for this channel.</span>
+      <span class="go">Send the one-liner →</span>
+    </a>
+    <a href="mailto:matt.boegner@gmail.com?subject=%5Breview%5D%20speculative-load%20discount%20%E2%80%94%20contest&body=Assumption%3A%20the%20speculative-load%20discount%20%28the%20share%20of%20requested%20load%20that%20never%20gets%20built%29%0A%0AThe%20stage%20or%20band%20I%27d%20contest%20%28announced%2060-90%25%20%2F%20contracted%2020-38%25%20%2F%20under%20construction%203-15%25%20%2F%20the%20firm-vs-loose%20split%29%3A%0A%0AThe%20value%20I%27d%20use%2C%20and%20the%20evidence%3A%0A">
+      <b>Contest the discount</b>
+      <span>Name the stage or band you disagree with; it becomes a proposal.</span>
+      <span class="go">Open a pre-filled note →</span>
+    </a>
+    <a href="mailto:matt.boegner@gmail.com?subject=%5Breview%5D%20M1%20%E2%80%94%20source%20or%20figure%20flag&body=Page%3A%20M1%20analysis%20brief%0A%0AThe%20figure%20or%20source%20in%20question%3A%0A%0AWhat%20looks%20wrong%3A%0A">
+      <b>Flag a source or figure</b>
+      <span>Point at a citation, a date, or a number that looks off.</span>
+      <span class="go">Flag it →</span>
+    </a>
   </div>
-  <div class="idx-row">
-    <div class="idx-num">9</div>
-    <div class="idx-main">
-      <div class="idx-title"><span class="planned-t">Demand durability</span></div>
-      <div class="idx-dek">Whether the demand behind the buildout persists</div>
-    </div>
-    <div class="idx-status"><span class="chip planned">planned</span></div>
-  </div>
+</section>
+
 </main>
+
 <footer class="seq">
-  <div class="seq-idx"><a href="https://demo.mattboegner.com/">The essay</a> · <a href="https://demo.mattboegner.com/explorer/">The explorer</a></div>
+  <div class="seq-row"><span></span><span class="stub next" title="Brief not yet written"><span class="lab">Next brief →</span>2 · Retirement delays</span></div>
+  <div class="seq-idx">
+    <a href="../">All briefs</a> · <a href="https://demo.mattboegner.com/">The essay</a> · <a href="https://demo.mattboegner.com/explorer/">The explorer</a>
+  </div>
 </footer>
