@@ -525,18 +525,19 @@ figure { margin: 1.6rem 0 1.4rem; }
   font-size: .82rem; line-height: 1.5; color: var(--ink-2);
   margin: .7rem 0 .2rem; padding-left: .7rem; border-left: 3px solid var(--accent);
 }
-.idx .calc .whatifs { margin-top: 1rem; padding-top: .9rem; border-top: 1px solid var(--hairline); }
-.idx .calc .whatifs-lede { font-size: .74rem; color: var(--ink-3); margin-bottom: .55rem; }
-.idx .calc .switch {
-  display: flex; gap: .6rem; align-items: flex-start; cursor: pointer;
-  padding: .35rem 0;
+.idx .calc .transition-grid {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem;
 }
-.idx .calc .switch.disabled { cursor: default; opacity: .55; }
-.idx .calc .switch input { margin-top: .2rem; accent-color: var(--accent); flex: 0 0 auto; }
-.idx .calc .switch-txt { display: flex; flex-direction: column; gap: .1rem; }
-.idx .calc .switch-title { font-size: .8rem; font-weight: 600; color: var(--ink); }
-.idx .calc .switch-hint { font-size: .72rem; color: var(--ink-3); line-height: 1.4; }
-
+.idx .calc .transition-card {
+  min-width: 0; background: var(--surface); border: 1px solid var(--hairline);
+  border-radius: 10px; box-shadow: var(--shadow); padding: 1rem 1rem .65rem;
+}
+.idx .calc .transition-card .chart-title { margin-bottom: .05rem; }
+.idx .calc .transition-card .chart-sub { margin-bottom: .25rem; }
+.idx .calc .transition-mount { min-height: 180px; }
+@media (max-width: 680px) {
+  .idx .calc .transition-grid { grid-template-columns: 1fr; }
+}
 /* collaboration-patterns table */
 .collab-table { width: 100%; border-collapse: collapse; font-size: .88rem; line-height: 1.5; margin-top: .4rem; }
 .collab-table th { text-align: left; font-size: .68rem; letter-spacing: .09em; text-transform: uppercase; font-weight: 700; color: var(--ink-3); padding: .45em .65em; border-bottom: 1px solid var(--baseline); width: 50%; }
@@ -746,30 +747,29 @@ figure { margin: 1.6rem 0 1.4rem; }
           <div class="scenario-select" id="scenarioSelect" role="group" aria-label="Scenario"></div>
           <div class="scenario-story" id="scenarioStory"></div>
           <div id="controlList"></div>
-          <div class="whatifs" id="whatIfs"></div>
         </div>
       </div>
       <div class="outputs">
-        <div class="readout-row">
-          <div class="readout">
-            <div class="lbl">Total 2025–2035</div>
-            <div class="v num" id="calcMedian">—</div>
-            <div class="d num" id="calcRange">—</div>
+        <div class="transition-grid">
+          <div class="transition-card">
+            <div class="chart-title">Clean generation share</div>
+            <div class="chart-sub">change vs no-buildout · percentage points</div>
+            <div class="chart-mount transition-mount" id="calcCleanShare"></div>
           </div>
-          <div class="readout">
-            <div class="lbl">Share above zero</div>
-            <div class="v num" id="calcSign">—</div>
-            <div class="d">share of model draws</div>
+          <div class="transition-card">
+            <div class="chart-title">Fossil retirement schedule</div>
+            <div class="chart-sub">additional capacity kept online · GW</div>
+            <div class="chart-mount transition-mount" id="calcFossilCapacity"></div>
           </div>
-          <div class="readout">
-            <div class="lbl">Transition verdict</div>
-            <div class="v" id="calcVerdict" style="font-size:1.1rem;padding-top:.3rem;">—</div>
-            <div class="d" id="calcVerdictSub">share of draws by direction</div>
+          <div class="transition-card">
+            <div class="chart-title">Additional clean capacity built</div>
+            <div class="chart-sub">cumulative net-additional capacity · GW</div>
+            <div class="chart-mount transition-mount" id="calcCleanCapacity"></div>
           </div>
-          <div class="readout challenge">
-            <div class="lbl">Vs this scenario's central</div>
-            <div class="v num" id="calcDelta">—</div>
-            <div class="d" id="calcFlipNote">pick a scenario, then move a slider</div>
+          <div class="transition-card">
+            <div class="chart-title">Electrification</div>
+            <div class="chart-sub">change vs no-buildout · TWh per year</div>
+            <div class="chart-mount transition-mount" id="calcElectrification"></div>
           </div>
         </div>
         <div class="panel">
@@ -2329,7 +2329,7 @@ if (typeof module !== "undefined") module.exports = GridModel;
     mef: { label: 'Marginal emission rate', digits: 3, unitShort: 't/MWh',
       hint: 'Emission rate of the generators that respond to new load.',
       anchorLow: 'Cleanest regional trajectory in NREL’s Cambium long-run projections — planned clean construction meets the anticipated load.',
-      anchorHigh: 'Dirtiest regional Cambium trajectory, approaching today’s short-run rates (the surprise-demand alternative is the separate switch in the calculator).',
+      anchorHigh: 'Dirtiest regional Cambium trajectory, approaching today’s short-run rates.',
       settle: 'NREL short-run hourly files; project-built regional factors from dispatch and CEMS data.' },
     rate_feedback_band: { label: 'Rate-driven electrification slowdown', digits: 1, unitShort: 'Mt/yr',
       hint: 'Higher electricity bills suppressing heat-pump adoption. Consensus-future band −1.2 to +12.7 Mt/yr, drawn around the central +2.4.',
@@ -2677,20 +2677,19 @@ if (typeof module !== "undefined") module.exports = GridModel;
      ("worlds"), applying that world's demand-path selection and central band
      conditionings exactly as synthesis/src/worlds.py does — the conditioning
      spec is exported from Python (PARAMS.worlds), so the two cannot drift.
-     Sliders are the top-swing evidence ranges; the what-if switches add a
-     scenario's stress legs the evidence cannot yet size. Nothing is
-     probability-weighted or pooled across scenarios. */
+     Sliders are the top-swing evidence ranges. Nothing is
+     probability-weighted or pooled across scenarios. The page always runs the
+     long-run marginal-emission method. */
   var CONTROL_DEFS = ['mef', 'additionality_share', 'leakage_band', 'embodied_band', 'rate_feedback_band']
     .map(function (id) { return { id: id }; });
 
   var state = { world: 'reference-case', pins: {}, regime: 'orders-continue',
-    mefFamily: 'longrun', includeStress: false, includeTrade: false, touched: false };
+    mefFamily: 'longrun', touched: false };
   var lastCalc = null;
 
   function worldsMeta() { return (typeof PARAMS !== 'undefined') && PARAMS.worlds; }
   function worldOrder() { var w = worldsMeta(); return (w && w.slugs) || ['reference-case']; }
   function worldInfo(slug) { var w = worldsMeta(); return w && w.worlds && w.worlds[slug]; }
-  function worldHasStress(slug) { var i = worldInfo(slug); return !!(i && i.stress && i.stress.length); }
   function publishedWorld(slug) {
     var wh = (typeof PARAMS !== 'undefined') && PARAMS.world_headline;
     return wh && wh.worlds && wh.worlds[slug];
@@ -2733,13 +2732,10 @@ if (typeof module !== "undefined") module.exports = GridModel;
       b.addEventListener('click', function () {
         if (state.world === slug) return;
         state.world = slug;
-        // a fresh scenario re-bases the calculator: drop the previous scenario's
-        // stress switches (their stress lists differ); keep explicit slider pins.
-        state.includeStress = false; state.includeTrade = false;
+        // a fresh scenario re-bases the calculator, keeping explicit slider pins.
         host.querySelectorAll('.scenario-btn').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
         b.setAttribute('aria-pressed', 'true');
         updateScenarioStory();
-        buildWhatIfs();
         syncControls();
         recompute();
       });
@@ -2753,42 +2749,6 @@ if (typeof module !== "undefined") module.exports = GridModel;
     if (!story) return;
     var info = worldInfo(state.world) || {};
     story.textContent = info.gloss || '';
-  }
-
-  function switchRow(title, hint, get, set, disabled) {
-    var wrap = document.createElement('label'); wrap.className = 'switch' + (disabled ? ' disabled' : '');
-    var input = document.createElement('input'); input.type = 'checkbox';
-    input.checked = get(); input.disabled = !!disabled;
-    input.addEventListener('change', function () { set(input.checked); });
-    var txt = document.createElement('span'); txt.className = 'switch-txt';
-    var t = document.createElement('span'); t.className = 'switch-title'; t.textContent = title;
-    var h = document.createElement('span'); h.className = 'switch-hint'; h.textContent = hint;
-    txt.appendChild(t); txt.appendChild(h);
-    wrap.appendChild(input); wrap.appendChild(txt);
-    return wrap;
-  }
-
-  function buildWhatIfs() {
-    var host = document.getElementById('whatIfs');
-    if (!host) return;
-    clear(host);
-    var hasStress = worldHasStress(state.world);
-    var wm = worldsMeta();
-    var tradeName = (wm && wm.trade_name) || 'Trade-restricted infrastructure';
-    var lede = document.createElement('div'); lede.className = 'whatifs-lede';
-    lede.textContent = 'Include the what-ifs the evidence cannot yet size (off by default):';
-    host.appendChild(lede);
-    host.appendChild(switchRow('This scenario’s stress case',
-      hasStress ? 'The dirtier or riskier legs this scenario could take that no analysis can yet put a number on.'
-        : 'This scenario has no unsized stress legs — its central case is the whole story.',
-      function () { return state.includeStress; },
-      function (on) { state.includeStress = on; state.touched = true; recompute(); },
-      !hasStress));
-    host.appendChild(switchRow(tradeName,
-      'Supply-chain restriction: slower clean delivery and higher embodied carbon, but a tighter chip gate that trims offshore leakage.',
-      function () { return state.includeTrade; },
-      function (on) { state.includeTrade = on; state.touched = true; recompute(); },
-      false));
   }
 
   function buildControls() {
@@ -2833,17 +2793,10 @@ if (typeof module !== "undefined") module.exports = GridModel;
       host.appendChild(wrap);
     });
 
-    host.appendChild(segControl('Emission-rate method', [
-      { v: 'longrun', t: 'Long-run (central)' }, { v: 'shortrun', t: 'Short-run (sensitivity)' }
-    ], function () { return state.mefFamily; }, function (v) { state.mefFamily = v; state.touched = true; scheduleRecompute(); },
-      'Long-run rates suit a decade-long anticipated load; short-run rates raise the result 1.5–3×.'));
-
     host.appendChild(segControl('Federal emergency orders', [
       { v: 'orders-continue', t: 'Continue' }, { v: 'orders-lapse', t: 'Lapse' }
     ], function () { return state.regime; }, function (v) { state.regime = v; state.touched = true; scheduleRecompute(); },
       'Whether DOE reliability orders keeping coal online persist. Worth ~50 Mt cumulative.'));
-
-    buildWhatIfs();
   }
 
   function syncControls() {
@@ -2884,7 +2837,7 @@ if (typeof module !== "undefined") module.exports = GridModel;
       try {
         res = GridModel.world(state.world, {
           regime: state.regime, mefFamily: state.mefFamily,
-          includeStress: state.includeStress, includeTrade: state.includeTrade,
+          includeStress: false, includeTrade: false,
           overrides: overridesFromPins(), n: n
         });
       } catch (err) { console.error('[calc] world model error', err); }
