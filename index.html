@@ -2945,7 +2945,7 @@ if (typeof module !== "undefined") module.exports = GridModel;
       choices.setAttribute('role', 'group'); choices.setAttribute('aria-label', m.label + ' sensitivity range');
       [
         { value: 'low', text: def.low },
-        { value: 'world', text: 'World setting' },
+        { value: 'world', text: 'Baseline' },
         { value: 'high', text: def.high }
       ].forEach(function (choice) {
         var button = document.createElement('button'); button.type = 'button';
