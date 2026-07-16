@@ -265,6 +265,34 @@ figure { margin: 1.6rem 0 1.4rem; }
 .idx .calc #controlList .ctl:nth-child(-n+2) { border-top: 0; }
 @media (max-width: 640px) { .idx .calc #controlList { grid-template-columns: 1fr; } .idx .calc #controlList .ctl:nth-child(2) { border-top: 1px solid var(--hairline); } }
 
+/* scenario-first calculator: scenario selector, story, and what-if switches */
+.idx .calc .scenario-select { display: flex; flex-wrap: wrap; gap: .4rem; }
+.idx .calc .scenario-btn {
+  font-size: .78rem; font-weight: 600; padding: .4em .8em; cursor: pointer;
+  background: var(--surface); color: var(--ink-2); border: 1px solid var(--hairline);
+  border-radius: 7px; line-height: 1.2;
+}
+.idx .calc .scenario-btn:hover { border-color: var(--accent); color: var(--ink); }
+.idx .calc .scenario-btn[aria-pressed="true"] {
+  border-color: var(--accent); color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 9%, var(--surface));
+}
+.idx .calc .scenario-story {
+  font-size: .82rem; line-height: 1.5; color: var(--ink-2);
+  margin: .7rem 0 .2rem; padding-left: .7rem; border-left: 3px solid var(--accent);
+}
+.idx .calc .whatifs { margin-top: 1rem; padding-top: .9rem; border-top: 1px solid var(--hairline); }
+.idx .calc .whatifs-lede { font-size: .74rem; color: var(--ink-3); margin-bottom: .55rem; }
+.idx .calc .switch {
+  display: flex; gap: .6rem; align-items: flex-start; cursor: pointer;
+  padding: .35rem 0;
+}
+.idx .calc .switch.disabled { cursor: default; opacity: .55; }
+.idx .calc .switch input { margin-top: .2rem; accent-color: var(--accent); flex: 0 0 auto; }
+.idx .calc .switch-txt { display: flex; flex-direction: column; gap: .1rem; }
+.idx .calc .switch-title { font-size: .8rem; font-weight: 600; color: var(--ink); }
+.idx .calc .switch-hint { font-size: .72rem; color: var(--ink-3); line-height: 1.4; }
+
 /* collaboration-patterns table */
 .collab-table { width: 100%; border-collapse: collapse; font-size: .88rem; line-height: 1.5; margin-top: .4rem; }
 .collab-table th { text-align: left; font-size: .68rem; letter-spacing: .09em; text-transform: uppercase; font-weight: 700; color: var(--ink-3); padding: .45em .65em; border-bottom: 1px solid var(--baseline); width: 50%; }

@@ -509,6 +509,34 @@ figure { margin: 1.6rem 0 1.4rem; }
 .idx .calc #controlList .ctl:nth-child(-n+2) { border-top: 0; }
 @media (max-width: 640px) { .idx .calc #controlList { grid-template-columns: 1fr; } .idx .calc #controlList .ctl:nth-child(2) { border-top: 1px solid var(--hairline); } }
 
+/* scenario-first calculator: scenario selector, story, and what-if switches */
+.idx .calc .scenario-select { display: flex; flex-wrap: wrap; gap: .4rem; }
+.idx .calc .scenario-btn {
+  font-size: .78rem; font-weight: 600; padding: .4em .8em; cursor: pointer;
+  background: var(--surface); color: var(--ink-2); border: 1px solid var(--hairline);
+  border-radius: 7px; line-height: 1.2;
+}
+.idx .calc .scenario-btn:hover { border-color: var(--accent); color: var(--ink); }
+.idx .calc .scenario-btn[aria-pressed="true"] {
+  border-color: var(--accent); color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 9%, var(--surface));
+}
+.idx .calc .scenario-story {
+  font-size: .82rem; line-height: 1.5; color: var(--ink-2);
+  margin: .7rem 0 .2rem; padding-left: .7rem; border-left: 3px solid var(--accent);
+}
+.idx .calc .whatifs { margin-top: 1rem; padding-top: .9rem; border-top: 1px solid var(--hairline); }
+.idx .calc .whatifs-lede { font-size: .74rem; color: var(--ink-3); margin-bottom: .55rem; }
+.idx .calc .switch {
+  display: flex; gap: .6rem; align-items: flex-start; cursor: pointer;
+  padding: .35rem 0;
+}
+.idx .calc .switch.disabled { cursor: default; opacity: .55; }
+.idx .calc .switch input { margin-top: .2rem; accent-color: var(--accent); flex: 0 0 auto; }
+.idx .calc .switch-txt { display: flex; flex-direction: column; gap: .1rem; }
+.idx .calc .switch-title { font-size: .8rem; font-weight: 600; color: var(--ink); }
+.idx .calc .switch-hint { font-size: .72rem; color: var(--ink-3); line-height: 1.4; }
+
 /* collaboration-patterns table */
 .collab-table { width: 100%; border-collapse: collapse; font-size: .88rem; line-height: 1.5; margin-top: .4rem; }
 .collab-table th { text-align: left; font-size: .68rem; letter-spacing: .09em; text-transform: uppercase; font-weight: 700; color: var(--ink-3); padding: .45em .65em; border-bottom: 1px solid var(--baseline); width: 50%; }
@@ -676,41 +704,35 @@ figure { margin: 1.6rem 0 1.4rem; }
     </ol>
   </section>
 <!-- Draft-results block for the review index (dist/index.html). Figures and the
-     calculator are the essay's own markup, retitled per the project lead's
-     2026-07-13 request; they render via the shared essay runtime (essay.js +
-     model port + PARAMS), which build.py inlines on the index page only.
-     data-catchall="off" suppresses the waterfall's order-of-magnitude catch-all
-     row (essay keeps it). -->
+     calculator render via the shared runtime (essay.js + the model port + the
+     PARAMS bundle), which build.py inlines on the index page only. The
+     scenario-first calculator applies each scenario's conditioning through
+     GridModel.world, driven by the Python-exported PARAMS.worlds spec, so it
+     cannot drift from the synthesis run. data-catchall="off" suppresses the
+     waterfall's order-of-magnitude catch-all row. -->
 <section>
   <h2>Draft Results</h2>
 
   <div class="figure" data-chart="waterfall">
     <div class="chart-title">Net Emissions Impact in 2030</div>
-    <div class="chart-sub">yearly emissions impact by channel around 2030, middle-of-the-road demand, millions of tonnes of CO₂</div>
+    <div class="chart-sub">yearly emissions impact by channel around 2030 · reference case, consensus demand · millions of tonnes of CO₂</div>
     <div class="chart-mount" id="waterfallChart" data-catchall="off"></div>
-    <div class="figure-note">Source: our model, channel means over 20,000 samples; as of 2026-07-15. The +101 net is ~7% of 2024 US power-sector emissions.</div>
-  </div>
-
-  <div class="figure" data-chart="futures">
-    <div class="chart-title">Demand Sensitivity</div>
-    <div class="chart-sub">total CO₂ impact 2025–2035, millions of tonnes, by demand future · bar = middle 80% of outcomes, tick = median</div>
-    <div class="chart-mount" id="futuresChart"></div>
-    <div class="figure-note">Source: our model, 20,000 samples per future; the weights are proposed, not settled. As of 2026-07-15.</div>
+    <div class="figure-note">Source: our model — the central estimate for each channel under the reference case (the near future looks like the recent past), consensus demand, around 2030. As of 2026-07-16. The +101 Mt net is about 7% of 2024 US power-sector emissions.</div>
   </div>
 
   <div class="figure" data-chart="scenarios">
     <div class="chart-title">Five Scenarios, Five Answers</div>
     <div class="chart-sub">cumulative CO₂ 2025–2035, millions of tonnes, by scenario · internally consistent futures — the reasoning behind each is on record · bar = middle 80% of outcomes, tick = median</div>
     <div class="chart-mount" id="scenariosChart"></div>
-    <div class="figure-note">Source: our model, run of 2026-07-15 — precomputed for that run, not recomputed live in the browser (the interactive model does not yet build these scenarios). The five scenarios are enumerated separately and deliberately never averaged into a single number. As of 2026-07-15.</div>
+    <div class="figure-note">Source: our model, published run of 2026-07-16 — one central band per scenario. The five scenarios are enumerated separately and deliberately never averaged into a single number. As of 2026-07-16.</div>
   </div>
 
   <div class="figure" data-chart="tornado">
     <div class="chart-title">Sensitivity Analysis</div>
-    <div class="chart-sub">swing in the 2025–2035 total, millions of tonnes, one assumption at a time · bar ends labeled with the assumption's evidence bounds · central result <span class="num" id="tornadoBase">+811</span> Mt</div>
+    <div class="chart-sub">swing in the 2025–2035 total, millions of tonnes · one assumption at a time, everything else held central, within the reference case · bar ends labeled with the assumption's evidence bounds · central result <span class="num" id="tornadoBase">+811</span> Mt</div>
     <div class="chart-mount tornado-wrap" id="tornadoChart"></div>
     <div class="drawer" id="tornadoDrawer" aria-live="polite"></div>
-    <div class="figure-note">Middle-of-the-road demand, central assumptions elsewhere; the curve below the bars is our model's full 20,000-sample distribution for the same case. Bar length is the swing in the ten-year total, in Mt — the labels at the bar ends are each assumption's own units (%, t/MWh, GW) and are not comparable across rows. Computed live from our model. As of 2026-07-15.</div>
+    <div class="figure-note">Each assumption is moved across its full evidence range one at a time, everything else held at its central value, within the reference case (consensus demand). Bar length is the swing in the ten-year total, in Mt — the labels at the bar ends are each assumption's own units (%, t/MWh, GW) and are not comparable across rows; the curve below the bars is our model's full outcome distribution for the same case. The single largest assumption swings the ten-year total by about 470 Mt — but which scenario you are in swings it by about 1,040, which is why the scenarios lead the page. Computed live from our model. As of 2026-07-16.</div>
   </div>
 </section>
 
@@ -721,8 +743,10 @@ figure { margin: 1.6rem 0 1.4rem; }
     <div class="calc-grid">
       <div class="controls">
         <div class="panel">
-          <div class="preset-row" id="presets" role="group" aria-label="Assumption presets"></div>
+          <div class="scenario-select" id="scenarioSelect" role="group" aria-label="Scenario"></div>
+          <div class="scenario-story" id="scenarioStory"></div>
           <div id="controlList"></div>
+          <div class="whatifs" id="whatIfs"></div>
         </div>
       </div>
       <div class="outputs">
@@ -733,29 +757,29 @@ figure { margin: 1.6rem 0 1.4rem; }
             <div class="d num" id="calcRange">—</div>
           </div>
           <div class="readout">
-            <div class="lbl">Draws above zero</div>
+            <div class="lbl">Share above zero</div>
             <div class="v num" id="calcSign">—</div>
-            <div class="d">share of 20k samples</div>
+            <div class="d">share of model draws</div>
           </div>
           <div class="readout">
             <div class="lbl">Transition verdict</div>
             <div class="v" id="calcVerdict" style="font-size:1.1rem;padding-top:.3rem;">—</div>
-            <div class="d" id="calcVerdictSub">weighted majority</div>
+            <div class="d" id="calcVerdictSub">share of draws by direction</div>
           </div>
           <div class="readout challenge">
-            <div class="lbl">Vs published central</div>
+            <div class="lbl">Vs this scenario's central</div>
             <div class="v num" id="calcDelta">—</div>
-            <div class="d" id="calcFlipNote">move a slider to begin</div>
+            <div class="d" id="calcFlipNote">pick a scenario, then move a slider</div>
           </div>
         </div>
         <div class="panel">
           <div class="chart-title">Your distribution</div>
-          <div class="chart-sub">total CO₂ 2025–2035, millions of tonnes · gray band: the published result</div>
+          <div class="chart-sub">cumulative CO₂ 2025–2035, millions of tonnes · gray band: this scenario's published central result</div>
           <div class="chart-mount" id="calcStrip"></div>
         </div>
         <div class="panel">
           <div class="chart-title">Your channel breakdown</div>
-          <div class="chart-sub">around 2030, millions of tonnes per year, middle-of-the-road demand</div>
+          <div class="chart-sub">around 2030, millions of tonnes per year, for the selected scenario</div>
           <div class="chart-mount" id="calcWaterfall"></div>
         </div>
       </div>
@@ -1021,7 +1045,7 @@ figure { margin: 1.6rem 0 1.4rem; }
 
 </main>
 <script>
-window.PARAMS = {"_meta": {"generated": "2026-07-14", "source": "assumptions/registry.yaml + synthesis/interim_params.yaml + data/canonical/marginal_emissions_factors/v0 (national LRMER trend), resolved through synthesis/src/model.py parameter_ranges(); matches skeleton run 8 (2026-07-14, anchor-basis audit: 649 TWh consumption-forecast anchor consumed undiscounted, BTM-served TWh netted out of the grid-served channel, no phantom discount).", "model": "M0 walking skeleton: dE = incremental consequential CO2 of the US AI data-center buildout vs a no-buildout counterfactual; 7 additive channels; uniform Monte Carlo.", "units_headline": "dE 2030/2035 in Mt CO2/yr; cumulative 2025-2035 in Mt CO2"}, "monte_carlo": {"draws": 20000, "seed": 20260706, "distribution": "uniform-over-range"}, "interactive_note": "n=20000 matches Python and runs in <100 ms per scenario in JS (measured), so it is fine as the live default. For continuous slider dragging n=4000 (~17 ms) keeps annual dE quantiles stable to ~\u00b11 Mt/yr; cumulative quantiles carry ~\u00b18 Mt (~1.3%) seed noise at n=4000 vs ~\u00b15 Mt at n=20000 (the Python run itself has the same order of MC noise).", "verdict_deadbands": {"clean_share_pp": 0.05, "retirement_gw_years": 0.5, "clean_buildout_gw_per_yr": 0.5, "electrification_twh": 2.0}, "anchors": {"consensus_2030_twh": 649.0, "contracted_clean_gw": 80.0, "retire_planned_gw": 12.3, "retire_actual_gw": 4.6}, "anchors_note": "consensus_2030_twh is read from the structured demand-trajectory anchor_basis_2030 block (basis: consumption_forecast, consumed undiscounted; 2026-07-14 anchor-basis audit); contracted_clean_gw is regex-parsed from a registry note; retire_planned_gw/retire_actual_gw are structured registry fields (2025 all-fuel planned vs actual retirements).", "mef_trend_tco2_per_mwh": {"2025": 0.36641999999999997, "2030": 0.23310333333333333, "2035": 0.09509000000000001}, "mef_trend_note": "National long-run marginal CO2 trend: unweighted mean of the five registry ISOs (Cambium 2024 Mid-case, combustion). Year scale = trend(year)/trend(2030), piecewise linear; scale(2030)==1 so the 2030 snapshot is trend-invariant.", "mef_families": {"longrun": {"range_t_per_mwh": [0.135, 0.36], "apply_trend": true, "note": "CENTRAL: Cambium LRMER Mid-case 2025-2035 band, 2030-anchored, year-scaled by the national trend."}, "shortrun": {"range_t_per_mwh": [0.37, 0.56], "apply_trend": false, "note": "SENSITIVITY only (WattTime MOER 2025, fleet-fixed, flat): never the headline."}}, "scenarios": {"consensus": {"weight": 0.4, "weight_range": [0.3, 0.5], "load_multiplier_2030_range": [1.0, 1.0], "saturation_multiplier_2030_2035_range": [1.1, 1.45]}, "efficiency-tempered": {"weight": 0.2, "weight_range": [0.12, 0.3], "load_multiplier_2030_range": [0.68, 0.92], "saturation_multiplier_2030_2035_range": [0.95, 1.25]}, "jevons-high": {"weight": 0.13, "weight_range": [0.05, 0.2], "load_multiplier_2030_range": [1.15, 1.45], "saturation_multiplier_2030_2035_range": [1.2, 1.7]}, "demand-disappointment": {"weight": 0.27, "weight_range": [0.15, 0.35], "load_multiplier_2030_range": [0.4, 0.72], "saturation_multiplier_2030_2035_range": [0.8, 1.05]}}, "scenario_order": ["consensus", "efficiency-tempered", "jevons-high", "demand-disappointment"], "policy_regimes": {"orders-continue": {"dc_attribution_range": [0.1, 0.4], "note": "DOE 202(c) emergency orders keep units open; less delay attributed to DC load."}, "orders-lapse": {"dc_attribution_range": [0.4, 0.8], "note": "Orders lapse; remaining delays driven by load growth, more attributed to DC load."}}, "crowding_sign": -1.0, "crowding_sign_note": "From registry crowding-direction near_term_direction: crowding-out (PPA share + transformer/switchgear scarcity)", "hours_per_year_twh": 8.76, "path_years": [2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035], "horizon_years": [2030, 2035], "channel_order": ["direct_load_service", "procurement_offset", "retirement_delay", "btm_bridge_gas", "leakage", "rate_feedback", "embodied"], "indicator_keys": ["clean_share_delta_pp_2030", "clean_share_delta_pp_2035", "retirement_gw_years_2025_2035", "clean_buildout_gw_per_yr", "electrification_delta_twh_2035"], "verdict_indicators": {"clean_share_delta_pp_2035": {"sign": 1, "deadband_key": "clean_share_pp"}, "retirement_gw_years_2025_2035": {"sign": -1, "deadband_key": "retirement_gw_years"}, "clean_buildout_gw_per_yr": {"sign": 1, "deadband_key": "clean_buildout_gw_per_yr"}, "electrification_delta_twh_2035": {"sign": 1, "deadband_key": "electrification_twh"}}, "time_profiles": {"load_ramp": "incremental load: 0 at 2024 -> inc2030 linearly by 2030 -> linear to inc2035 by 2035", "ramp_flat": {"zero_year": 2024, "full_year": 2030, "note": "procurement offset & BTM gas: 0 at 2024, linear to 1 at 2030, flat after"}, "retirement": {"hold_through": 2030, "value_at_2035": 0.2, "note": "retirement delay: 1 through 2030, linear to 0.2 at 2035"}}, "delta_e_params": {"baseline_2024_twh": {"source": "interim:baseline_2024_datacenter_load_twh", "label": "2024 data-center load baseline (counterfactual)", "units": "TWh/yr", "description": "2024 US data-center load; the no-buildout counterfactual baseline incremental load is measured above.", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "US data center electricity consumption was ~4.4% of US load in 2023 (~176 TWh in LBNL 2024 report framing); 2024 modestly higher. Used as the no-buildout counterfactual baseline that incremental load is measured above.", "range": [176, 224]}, "scenario_mult": {"source": "interim:scenario_load_multiplier_2030", "label": "scenario 2030 load multiplier", "units": "dimensionless", "description": "Scenario 2030 total-load multiplier on the consensus ~649 TWh anchor.", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "The registry demand-trajectory entry gives a numeric 2030 load anchor only for the consensus scenario (649 TWh, LBNL 2025 Update reference case, read by key from anchor_basis_2030 -- a CONSUMPTION FORECAST consumed undiscounted per the 2026-07-14 anchor-basis audit). The other three scenarios are qualitative there, so the skeleton scales them off consensus with these placeholder multipliers. jevon", "range_by_scenario": {"consensus": [1.0, 1.0], "efficiency-tempered": [0.68, 0.92], "jevons-high": [1.15, 1.45], "demand-disappointment": [0.4, 0.72]}}, "saturation_mult": {"source": "interim:scenario_saturation_multiplier_2030_2035", "label": "saturation_mult", "units": "dimensionless", "description": "Multiplier on each scenario's 2030 load to reach its 2035 load (post-2030 demand growth).", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "Extends each demand-trajectory scenario from 2030 to 2035 so the skeleton can report a second horizon (decisions/transition-metrics.md). Multiplies the scenario's 2030 total data-center load to get its 2035 load; the incremental path between horizons is a crude linear ramp (see synthesis/README.md). Growth scenarios keep growing (efficiency continues but adoption outpaces it in consensus/jevons); ", "range_by_scenario": {"consensus": [1.1, 1.45], "efficiency-tempered": [0.95, 1.25], "jevons-high": [1.2, 1.7], "demand-disappointment": [0.8, 1.05]}}, "mef": {"source": "registry:marginal-emissions-factor", "label": "national marginal emissions factor (tCO2/MWh)", "units": "tCO2/MWh", "description": "National marginal emissions factor, tCO2/MWh, 2030-anchored; central family is Cambium LRMER with a year trend.", "registry_status": "placeholder", "note": "Marginal CO2 emission factor for new load on major US grids (kg CO2 / MWh; tonnes = value/1000) -- the emission rate of the generation that responds to a demand increment, distinct from and generally HIGHER than average grid intensity. Carries TWO method-tagged factor families that measure different things and must not be blended: (a) LONG-RUN marginal (Cambium 2024 LRMER), which lets the load res", "range_by_mef_family": {"longrun": [0.135, 0.36], "shortrun": [0.37, 0.56]}}, "peak_fraction": {"source": "interim:peak_driven_fraction_of_direct_load", "label": "peak-driven share of direct load", "units": "dimensionless share", "description": "Share of direct-load emissions that is peak-driven and therefore addressable by curtailable flexibility.", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "Crude scalar: the fraction of direct-load-service emissions that is driven by peak hours and therefore reducible by curtailable-load flexibility. Multiplied by the registry load-flexibility-fraction curtailable share to get the reduction.", "range": [0.15, 0.45]}, "curtailable_share": {"source": "registry:load-flexibility-fraction", "label": "curtailable load-flexibility fraction", "units": "dimensionless share", "description": "Contractually curtailable share of data-center load (contracted band, not the technical ceiling).", "registry_status": "contested", "note": "Fraction of data center load that is contractually AND operationally curtailable (training checkpointable, inference largely not), and the curtailment-hours tolerance. The Duke Nicholas Institute (Norris et al., 2025-02) ~76-126 GW / sub-1%-curtailment result is a TECHNICAL, transmission- unconstrained, system-level UPPER BOUND, unreplicated at the point of interconnection -- not evidence of reali", "range": [0.0, 0.15]}, "clean_cf": {"source": "registry:contracted-clean-capacity-factor", "label": "contracted-clean blended capacity factor", "units": "dimensionless (capacity factor)", "description": "Blended annual capacity factor of the contracted clean-procurement fleet (renewables-dominant).", "registry_status": "contested", "note": "Blended annual capacity factor used to convert the >80 GW contracted clean capacity anchor (ppa-additionality-shares) into annual TWh. Promoted from the walking skeleton's interim placeholder to an empirical registry value by M3.", "range": [0.27, 0.42]}, "additionality_share": {"source": "registry:ppa-additionality-shares", "label": "PPA additionality share (new clean vs reallocation)", "units": "dimensionless share", "description": "Energy-basis share of contracted clean that is additional (new-build + restart + uprate).", "registry_status": "contested", "note": "Share of contracted hyperscaler clean-energy capacity in each consequential class of methods/deal-taxonomy.md (new-build / restart / uprate / reallocation-of-existing), carried on TWO axes: capacity (MW) AND energy (TWh/yr), because reallocation-of-existing nuclear carries far more energy per MW than variable renewables and so understates as capacity / overstates as energy. Reallocation causes ~ze", "range": [0.536, 0.78]}, "retire_cf": {"source": "registry:retirement-delay-dispatch", "label": "delayed-unit measured capacity factor", "units": "dimensionless (capacity factor)", "description": "Measured capacity factor of fossil units operating past their planned retirement (slip cohort).", "registry_status": "contested", "note": "Mapping from a delayed fossil retirement to counterfactual generation and emissions: capacity factors and dispatch behavior of delayed units (measured from EPA CEMS, never nameplate), and the attribution split of each delay across data-center demand, DOE 202(c) emergency orders, and general reliability tightening.", "range": [0.11, 0.6]}, "coal_intensity": {"source": "interim:coal_marginal_intensity", "label": "delayed-coal CO2 intensity", "units": "tCO2/MWh", "description": "Direct CO2 intensity of a delayed coal unit's generation.", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "Direct CO2 intensity of a delayed coal unit's generation. Combined with the marginal replacement factor as (coal_intensity - marginal_factor) to get the per-MWh emissions delta of the delay.", "range": [0.9, 1.05]}, "dc_attribution": {"source": "interim:retirement_dc_attribution_orders_continue", "label": "data-center share of retirement delay", "units": "dimensionless share", "description": "Share of the retirement delay attributable to data-center demand (policy-regime dependent).", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "Under policy-regime branch orders-continue, DOE Section 202(c) emergency orders are the proximate cause keeping units open, so LESS of the delay is attributable to data-center load. Crude split pending M2's IRP-text attribution.", "range_by_regime": {"orders-continue": [0.1, 0.4], "orders-lapse": [0.4, 0.8]}}, "btm_gas_gw": {"source": "interim:btm_bridge_gas_capacity_gw", "label": "behind-the-meter bridge-gas capacity (GW)", "units": "GW", "description": "Behind-the-meter bridge-gas capacity installed to bypass interconnection queues.", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "Behind-the-meter \"bridge\" gas installed to bypass interconnection queues. Worst-measured category in the space (registry btm-bridge-permanence note); small wide band pending M5/M8 permit-and-equipment reconstruction.", "range": [1.0, 8.0]}, "btm_permanence": {"source": "registry:btm-bridge-permanence", "label": "BTM bridge-gas permanence probability", "units": "probability", "description": "Probability a built BTM bridge-gas unit stays (permanence given built).", "registry_status": "contested", "note": "Whether behind-the-meter \"bridge\" gas installed to bypass interconnection queues actually retires when grid connection arrives. Historical precedent from temporary peakers suggests bridges become permanent. Also the worst-measured emissions category in the space \u2014 often invisible in utility inventories.", "range": [0.75, 0.95]}, "btm_gas_cf": {"source": "interim:btm_gas_capacity_factor", "label": "BTM gas capacity factor", "units": "dimensionless (capacity factor)", "description": "Dispatch capacity factor of BTM bridge gas.", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "Dispatch CF of BTM bridge gas; crude placeholder.", "range": [0.3, 0.6]}, "btm_gas_intensity": {"source": "interim:btm_gas_intensity", "label": "BTM gas CO2 intensity", "units": "tCO2/MWh", "description": "CO2 intensity of BTM gas generation (recip/aeroderivative mix).", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "CO2 intensity of BTM gas generation (reciprocating/aeroderivative mix).", "range": [0.35, 0.5]}, "leakage_band": {"source": "registry:leakage-intensity", "label": "cross-border leakage emissions (known-unknown)", "units": "Mt CO2/yr", "description": "Cross-border leakage emissions band (additive known-unknown).", "registry_status": "contested", "note": "Emissions consequence per unit of compute displaced abroad when US constraints push capacity to other grids (Gulf states, SE Asia, etc.); carbon-leakage methodology borrowed from industrial-policy literature. Signal: hyperscaler international capex announcements.", "range": [0.0, 15.0]}, "rate_feedback_band": {"source": "registry:rate-feedback-loop", "label": "rate-feedback / electrification suppression (known-unknown)", "units": "Mt CO2/yr", "description": "Rate-feedback / electrification-suppression emissions band at 2035 (additive known-unknown; p05..p95).", "registry_status": "contested", "note": "The endogenous regulatory loop: data-center-driven retail rate increases -> ratepayer backlash -> PUC large-load tariffs and cost-allocation rules -> changed data center siting economics. Modeled as a lagged endogenous variable with dose-response estimated from OH/GA/PJM-state dockets \u2014 the one political channel modeled endogenously rather than as scenario.", "range": [-2.3, 17.7], "range_by_scenario": {"consensus": [-1.23, 12.69], "efficiency-tempered": [-1.87, 5.68], "jevons-high": [-0.57, 17.69], "demand-disappointment": [-2.29, 2.37]}, "mode_by_scenario": {"consensus": 2.41, "efficiency-tempered": 0.38, "jevons-high": 4.53, "demand-disappointment": -0.6}, "sampling_shape": "triangular"}, "embodied_band": {"source": "registry:embodied-emissions-share", "label": "embodied / scope-3 emissions (known-unknown)", "units": "Mt CO2/yr", "description": "Embodied / scope-3 emissions of the US buildout (additive known-unknown).", "registry_status": "contested", "note": "Scope-3 / embodied emissions of chips and construction per GW of data center buildout, largely offshore; plus supply-chain coupling of the US clean-energy response to Chinese solar/battery/turbine manufacturing and its trade-policy exposure.", "range": [2.8, 22.1]}}, "indicator_params": {"clean_share_2030": {"range": [0.44, 0.52], "source": "interim:baseline_clean_share_of_generation", "label": "clean_share_2030", "units": "dimensionless share", "description": "Baseline (no-buildout) clean share of US generation, 2030.", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "Baseline (no-buildout) clean share of US generation, the reference the buildout is measured against for the \u0394 clean-share indicator. ~41% in 2024 (EIA), rising under STEO/AEO 2026 reference paths. Wide bands span policy uncertainty. Tier-1 anchorable (EIA); as-of 2026-06."}, "clean_share_2035": {"range": [0.5, 0.6], "source": "interim:baseline_clean_share_of_generation", "label": "clean_share_2035", "units": "dimensionless share", "description": "Baseline (no-buildout) clean share of US generation, 2035.", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "Baseline (no-buildout) clean share of US generation, the reference the buildout is measured against for the \u0394 clean-share indicator. ~41% in 2024 (EIA), rising under STEO/AEO 2026 reference paths. Wide bands span policy uncertainty. Tier-1 anchorable (EIA); as-of 2026-06."}, "baseline_gen_2030": {"range": [4300, 4700], "source": "interim:baseline_us_generation_twh", "label": "baseline_gen_2030", "units": "TWh/yr", "description": "Baseline US total generation (no-buildout counterfactual), 2030.", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "Denominator for the \u0394 clean-share indicator. US net generation was ~4300 TWh (2024); EIA STEO/AEO 2026 reference paths put ~4.4-4.7k TWh by 2030 and rising to ~2035. Ranges bracket the reference-case denominator EXCLUDING the buildout's own incremental load (that increment is added inside the indicator). Tier-1 anchorable (EIA STEO / AEO 2026); as-of 2026-06."}, "baseline_gen_2035": {"range": [4400, 5000], "source": "interim:baseline_us_generation_twh", "label": "baseline_gen_2035", "units": "TWh/yr", "description": "Baseline US total generation (no-buildout counterfactual), 2035.", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "Denominator for the \u0394 clean-share indicator. US net generation was ~4300 TWh (2024); EIA STEO/AEO 2026 reference paths put ~4.4-4.7k TWh by 2030 and rising to ~2035. Ranges bracket the reference-case denominator EXCLUDING the buildout's own incremental load (that increment is added inside the indicator). Tier-1 anchorable (EIA STEO / AEO 2026); as-of 2026-06."}, "delay_duration_yr": {"range": [0.7, 1.2], "source": "interim:retirement_delay_duration_years", "label": "delay_duration_yr", "units": "years", "description": "Median duration a delayed fossil unit operates beyond its counterfactual retirement.", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "Median duration a delayed fossil unit operates beyond its counterfactual retirement date, for the \u0394 fossil-retirement-schedule (GW-years) indicator. Anchor: the generator panel's measured ~11-month (0.92 yr) median slip on ~10.6 GW of units (as-of 2026-05 vintage); the range brackets that anchor. Combined with the registry retirement-delay-dispatch delayed-GW (planned minus actual 2025 retirements"}, "buildout_years": {"range": [5.0, 7.0], "source": "interim:clean_buildout_period_years", "label": "buildout_years", "units": "years", "description": "Years over which the contracted clean book reaches commercial operation.", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "The contracted clean capacity book (registry ppa-additionality-shares anchor) is spread over this many years to express the \u0394 clean-buildout-rate indicator as GW/yr reaching commercial operation (2025 through ~2030-2032). Structural modelling scalar."}, "crowding_fraction": {"range": [0.05, 0.35], "source": "interim:crowding_out_fraction", "label": "crowding_fraction", "units": "dimensionless share", "description": "Fraction of additional clean buildout offset by crowding-out of other offtakers/inputs.", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "Net-of-crowding adjustment for the \u0394 clean-buildout-rate indicator. The registry crowding-direction entry establishes the near-term DIRECTION (crowding-out: data centers ~43-72% of clean PPAs, plus transformer/switchgear scarcity) but carries no usable magnitude, so this interim scalar supplies the fraction of the additional clean build that displaces other buyers / scarce inputs rather than being"}, "dc_load_factor": {"range": [0.75, 0.9], "source": "interim:datacenter_annual_load_factor", "label": "dc_load_factor", "units": "dimensionless (load factor)", "description": "Annual load factor of data-center facility load (TWh-to-GW conversion).", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "Converts incremental data-center TWh to incremental GW for the rate-increase term of the \u0394 electrification indicator. Data centers run near-flat (high load factor). Structural modelling scalar."}, "rate_increase_pct_per_gw": {"range": [0.02, 0.15], "source": "interim:retail_rate_increase_pct_per_incremental_gw", "label": "rate_increase_pct_per_gw", "units": "% per GW", "description": "Retail-rate increase (%) per GW of incremental data-center load.", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "Crude dose-response scalar linking incremental data-center capacity to retail electricity rate increases, feeding the \u0394 electrification indicator via the registry electrification-price-elasticity. Loosely anchored on registry rate-feedback-loop dose-response (US residential ~+7-10% YoY early-2026; PJM capacity data centers ~63% of the prior auction increase) spread over tens of GW. Genuine known-u"}, "electrification_baseline_twh": {"range": [150, 450], "source": "interim:baseline_electrification_load_twh_2035", "label": "electrification_baseline_twh", "units": "TWh/yr", "description": "Incremental electrification load at risk of rate-driven suppression by 2035.", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "Scale of the broader electrification transition (heat pumps, EV charging, industrial electrification) whose growth by 2035 is exposed to data-center-driven rate increases via the registry electrification-price-elasticity. Wide honest band; the \u0394 electrification indicator is deliberately a wide known-unknown. M7 (price feedback) owns it."}, "elasticity": {"range": [-0.5, -0.1], "source": "registry:electrification-price-elasticity", "label": "elasticity", "units": "dimensionless elasticity", "description": "Price elasticity of electrification adoption (blended flow value).", "registry_status": "contested", "note": "Sensitivity of demand-side transition (heat pumps, EV charging economics, industrial electrification) to retail electricity price \u2014 the channel by which data-center-driven rate increases suppress the broader transition."}}, "additionality_detail": {"basis": "energy_TWh (NOT capacity_MW; the skeleton converts the contracted-clean GW anchor to TWh)", "class_ranges": {"new_build": [0.45, 0.6], "reallocation_of_existing": [0.25, 0.42], "restart": [0.08, 0.15], "uprate": [0.006, 0.03]}, "class_centrals": {"new_build": 0.52, "reallocation_of_existing": 0.35, "restart": 0.11, "uprate": 0.012}, "additional_classes": ["new_build", "restart", "uprate"], "summed_range": [0.536, 0.78], "note": "summed low/high = element-wise sum of the additional classes' ranges; reallocation_of_existing is non-additional by definition."}};
+window.PARAMS = {"_meta": {"generated": "2026-07-14", "source": "assumptions/registry.yaml + synthesis/interim_params.yaml + data/canonical/marginal_emissions_factors/v0 (national LRMER trend), resolved through synthesis/src/model.py parameter_ranges(); matches skeleton run 8 (2026-07-14, anchor-basis audit: 649 TWh consumption-forecast anchor consumed undiscounted, BTM-served TWh netted out of the grid-served channel, no phantom discount).", "model": "M0 walking skeleton: dE = incremental consequential CO2 of the US AI data-center buildout vs a no-buildout counterfactual; 7 additive channels; uniform Monte Carlo.", "units_headline": "dE 2030/2035 in Mt CO2/yr; cumulative 2025-2035 in Mt CO2"}, "monte_carlo": {"draws": 20000, "seed": 20260706, "distribution": "uniform-over-range"}, "interactive_note": "n=20000 matches Python and runs in <100 ms per scenario in JS (measured), so it is fine as the live default. For continuous slider dragging n=4000 (~17 ms) keeps annual dE quantiles stable to ~\u00b11 Mt/yr; cumulative quantiles carry ~\u00b18 Mt (~1.3%) seed noise at n=4000 vs ~\u00b15 Mt at n=20000 (the Python run itself has the same order of MC noise).", "verdict_deadbands": {"clean_share_pp": 0.05, "retirement_gw_years": 0.5, "clean_buildout_gw_per_yr": 0.5, "electrification_twh": 2.0}, "anchors": {"consensus_2030_twh": 649.0, "contracted_clean_gw": 80.0, "retire_planned_gw": 12.3, "retire_actual_gw": 4.6}, "anchors_note": "consensus_2030_twh is read from the structured demand-trajectory anchor_basis_2030 block (basis: consumption_forecast, consumed undiscounted; 2026-07-14 anchor-basis audit); contracted_clean_gw is regex-parsed from a registry note; retire_planned_gw/retire_actual_gw are structured registry fields (2025 all-fuel planned vs actual retirements).", "mef_trend_tco2_per_mwh": {"2025": 0.36641999999999997, "2030": 0.23310333333333333, "2035": 0.09509000000000001}, "mef_trend_note": "National long-run marginal CO2 trend: unweighted mean of the five registry ISOs (Cambium 2024 Mid-case, combustion). Year scale = trend(year)/trend(2030), piecewise linear; scale(2030)==1 so the 2030 snapshot is trend-invariant.", "mef_families": {"longrun": {"range_t_per_mwh": [0.135, 0.36], "apply_trend": true, "note": "CENTRAL: Cambium LRMER Mid-case 2025-2035 band, 2030-anchored, year-scaled by the national trend."}, "shortrun": {"range_t_per_mwh": [0.37, 0.56], "apply_trend": false, "note": "SENSITIVITY only (WattTime MOER 2025, fleet-fixed, flat): never the headline."}}, "scenarios": {"consensus": {"weight": 0.4, "weight_range": [0.3, 0.5], "load_multiplier_2030_range": [1.0, 1.0], "saturation_multiplier_2030_2035_range": [1.1, 1.45]}, "efficiency-tempered": {"weight": 0.2, "weight_range": [0.12, 0.3], "load_multiplier_2030_range": [0.68, 0.92], "saturation_multiplier_2030_2035_range": [0.95, 1.25]}, "jevons-high": {"weight": 0.13, "weight_range": [0.05, 0.2], "load_multiplier_2030_range": [1.15, 1.45], "saturation_multiplier_2030_2035_range": [1.2, 1.7]}, "demand-disappointment": {"weight": 0.27, "weight_range": [0.15, 0.35], "load_multiplier_2030_range": [0.4, 0.72], "saturation_multiplier_2030_2035_range": [0.8, 1.05]}}, "scenario_order": ["consensus", "efficiency-tempered", "jevons-high", "demand-disappointment"], "policy_regimes": {"orders-continue": {"dc_attribution_range": [0.1, 0.4], "note": "DOE 202(c) emergency orders keep units open; less delay attributed to DC load."}, "orders-lapse": {"dc_attribution_range": [0.4, 0.8], "note": "Orders lapse; remaining delays driven by load growth, more attributed to DC load."}}, "crowding_sign": -1.0, "crowding_sign_note": "From registry crowding-direction near_term_direction: crowding-out (PPA share + transformer/switchgear scarcity)", "hours_per_year_twh": 8.76, "path_years": [2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035], "horizon_years": [2030, 2035], "channel_order": ["direct_load_service", "procurement_offset", "retirement_delay", "btm_bridge_gas", "leakage", "rate_feedback", "embodied"], "indicator_keys": ["clean_share_delta_pp_2030", "clean_share_delta_pp_2035", "retirement_gw_years_2025_2035", "clean_buildout_gw_per_yr", "electrification_delta_twh_2035"], "verdict_indicators": {"clean_share_delta_pp_2035": {"sign": 1, "deadband_key": "clean_share_pp"}, "retirement_gw_years_2025_2035": {"sign": -1, "deadband_key": "retirement_gw_years"}, "clean_buildout_gw_per_yr": {"sign": 1, "deadband_key": "clean_buildout_gw_per_yr"}, "electrification_delta_twh_2035": {"sign": 1, "deadband_key": "electrification_twh"}}, "time_profiles": {"load_ramp": "incremental load: 0 at 2024 -> inc2030 linearly by 2030 -> linear to inc2035 by 2035", "ramp_flat": {"zero_year": 2024, "full_year": 2030, "note": "procurement offset & BTM gas: 0 at 2024, linear to 1 at 2030, flat after"}, "retirement": {"hold_through": 2030, "value_at_2035": 0.2, "note": "retirement delay: 1 through 2030, linear to 0.2 at 2035"}}, "delta_e_params": {"baseline_2024_twh": {"source": "interim:baseline_2024_datacenter_load_twh", "label": "2024 data-center load baseline (counterfactual)", "units": "TWh/yr", "description": "2024 US data-center load; the no-buildout counterfactual baseline incremental load is measured above.", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "US data center electricity consumption was ~4.4% of US load in 2023 (~176 TWh in LBNL 2024 report framing); 2024 modestly higher. Used as the no-buildout counterfactual baseline that incremental load is measured above.", "range": [176, 224]}, "scenario_mult": {"source": "interim:scenario_load_multiplier_2030", "label": "scenario 2030 load multiplier", "units": "dimensionless", "description": "Scenario 2030 total-load multiplier on the consensus ~649 TWh anchor.", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "The registry demand-trajectory entry gives a numeric 2030 load anchor only for the consensus scenario (649 TWh, LBNL 2025 Update reference case, read by key from anchor_basis_2030 -- a CONSUMPTION FORECAST consumed undiscounted per the 2026-07-14 anchor-basis audit). The other three scenarios are qualitative there, so the skeleton scales them off consensus with these placeholder multipliers. jevon", "range_by_scenario": {"consensus": [1.0, 1.0], "efficiency-tempered": [0.68, 0.92], "jevons-high": [1.15, 1.45], "demand-disappointment": [0.4, 0.72]}}, "saturation_mult": {"source": "interim:scenario_saturation_multiplier_2030_2035", "label": "saturation_mult", "units": "dimensionless", "description": "Multiplier on each scenario's 2030 load to reach its 2035 load (post-2030 demand growth).", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "Extends each demand-trajectory scenario from 2030 to 2035 so the skeleton can report a second horizon (decisions/transition-metrics.md). Multiplies the scenario's 2030 total data-center load to get its 2035 load; the incremental path between horizons is a crude linear ramp (see synthesis/README.md). Growth scenarios keep growing (efficiency continues but adoption outpaces it in consensus/jevons); ", "range_by_scenario": {"consensus": [1.1, 1.45], "efficiency-tempered": [0.95, 1.25], "jevons-high": [1.2, 1.7], "demand-disappointment": [0.8, 1.05]}}, "mef": {"source": "registry:marginal-emissions-factor", "label": "national marginal emissions factor (tCO2/MWh)", "units": "tCO2/MWh", "description": "National marginal emissions factor, tCO2/MWh, 2030-anchored; central family is Cambium LRMER with a year trend.", "registry_status": "placeholder", "note": "Marginal CO2 emission factor for new load on major US grids (kg CO2 / MWh; tonnes = value/1000) -- the emission rate of the generation that responds to a demand increment, distinct from and generally HIGHER than average grid intensity. Carries TWO method-tagged factor families that measure different things and must not be blended: (a) LONG-RUN marginal (Cambium 2024 LRMER), which lets the load res", "range_by_mef_family": {"longrun": [0.135, 0.36], "shortrun": [0.37, 0.56]}}, "peak_fraction": {"source": "interim:peak_driven_fraction_of_direct_load", "label": "peak-driven share of direct load", "units": "dimensionless share", "description": "Share of direct-load emissions that is peak-driven and therefore addressable by curtailable flexibility.", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "Crude scalar: the fraction of direct-load-service emissions that is driven by peak hours and therefore reducible by curtailable-load flexibility. Multiplied by the registry load-flexibility-fraction curtailable share to get the reduction.", "range": [0.15, 0.45]}, "curtailable_share": {"source": "registry:load-flexibility-fraction", "label": "curtailable load-flexibility fraction", "units": "dimensionless share", "description": "Contractually curtailable share of data-center load (contracted band, not the technical ceiling).", "registry_status": "contested", "note": "Fraction of data center load that is contractually AND operationally curtailable (training checkpointable, inference largely not), and the curtailment-hours tolerance. The Duke Nicholas Institute (Norris et al., 2025-02) ~76-126 GW / sub-1%-curtailment result is a TECHNICAL, transmission- unconstrained, system-level UPPER BOUND, unreplicated at the point of interconnection -- not evidence of reali", "range": [0.0, 0.15]}, "clean_cf": {"source": "registry:contracted-clean-capacity-factor", "label": "contracted-clean blended capacity factor", "units": "dimensionless (capacity factor)", "description": "Blended annual capacity factor of the contracted clean-procurement fleet (renewables-dominant).", "registry_status": "contested", "note": "Blended annual capacity factor used to convert the >80 GW contracted clean capacity anchor (ppa-additionality-shares) into annual TWh. Promoted from the walking skeleton's interim placeholder to an empirical registry value by M3.", "range": [0.27, 0.42]}, "additionality_share": {"source": "registry:ppa-additionality-shares", "label": "PPA additionality share (new clean vs reallocation)", "units": "dimensionless share", "description": "Energy-basis share of contracted clean that is additional (new-build + restart + uprate).", "registry_status": "contested", "note": "Share of contracted hyperscaler clean-energy capacity in each consequential class of methods/deal-taxonomy.md (new-build / restart / uprate / reallocation-of-existing), carried on TWO axes: capacity (MW) AND energy (TWh/yr), because reallocation-of-existing nuclear carries far more energy per MW than variable renewables and so understates as capacity / overstates as energy. Reallocation causes ~ze", "range": [0.536, 0.78]}, "retire_cf": {"source": "registry:retirement-delay-dispatch", "label": "delayed-unit measured capacity factor", "units": "dimensionless (capacity factor)", "description": "Measured capacity factor of fossil units operating past their planned retirement (slip cohort).", "registry_status": "contested", "note": "Mapping from a delayed fossil retirement to counterfactual generation and emissions: capacity factors and dispatch behavior of delayed units (measured from EPA CEMS, never nameplate), and the attribution split of each delay across data-center demand, DOE 202(c) emergency orders, and general reliability tightening.", "range": [0.11, 0.6]}, "coal_intensity": {"source": "interim:coal_marginal_intensity", "label": "delayed-coal CO2 intensity", "units": "tCO2/MWh", "description": "Direct CO2 intensity of a delayed coal unit's generation.", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "Direct CO2 intensity of a delayed coal unit's generation. Combined with the marginal replacement factor as (coal_intensity - marginal_factor) to get the per-MWh emissions delta of the delay.", "range": [0.9, 1.05]}, "dc_attribution": {"source": "interim:retirement_dc_attribution_orders_continue", "label": "data-center share of retirement delay", "units": "dimensionless share", "description": "Share of the retirement delay attributable to data-center demand (policy-regime dependent).", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "Under policy-regime branch orders-continue, DOE Section 202(c) emergency orders are the proximate cause keeping units open, so LESS of the delay is attributable to data-center load. Crude split pending M2's IRP-text attribution.", "range_by_regime": {"orders-continue": [0.1, 0.4], "orders-lapse": [0.4, 0.8]}}, "btm_gas_gw": {"source": "interim:btm_bridge_gas_capacity_gw", "label": "behind-the-meter bridge-gas capacity (GW)", "units": "GW", "description": "Behind-the-meter bridge-gas capacity installed to bypass interconnection queues.", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "Behind-the-meter \"bridge\" gas installed to bypass interconnection queues. Worst-measured category in the space (registry btm-bridge-permanence note); small wide band pending M5/M8 permit-and-equipment reconstruction.", "range": [1.0, 8.0]}, "btm_permanence": {"source": "registry:btm-bridge-permanence", "label": "BTM bridge-gas permanence probability", "units": "probability", "description": "Probability a built BTM bridge-gas unit stays (permanence given built).", "registry_status": "contested", "note": "Whether behind-the-meter \"bridge\" gas installed to bypass interconnection queues actually retires when grid connection arrives. Historical precedent from temporary peakers suggests bridges become permanent. Also the worst-measured emissions category in the space \u2014 often invisible in utility inventories.", "range": [0.75, 0.95]}, "btm_gas_cf": {"source": "interim:btm_gas_capacity_factor", "label": "BTM gas capacity factor", "units": "dimensionless (capacity factor)", "description": "Dispatch capacity factor of BTM bridge gas.", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "Dispatch CF of BTM bridge gas; crude placeholder.", "range": [0.3, 0.6]}, "btm_gas_intensity": {"source": "interim:btm_gas_intensity", "label": "BTM gas CO2 intensity", "units": "tCO2/MWh", "description": "CO2 intensity of BTM gas generation (recip/aeroderivative mix).", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "CO2 intensity of BTM gas generation (reciprocating/aeroderivative mix).", "range": [0.35, 0.5]}, "leakage_band": {"source": "registry:leakage-intensity", "label": "cross-border leakage emissions (known-unknown)", "units": "Mt CO2/yr", "description": "Cross-border leakage emissions band (additive known-unknown).", "registry_status": "contested", "note": "Emissions consequence per unit of compute displaced abroad when US constraints push capacity to other grids (Gulf states, SE Asia, etc.); carbon-leakage methodology borrowed from industrial-policy literature. Signal: hyperscaler international capex announcements.", "range": [0.0, 15.0]}, "rate_feedback_band": {"source": "registry:rate-feedback-loop", "label": "rate-feedback / electrification suppression (known-unknown)", "units": "Mt CO2/yr", "description": "Rate-feedback / electrification-suppression emissions band at 2035 (additive known-unknown; p05..p95).", "registry_status": "contested", "note": "The endogenous regulatory loop: data-center-driven retail rate increases -> ratepayer backlash -> PUC large-load tariffs and cost-allocation rules -> changed data center siting economics. Modeled as a lagged endogenous variable with dose-response estimated from OH/GA/PJM-state dockets \u2014 the one political channel modeled endogenously rather than as scenario.", "range": [-2.3, 17.7], "range_by_scenario": {"consensus": [-1.23, 12.69], "efficiency-tempered": [-1.87, 5.68], "jevons-high": [-0.57, 17.69], "demand-disappointment": [-2.29, 2.37]}, "mode_by_scenario": {"consensus": 2.41, "efficiency-tempered": 0.38, "jevons-high": 4.53, "demand-disappointment": -0.6}, "sampling_shape": "triangular"}, "embodied_band": {"source": "registry:embodied-emissions-share", "label": "embodied / scope-3 emissions (known-unknown)", "units": "Mt CO2/yr", "description": "Embodied / scope-3 emissions of the US buildout (additive known-unknown).", "registry_status": "contested", "note": "Scope-3 / embodied emissions of chips and construction per GW of data center buildout, largely offshore; plus supply-chain coupling of the US clean-energy response to Chinese solar/battery/turbine manufacturing and its trade-policy exposure.", "range": [2.8, 22.1]}}, "indicator_params": {"clean_share_2030": {"range": [0.44, 0.52], "source": "interim:baseline_clean_share_of_generation", "label": "clean_share_2030", "units": "dimensionless share", "description": "Baseline (no-buildout) clean share of US generation, 2030.", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "Baseline (no-buildout) clean share of US generation, the reference the buildout is measured against for the \u0394 clean-share indicator. ~41% in 2024 (EIA), rising under STEO/AEO 2026 reference paths. Wide bands span policy uncertainty. Tier-1 anchorable (EIA); as-of 2026-06."}, "clean_share_2035": {"range": [0.5, 0.6], "source": "interim:baseline_clean_share_of_generation", "label": "clean_share_2035", "units": "dimensionless share", "description": "Baseline (no-buildout) clean share of US generation, 2035.", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "Baseline (no-buildout) clean share of US generation, the reference the buildout is measured against for the \u0394 clean-share indicator. ~41% in 2024 (EIA), rising under STEO/AEO 2026 reference paths. Wide bands span policy uncertainty. Tier-1 anchorable (EIA); as-of 2026-06."}, "baseline_gen_2030": {"range": [4300, 4700], "source": "interim:baseline_us_generation_twh", "label": "baseline_gen_2030", "units": "TWh/yr", "description": "Baseline US total generation (no-buildout counterfactual), 2030.", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "Denominator for the \u0394 clean-share indicator. US net generation was ~4300 TWh (2024); EIA STEO/AEO 2026 reference paths put ~4.4-4.7k TWh by 2030 and rising to ~2035. Ranges bracket the reference-case denominator EXCLUDING the buildout's own incremental load (that increment is added inside the indicator). Tier-1 anchorable (EIA STEO / AEO 2026); as-of 2026-06."}, "baseline_gen_2035": {"range": [4400, 5000], "source": "interim:baseline_us_generation_twh", "label": "baseline_gen_2035", "units": "TWh/yr", "description": "Baseline US total generation (no-buildout counterfactual), 2035.", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "Denominator for the \u0394 clean-share indicator. US net generation was ~4300 TWh (2024); EIA STEO/AEO 2026 reference paths put ~4.4-4.7k TWh by 2030 and rising to ~2035. Ranges bracket the reference-case denominator EXCLUDING the buildout's own incremental load (that increment is added inside the indicator). Tier-1 anchorable (EIA STEO / AEO 2026); as-of 2026-06."}, "delay_duration_yr": {"range": [0.7, 1.2], "source": "interim:retirement_delay_duration_years", "label": "delay_duration_yr", "units": "years", "description": "Median duration a delayed fossil unit operates beyond its counterfactual retirement.", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "Median duration a delayed fossil unit operates beyond its counterfactual retirement date, for the \u0394 fossil-retirement-schedule (GW-years) indicator. Anchor: the generator panel's measured ~11-month (0.92 yr) median slip on ~10.6 GW of units (as-of 2026-05 vintage); the range brackets that anchor. Combined with the registry retirement-delay-dispatch delayed-GW (planned minus actual 2025 retirements"}, "buildout_years": {"range": [5.0, 7.0], "source": "interim:clean_buildout_period_years", "label": "buildout_years", "units": "years", "description": "Years over which the contracted clean book reaches commercial operation.", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "The contracted clean capacity book (registry ppa-additionality-shares anchor) is spread over this many years to express the \u0394 clean-buildout-rate indicator as GW/yr reaching commercial operation (2025 through ~2030-2032). Structural modelling scalar."}, "crowding_fraction": {"range": [0.05, 0.35], "source": "interim:crowding_out_fraction", "label": "crowding_fraction", "units": "dimensionless share", "description": "Fraction of additional clean buildout offset by crowding-out of other offtakers/inputs.", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "Net-of-crowding adjustment for the \u0394 clean-buildout-rate indicator. The registry crowding-direction entry establishes the near-term DIRECTION (crowding-out: data centers ~43-72% of clean PPAs, plus transformer/switchgear scarcity) but carries no usable magnitude, so this interim scalar supplies the fraction of the additional clean build that displaces other buyers / scarce inputs rather than being"}, "dc_load_factor": {"range": [0.75, 0.9], "source": "interim:datacenter_annual_load_factor", "label": "dc_load_factor", "units": "dimensionless (load factor)", "description": "Annual load factor of data-center facility load (TWh-to-GW conversion).", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "Converts incremental data-center TWh to incremental GW for the rate-increase term of the \u0394 electrification indicator. Data centers run near-flat (high load factor). Structural modelling scalar."}, "rate_increase_pct_per_gw": {"range": [0.02, 0.15], "source": "interim:retail_rate_increase_pct_per_incremental_gw", "label": "rate_increase_pct_per_gw", "units": "% per GW", "description": "Retail-rate increase (%) per GW of incremental data-center load.", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "Crude dose-response scalar linking incremental data-center capacity to retail electricity rate increases, feeding the \u0394 electrification indicator via the registry electrification-price-elasticity. Loosely anchored on registry rate-feedback-loop dose-response (US residential ~+7-10% YoY early-2026; PJM capacity data centers ~63% of the prior auction increase) spread over tens of GW. Genuine known-u"}, "electrification_baseline_twh": {"range": [150, 450], "source": "interim:baseline_electrification_load_twh_2035", "label": "electrification_baseline_twh", "units": "TWh/yr", "description": "Incremental electrification load at risk of rate-driven suppression by 2035.", "registry_status": "interim (Phase-0 placeholder, synthesis/interim_params.yaml)", "note": "Scale of the broader electrification transition (heat pumps, EV charging, industrial electrification) whose growth by 2035 is exposed to data-center-driven rate increases via the registry electrification-price-elasticity. Wide honest band; the \u0394 electrification indicator is deliberately a wide known-unknown. M7 (price feedback) owns it."}, "elasticity": {"range": [-0.5, -0.1], "source": "registry:electrification-price-elasticity", "label": "elasticity", "units": "dimensionless elasticity", "description": "Price elasticity of electrification adoption (blended flow value).", "registry_status": "contested", "note": "Sensitivity of demand-side transition (heat pumps, EV charging economics, industrial electrification) to retail electricity price \u2014 the channel by which data-center-driven rate increases suppress the broader transition."}}, "additionality_detail": {"basis": "energy_TWh (NOT capacity_MW; the skeleton converts the contracted-clean GW anchor to TWh)", "class_ranges": {"new_build": [0.45, 0.6], "reallocation_of_existing": [0.25, 0.42], "restart": [0.08, 0.15], "uprate": [0.006, 0.03]}, "class_centrals": {"new_build": 0.52, "reallocation_of_existing": 0.35, "restart": 0.11, "uprate": 0.012}, "additional_classes": ["new_build", "restart", "uprate"], "summed_range": [0.536, 0.78], "note": "summed low/high = element-wise sum of the additional classes' ranges; reallocation_of_existing is non-additional by definition."}, "worlds": {"slugs": ["reference-case", "boom-grid-keeps-up", "boom-grid-falls-behind", "anti-ai-backlash", "market-correction"], "trade_name": "Trade-Restricted Infrastructure", "trade_overlay": [["embodied_band", "high"], ["leakage_band", "low"]], "contracted_floor": {"committed_gw": 10.0, "at_risk_top_gw": 23.0}, "backlash_load_multiplier": [0.55, 0.75, 0.92], "mef_trajectory": {"y2030": 1.097, "y2035": 1.442}, "btm_gas_stress_range": [2.0, 5.0], "worlds": {"reference-case": {"name": "Reference Case", "gloss": "The near future looks like the recent past; no driver breaks from its current central value.", "transition_lean": "delaying", "demand_central": ["consensus", "efficiency-tempered", "jevons-high", "demand-disappointment"], "demand_stress": ["consensus", "efficiency-tempered", "jevons-high", "demand-disappointment"], "central": [], "stress": [], "mef_trajectory_response": false}, "boom-grid-keeps-up": {"name": "Boom, Grid Keeps Up", "gloss": "AI demand comes in high and the grid buildout keeps pace, with data centers paying their incremental costs.", "transition_lean": "mixed -> accelerating", "demand_central": ["jevons-high"], "demand_stress": ["jevons-high"], "central": [["embodied_band", "high"], ["additionality_share", "high"]], "stress": [["mef", "low"]], "mef_trajectory_response": false}, "boom-grid-falls-behind": {"name": "Boom, Grid Falls Behind", "gloss": "AI demand comes in high but transmission and clean supply arrive years late, so dirtier power serves the growth.", "transition_lean": "delaying (strongly)", "demand_central": ["jevons-high"], "demand_stress": ["jevons-high"], "central": [], "stress": [["retire_cf", "high"], ["dc_attribution", "high"], ["mef", "high"], ["__btm_gas_stress_range__", "stress"]], "mef_trajectory_response": true}, "anti-ai-backlash": {"name": "Anti-AI Backlash", "gloss": "Public and regulatory resistance restricts siting and tariffs, lowering domestic buildout and possibly pushing some compute abroad.", "transition_lean": "mixed", "demand_central": ["consensus"], "demand_stress": ["consensus"], "central": [["__backlash_load_mult__", "select"]], "stress": [["leakage_band", "high"], ["btm_permanence", "low"]], "mef_trajectory_response": false}, "market-correction": {"name": "Market Correction", "gloss": "The AI capital cycle turns; demand, construction, and some clean contracts unwind together.", "transition_lean": "mixed (accelerating-state but emitting)", "demand_central": ["demand-disappointment"], "demand_stress": ["demand-disappointment"], "central": [["embodied_band", "low"], ["__contracted_floor__", "central"]], "stress": [["__contracted_floor__", "hard"]], "mef_trajectory_response": false}}}, "world_headline": {"as_of": "2026-07-16", "worlds": {"reference-case": {"name": "Reference Case", "median": 656.8, "p10": 164.2, "p90": 1337.0, "p05": 80.7, "p95": 1528.7, "share_positive": 0.981}, "boom-grid-keeps-up": {"name": "Boom, Grid Keeps Up", "median": 1272.5, "p10": 938.6, "p90": 1666.0, "p05": 875.6, "p95": 1772.3, "share_positive": 1.0}, "boom-grid-falls-behind": {"name": "Boom, Grid Falls Behind", "median": 1408.4, "p10": 1005.3, "p90": 1880.2, "p05": 934.3, "p95": 2010.3, "share_positive": 1.0}, "anti-ai-backlash": {"name": "Anti-AI Backlash", "median": 513.4, "p10": 316.6, "p90": 752.1, "p05": 271.1, "p95": 823.9, "share_positive": 1.0}, "market-correction": {"name": "Market Correction", "median": 370.6, "p10": 221.9, "p90": 557.7, "p05": 190.4, "p95": 614.7, "share_positive": 1.0}}}};
 </script>
 <script>
 /* GridModel — browser JS port of synthesis/src/model.py (M0 walking skeleton).
@@ -1220,6 +1244,17 @@ var GridModel = (function () {
   }
 
   // ------------------------------------------------------------------ MEF trend
+  // Constrained-delivery multiplier on the mef YEAR PROFILE (worlds.py
+  // mef_trajectory_year_multiplier): 1.0 through 2025, linear to y2030 at 2030
+  // (exactly y2030), linear to y2035 at 2035 (exactly y2035), flat after.
+  // Applied only by worlds flagged mef_trajectory_response, LRMER family only.
+  function mefTrajMultiplier(year, y2030, y2035) {
+    if (year <= 2025) return 1.0;
+    if (year <= 2030) return 1.0 + ((y2030 - 1.0) * (year - 2025)) / 5.0;
+    if (year <= 2035) return y2030 + ((y2035 - y2030) * (year - 2030)) / 5.0;
+    return y2035;
+  }
+
   // National LRMER year scale relative to 2030 (=1.0), piecewise linear on the
   // Cambium national milestones. mefYearScale(2030) === 1 exactly.
   function mefYearScale(year) {
@@ -1339,11 +1374,14 @@ var GridModel = (function () {
   // Total dE (Mt CO2/yr) at a year on the ramped path. When applyTrend (central
   // LRMER family), the mef-dependent channels use the drawn 2030-anchored mef
   // scaled by the national trend; scale(2030)===1 so 2030 is trend-invariant.
+  // `traj`, if set, is the [y2030, y2035] constrained-delivery pair composed
+  // onto the year scale (worlds.py _wrap_mef_year_scale); LRMER family only,
+  // so it rides inside the applyTrend branch exactly like the Python wrap.
   // Mutates v.mef temporarily instead of copying (hot path); restores on exit.
-  function totalAtYear(v, year, applyTrend) {
+  function totalAtYear(v, year, applyTrend, traj) {
     var lp = loadProfile(v, year);
     var mef0 = v.mef;
-    if (applyTrend) v.mef = mef0 * mefYearScale(year);
+    if (applyTrend) v.mef = mef0 * mefYearScale(year) * (traj ? mefTrajMultiplier(year, traj[0], traj[1]) : 1);
     var effective = gridServedTwhYear(v, year);
     var direct = effective * v.mef * (1 - v.peak_fraction * v.curtailable_share);
     var proc = chProcurementOffset(v) * profileRampFlat(year);
@@ -1357,13 +1395,13 @@ var GridModel = (function () {
   }
 
   // Cumulative dE 2025-2035 (Mt CO2): trapezoidal integral of the annual path.
-  function cumulativeEmissions(v, applyTrend) {
+  function cumulativeEmissions(v, applyTrend, traj) {
     var years = P.path_years;
     var sum = 0,
       first = 0,
       last = 0;
     for (var i = 0; i < years.length; i++) {
-      var t = totalAtYear(v, years[i], applyTrend);
+      var t = totalAtYear(v, years[i], applyTrend, traj);
       sum += t;
       if (i === 0) first = t;
       if (i === years.length - 1) last = t;
@@ -1371,11 +1409,11 @@ var GridModel = (function () {
     return sum - 0.5 * (first + last);
   }
 
-  function emissionsVector(v, applyTrend) {
+  function emissionsVector(v, applyTrend, traj) {
     return {
-      e_2030: totalAtYear(v, 2030, applyTrend),
-      e_2035: totalAtYear(v, 2035, applyTrend),
-      cumulative_2025_2035: cumulativeEmissions(v, applyTrend),
+      e_2030: totalAtYear(v, 2030, applyTrend, traj),
+      e_2035: totalAtYear(v, 2035, applyTrend, traj),
+      cumulative_2025_2035: cumulativeEmissions(v, applyTrend, traj),
     };
   }
 
@@ -1453,7 +1491,19 @@ var GridModel = (function () {
     var seed = opts.seed == null ? P.monte_carlo.seed : opts.seed;
 
     var spec = applyOverrides(buildSpec(scenario, regime, mefFamily), opts.overrides);
+    var out = monteCarlo(spec, n, seed);
+    out.meta = { scenario: scenario, regime: regime, mefFamily: mefFamily, n: n, seed: seed };
+    return out;
+  }
+
+  // Run the Monte Carlo engine on a fully-assembled spec (scenario/world
+  // conditioning already applied). Kept separate from run() so the world layer
+  // can pool several pre-conditioned specs without re-deriving the arithmetic.
+  function monteCarlo(spec, n, seed) {
     var applyTrend = spec.applyTrend;
+    // constrained-delivery mef trajectory (worlds.py run_world_cell): an LRMER
+    // effect, so it is not applied under the short-run MOER family.
+    var traj = spec.mefTraj && applyTrend ? spec.mefTraj : null;
     var rand = mulberry32(seed);
 
     // Draw all params param-by-param like the Python: uniform over the range,
@@ -1499,20 +1549,36 @@ var GridModel = (function () {
     for (i = 0; i < indKeys.length; i++) indArrays[indKeys[i]] = new Float64Array(n);
     var crowdingSign = P.crowding_sign;
 
+    // per-draw verdict config (sign + deadband per transition indicator), so a
+    // world's verdict is a share of its own draws, not a probability-weighted pool.
+    var vcfg = [];
+    for (var vk in P.verdict_indicators)
+      vcfg.push([vk, P.verdict_indicators[vk].sign, P.verdict_deadbands[P.verdict_indicators[vk].deadband_key]]);
+    var vAcc = 0, vDly = 0, vMix = 0;
+
     var v = {};
     for (k in spec.fixed) v[k] = spec.fixed[k];
     var drawKeys = Object.keys(draws);
 
     for (i = 0; i < n; i++) {
       for (var d = 0; d < drawKeys.length; d++) v[drawKeys[d]] = draws[drawKeys[d]][i];
-      // 2030 channel snapshot (identical to totalAtYear at 2030 by construction)
-      for (var c = 0; c < order.length; c++) channelSums[order[c]] += CHANNEL_FUNCS[order[c]](v);
+      // 2030 channel snapshot (identical to totalAtYear at 2030 by construction;
+      // under a mef trajectory the snapshot mef carries traj(2030) = y2030
+      // exactly, mirroring worlds.py's v_snap, so total stays equal to e_2030)
+      if (traj) {
+        var mefSnap0 = v.mef;
+        v.mef = mefSnap0 * traj[0];
+        for (var c0 = 0; c0 < order.length; c0++) channelSums[order[c0]] += CHANNEL_FUNCS[order[c0]](v);
+        v.mef = mefSnap0;
+      } else {
+        for (var c = 0; c < order.length; c++) channelSums[order[c]] += CHANNEL_FUNCS[order[c]](v);
+      }
       // annual path -> vector elements
       var sum = 0,
         first = 0,
         last = 0;
       for (var y = 0; y < years.length; y++) {
-        var t = totalAtYear(v, years[y], applyTrend);
+        var t = totalAtYear(v, years[y], applyTrend, traj);
         sum += t;
         if (y === 0) first = t;
         if (y === years.length - 1) last = t;
@@ -1522,6 +1588,16 @@ var GridModel = (function () {
       cum[i] = sum - 0.5 * (first + last);
       var ind = computeIndicators(v, crowdingSign);
       for (var q = 0; q < indKeys.length; q++) indArrays[indKeys[q]][i] = ind[indKeys[q]];
+      // per-draw transition verdict (majority direction; ties -> mixed)
+      var acc2 = 0, dly2 = 0;
+      for (var vi = 0; vi < vcfg.length; vi++) {
+        var norm = vcfg[vi][1] * ind[vcfg[vi][0]];
+        if (norm > vcfg[vi][2]) acc2++;
+        else if (norm < -vcfg[vi][2]) dly2++;
+      }
+      if (acc2 > dly2) vAcc++;
+      else if (dly2 > acc2) vDly++;
+      else vMix++;
     }
 
     var channelMeans = {};
@@ -1545,7 +1621,6 @@ var GridModel = (function () {
     for (i = 0; i < indKeys.length; i++) indicators[indKeys[i]] = summarize(indArrays[indKeys[i]]);
 
     return {
-      meta: { scenario: scenario, regime: regime, mefFamily: mefFamily, n: n, seed: seed },
       quantiles: sums,
       dE2030: sums.e_2030,
       dE2035: sums.e_2035,
@@ -1559,6 +1634,7 @@ var GridModel = (function () {
       indicators: indicators,
       indicatorsCentral: indCentral,
       verdict: verdict,
+      verdictShares: { accelerating: vAcc / n, delaying: vDly / n, mixed: vMix / n },
       draws: { e_2030: e2030, e_2035: e2035, cumulative_2025_2035: cum },
     };
   }
@@ -1736,6 +1812,128 @@ var GridModel = (function () {
     };
   }
 
+  // ------------------------------------------------------------------ worlds
+  // Scenario-first evaluation: mirrors synthesis/src/worlds.py exactly. A world
+  // conditions the model inputs (monotone band sub-intervals; a demand-path
+  // selection; the backlash multiplier; the Market Correction contracted floor)
+  // and pools its admitted demand scenarios UNWEIGHTED. No cross-world pooling,
+  // no probability weights. The conditioning spec is exported from Python
+  // (params.worlds), so this cannot drift from what the synthesis run does.
+
+  // Monotone low/central/high conditioning of a [lo, hi] range: central ->
+  // unchanged; low -> lower half [lo, mid]; high -> upper half [mid, hi].
+  function conditionBand(range, level) {
+    var lo = range[0], hi = range[1];
+    if (level === "central") return [lo, hi];
+    var mid = 0.5 * (lo + hi);
+    if (level === "low") return [lo, mid];
+    if (level === "high") return [mid, hi];
+    throw new Error("unknown conditioning level: " + level);
+  }
+
+  // Apply an ordered (param, level) transform list to a spec in place. Later
+  // entries win on the same param (the trade overlay composes on top). Mirrors
+  // worlds.py apply_transforms, including the two special targets.
+  function applyWorldTransforms(spec, transforms) {
+    var wmeta = P.worlds;
+    for (var t = 0; t < transforms.length; t++) {
+      var param = transforms[t][0], level = transforms[t][1];
+      if (param === "__contracted_floor__") {
+        var lo = wmeta.contracted_floor.committed_gw;
+        var hi = level === "hard" ? wmeta.contracted_floor.committed_gw : wmeta.contracted_floor.at_risk_top_gw;
+        delete spec.fixed.contracted_clean_gw;
+        spec.ranges.contracted_clean_gw = [lo, hi];
+        continue;
+      }
+      if (param === "__backlash_load_mult__") {
+        var bl = wmeta.backlash_load_multiplier; // [lo, central, hi]
+        spec.ranges.scenario_mult = [bl[0], bl[2]];
+        continue;
+      }
+      if (param === "__btm_gas_stress_range__") {
+        // on-site-gas stress: SUBSTITUTE the registry stress_range_gw for the
+        // btm_gas_gw band (worlds.py _apply_btm_gas_stress_range; replaces the
+        // former upper-half conditioning)
+        spec.ranges.btm_gas_gw = wmeta.btm_gas_stress_range.slice();
+        continue;
+      }
+      if (param in spec.ranges) spec.ranges[param] = conditionBand(spec.ranges[param], level);
+      else if (param in spec.indicatorRanges) spec.indicatorRanges[param] = conditionBand(spec.indicatorRanges[param], level);
+      else throw new Error("world transform target not a swung range: " + param);
+    }
+    return spec;
+  }
+
+  // Evaluate one world. opts.includeStress adds the world's stress-only
+  // conditionings (and its stress demand axis); opts.includeTrade adds the
+  // Trade-Restricted Infrastructure overlay. opts.overrides (user slider pins)
+  // are applied AFTER the world conditioning, so a pin always wins.
+  function world(slug, opts) {
+    assertInit();
+    opts = opts || {};
+    if (!P.worlds || !P.worlds.worlds[slug]) throw new Error("unknown world: " + slug);
+    var wd = P.worlds.worlds[slug];
+    var regime = opts.regime || "orders-continue";
+    var mefFamily = opts.mefFamily || "longrun";
+    var n = opts.n || P.monte_carlo.draws;
+    var seed = opts.seed == null ? P.monte_carlo.seed : opts.seed;
+    var includeStress = !!opts.includeStress;
+    var includeTrade = !!opts.includeTrade;
+
+    var scenarios = includeStress ? wd.demand_stress : wd.demand_central;
+    var transforms = wd.central.slice();
+    if (includeStress) transforms = transforms.concat(wd.stress);
+    if (includeTrade) transforms = transforms.concat(P.worlds.trade_overlay);
+
+    var elements = ["e_2030", "e_2035", "cumulative_2025_2035"];
+    var pooled = { e_2030: [], e_2035: [], cumulative_2025_2035: [] };
+    var order = P.channel_order;
+    var channelAccum = {};
+    for (var ci = 0; ci < order.length; ci++) channelAccum[order[ci]] = 0;
+    var vAcc = 0, vDly = 0, vMix = 0;
+
+    for (var si = 0; si < scenarios.length; si++) {
+      var spec = buildSpec(scenarios[si], regime, mefFamily);
+      applyWorldTransforms(spec, transforms);
+      applyOverrides(spec, opts.overrides); // pins win over world conditioning
+      // calibrated marginal-rate trajectory at CENTRAL (worlds.py
+      // mef_trajectory_response, read from the registry via the export): a
+      // year-profile multiplier, not a band conditioning. monteCarlo drops it
+      // under the short-run family (an LRMER effect).
+      if (wd.mef_trajectory_response) {
+        var tr = P.worlds.mef_trajectory;
+        spec.mefTraj = [tr.y2030, tr.y2035];
+      }
+      var r = monteCarlo(spec, n, seed);
+      for (var e = 0; e < elements.length; e++) {
+        var arr = r.draws[elements[e]];
+        var dst = pooled[elements[e]];
+        for (var i = 0; i < arr.length; i++) dst.push(arr[i]);
+      }
+      for (var cj = 0; cj < order.length; cj++) channelAccum[order[cj]] += r.channels2030.means[order[cj]];
+      vAcc += r.verdictShares.accelerating;
+      vDly += r.verdictShares.delaying;
+      vMix += r.verdictShares.mixed;
+    }
+    var ns = scenarios.length;
+    var quantiles = {};
+    for (var q = 0; q < elements.length; q++) quantiles[elements[q]] = summarize(pooled[elements[q]]);
+    var channels2030 = {};
+    for (var ck = 0; ck < order.length; ck++) channels2030[order[ck]] = channelAccum[order[ck]] / ns;
+
+    return {
+      slug: slug,
+      name: wd.name,
+      scenarios: scenarios,
+      includeStress: includeStress,
+      includeTrade: includeTrade,
+      quantiles: quantiles,
+      sharePositive: quantiles.cumulative_2025_2035.share_positive,
+      channels2030: channels2030,
+      verdictShares: { accelerating: vAcc / ns, delaying: vDly / ns, mixed: vMix / ns },
+    };
+  }
+
   // ------------------------------------------------------------------ exports
   return {
     init: init,
@@ -1743,6 +1941,7 @@ var GridModel = (function () {
     tornado: tornado,
     flipTest: flipTest,
     weightedAggregate: weightedAggregate,
+    world: world,
     // lower-level pieces exposed for the UI / tests
     buildSpec: buildSpec,
     centralValues: centralValues,
@@ -1754,6 +1953,7 @@ var GridModel = (function () {
     computeIndicators: computeIndicators,
     verdictFromIndicators: verdictFromIndicators,
     mefYearScale: mefYearScale,
+    mefTrajMultiplier: mefTrajMultiplier,
     mulberry32: mulberry32,
     percentileSorted: percentileSorted,
     weightedPercentile: weightedPercentile,
@@ -1799,27 +1999,11 @@ if (typeof module !== "undefined") module.exports = GridModel;
   var VERDICT_LABEL = { delaying: 'Delaying', accelerating: 'Accelerating', mixed: 'Mixed' };
   var VERDICT_CLASS = { delaying: 'delay', accelerating: 'accel', mixed: 'mixed' };
 
-  /* ---------- model adapter ---------- */
+  /* ---------- model adapter ----------
+     The calculator drives the model through GridModel.world (scenario-first, no
+     probability weighting); this adapter now only serves the tornado figure. */
   var API = {
     available: typeof GridModel !== 'undefined' && typeof PARAMS !== 'undefined',
-    weighted: function (opts) {
-      var w = GridModel.weightedAggregate(opts.weights, {
-        regime: opts.regime, mefFamily: opts.mefFamily, overrides: opts.overrides, n: opts.n
-      });
-      var c = w.elements.cumulative_2025_2035;
-      return {
-        quantiles: { p05: c.weighted_p05, p10: c.weighted_p10, median: c.weighted_median, p90: c.weighted_p90, p95: c.weighted_p95 },
-        sharePositive: c.weighted_share_positive,
-        verdictTally: w.verdict_tally
-      };
-    },
-    scenario: function (opts) {
-      var r = GridModel.run({
-        scenario: opts.scenario, regime: opts.regime, mefFamily: opts.mefFamily,
-        overrides: opts.overrides, n: opts.n
-      });
-      return { channels2030: r.channels2030.means, cumulative: r.cumulative, verdict: r.verdict };
-    },
     tornado: function () {
       var t = GridModel.tornado({});
       return {
@@ -2099,55 +2283,29 @@ if (typeof module !== "undefined") module.exports = GridModel;
     });
   }
 
-  function futuresChart(mount) {
-    var W = 760, rowH = 52, gap = 12, labelW = 215, chipW = 108;
-    var H = PUB.scenarios.length * (rowH + gap) + 26;
-    var lo = -100, hi = 1400;
-    var plotW = W - labelW - chipW - 24;
-    function x(v) { return labelW + (v - lo) / (hi - lo) * plotW; }
-    clear(mount);
-    var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': 'Cumulative emissions by demand future' }, mount);
-    var tip = tooltip(mount);
-    el('line', { x1: x(0), x2: x(0), y1: 2, y2: H - 22, stroke: css('--baseline'), 'stroke-width': 1 }, svg);
-    el('text', { x: x(0), y: H - 8, 'text-anchor': 'middle', 'font-size': 11, fill: css('--ink-3'), 'font-family': mono() }, svg).textContent = '0';
-    PUB.scenarios.forEach(function (s, i) {
-      var y0 = i * (rowH + gap) + 4;
-      el('text', { x: labelW - 12, y: y0 + 20, 'text-anchor': 'end', 'font-size': 13.5, 'font-weight': 600, fill: css('--ink') }, svg).textContent = s.name;
-      el('text', { x: labelW - 12, y: y0 + 37, 'text-anchor': 'end', 'font-size': 11, fill: css('--ink-3') }, svg)
-        .textContent = 'weight ' + Math.round(s.weight * 100) + '% · ' + s.sub;
-      var color = s.verdict === 'accelerating' ? css('--abate') : (s.verdict === 'mixed' ? css('--ink-3') : css('--emit'));
-      var band = el('rect', { x: x(s.p10), y: y0 + 12, width: Math.max(2, x(s.p90) - x(s.p10)), height: rowH - 30, rx: 4, fill: color, opacity: 0.38 }, svg);
-      el('line', { x1: x(s.median), x2: x(s.median), y1: y0 + 8, y2: y0 + rowH - 14, stroke: color, 'stroke-width': 2.5 }, svg);
-      el('text', { x: x(s.median), y: y0 + rowH - 2, 'text-anchor': 'middle', 'font-size': 11.5, 'font-weight': 600, fill: css('--ink'), 'font-family': mono() }, svg)
-        .textContent = fmtMt(s.median, true);
-      el('text', { x: W - 8, y: y0 + 24, 'text-anchor': 'end', 'font-size': 11.5, 'font-weight': 700,
-        fill: color }, svg).textContent = VERDICT_LABEL[s.verdict];
-      band.addEventListener('mousemove', function (ev) {
-        tip.show(s.name + '<br><span class="num">' + fmtMt(s.median, true) + ' Mt</span> median · [' + fmtMt(s.p10, true) + ', ' + fmtMt(s.p90, true) + '] p10–p90', ev.clientX, ev.clientY);
-      });
-      band.addEventListener('mouseleave', tip.hide);
-    });
-  }
-
   function scenariosChart(mount) {
-    // Precomputed from the 2026-07-15 synthesis run (central band, cumulative
-    // 2025–2035, Mt CO2). The browser model port does not yet build these
-    // scenarios, so this figure is static by design.
-    var rows = [
-      { name: 'Reference Case', median: 656.8, p10: 164.2, p90: 1337.0 },
-      { name: 'Boom, Grid Keeps Up', median: 1272.5, p10: 938.6, p90: 1666.0 },
-      { name: 'Boom, Grid Falls Behind', median: 1251.4, p10: 905.0, p90: 1656.2 },
-      { name: 'Anti-AI Backlash', median: 513.4, p10: 316.6, p90: 752.1 },
-      { name: 'Market Correction', median: 370.6, p10: 221.9, p90: 557.7 }
-    ];
+    // Baked at build time from the published baseline run (central band,
+    // cumulative 2025–2035, Mt CO2), sourced through PUBLISHED_BASELINE.yaml so
+    // the next run flows through without hand-edited constants. The browser model
+    // port reproduces these live (GridModel.world), but the figure stays baked so
+    // the page reads identically with or without JS.
+    var wh = (typeof PARAMS !== 'undefined') && PARAMS.world_headline;
+    var order = (typeof PARAMS !== 'undefined' && PARAMS.worlds && PARAMS.worlds.slugs) || [];
+    if (!wh || !order.length) return;
+    var rows = order.map(function (slug) {
+      var h = wh.worlds[slug];
+      return { name: h.name, median: h.median, p10: h.p10, p90: h.p90 };
+    });
     var W = 760, rowH = 44, gap = 12, labelW = 215;
     var H = rows.length * (rowH + gap) + 26;
     var lo = -60, hi = 1750;
     var plotW = W - labelW - 24;
     function x(v) { return labelW + (v - lo) / (hi - lo) * plotW; }
     clear(mount);
+    var meds = rows.map(function (r) { return r.median; });
     var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img',
-      'aria-label': 'Cumulative emissions 2025 to 2035 by scenario: medians from +371 Mt under Market Correction to +1,273 Mt under Boom, Grid Keeps Up' }, mount);
+      'aria-label': 'Cumulative emissions 2025 to 2035 by scenario: medians from ' +
+        fmtMt(Math.min.apply(null, meds), true) + ' to ' + fmtMt(Math.max.apply(null, meds), true) + ' Mt' }, mount);
     var tip = tooltip(mount);
     el('line', { x1: x(0), x2: x(0), y1: 2, y2: H - 22, stroke: css('--baseline'), 'stroke-width': 1 }, svg);
     el('text', { x: x(0), y: H - 8, 'text-anchor': 'middle', 'font-size': 11, fill: css('--ink-3'), 'font-family': mono() }, svg).textContent = '0';
@@ -2214,9 +2372,18 @@ if (typeof module !== "undefined") module.exports = GridModel;
     var bundle = (typeof PARAMS !== 'undefined') &&
       ((PARAMS.delta_e_params && PARAMS.delta_e_params[id]) || (PARAMS.indicator_params && PARAMS.indicator_params[id])) || {};
     var ui = UI_META[id] || {};
+    var range = bundle.range || null;
+    if (!range) {
+      // family-/scenario-/regime-banded params carry no flat `range` (it would
+      // override buildSpec's family selection); use the central family for the
+      // slider bounds so the control spans the real evidence range.
+      if (bundle.range_by_mef_family) range = bundle.range_by_mef_family.longrun;
+      else if (bundle.range_by_scenario) range = bundle.range_by_scenario['consensus'];
+      else if (bundle.range_by_regime) range = bundle.range_by_regime['orders-continue'];
+    }
     return {
       label: ui.label || bundle.label || id,
-      range: bundle.range || null,
+      range: range,
       description: bundle.description || '',
       evidence: bundle.note || '',
       status: bundle.registry_status || 'contested',
@@ -2505,58 +2672,35 @@ if (typeof module !== "undefined") module.exports = GridModel;
     pop.addEventListener('mouseleave', hide);
   }
 
-  /* ---------- calculator (same model surface as the explorer) ---------- */
-  var CONTROL_DEFS = ['mef', 'rate_feedback_band', 'embodied_band',
-    'leakage_band', 'clean_cf', 'additionality_share', 'saturation_mult'].map(function (id) { return { id: id }; });
+  /* ---------- calculator (scenario-first; same model surface as the model port) ----------
+     The scenario selector re-bases the live model onto one of the five scenarios
+     ("worlds"), applying that world's demand-path selection and central band
+     conditionings exactly as synthesis/src/worlds.py does — the conditioning
+     spec is exported from Python (PARAMS.worlds), so the two cannot drift.
+     Sliders are the top-swing evidence ranges; the what-if switches add a
+     scenario's stress legs the evidence cannot yet size. Nothing is
+     probability-weighted or pooled across scenarios. */
+  var CONTROL_DEFS = ['mef', 'additionality_share', 'leakage_band', 'embodied_band', 'rate_feedback_band']
+    .map(function (id) { return { id: id }; });
 
-  var state = { pins: {}, weights: null, regime: 'orders-continue', mefFamily: 'longrun', touched: false };
+  var state = { world: 'reference-case', pins: {}, regime: 'orders-continue',
+    mefFamily: 'longrun', includeStress: false, includeTrade: false, touched: false };
   var lastCalc = null;
 
-  function defaultWeights() {
-    var w = {}; PUB.scenarios.forEach(function (s) { w[s.id] = s.weight; }); return w;
+  function worldsMeta() { return (typeof PARAMS !== 'undefined') && PARAMS.worlds; }
+  function worldOrder() { var w = worldsMeta(); return (w && w.slugs) || ['reference-case']; }
+  function worldInfo(slug) { var w = worldsMeta(); return w && w.worlds && w.worlds[slug]; }
+  function worldHasStress(slug) { var i = worldInfo(slug); return !!(i && i.stress && i.stress.length); }
+  function publishedWorld(slug) {
+    var wh = (typeof PARAMS !== 'undefined') && PARAMS.world_headline;
+    return wh && wh.worlds && wh.worlds[slug];
   }
-  function normalize(w) {
-    var sum = 0, k; for (k in w) sum += w[k];
-    var out = {}; for (k in w) out[k] = sum > 0 ? w[k] / sum : 0.25;
-    return out;
-  }
-  function pinsAt(spec) {
-    var pins = {};
-    Object.keys(spec).forEach(function (id) {
-      var m = paramMeta(id);
-      if (!m || !m.range) return;
-      pins[id] = spec[id] === 'low' ? m.range[0] : m.range[1];
-    });
-    return pins;
-  }
-  var PRESETS = [
-    { id: 'published', label: 'Published central', apply: function () { state.pins = {}; state.weights = defaultWeights(); state.regime = 'orders-continue'; state.mefFamily = 'longrun'; } },
-    { id: 'hyperscaler', label: 'Hyperscaler report', apply: function () {
-        // Rosy sustainability-report framing: cleanest grid, best-case procurement,
-        // smallest side channels, demand leaning to the tamer futures.
-        state.pins = pinsAt({ mef: 'low', additionality_share: 'high', clean_cf: 'high', embodied_band: 'low', leakage_band: 'low', rate_feedback_band: 'low' });
-        state.weights = normalize({ 'consensus': 0.5, 'efficiency-tempered': 0.4, 'jevons-high': 0.05, 'demand-disappointment': 0.05 });
-        state.mefFamily = 'longrun'; } },
-    { id: 'iea', label: 'IEA-ish consensus', apply: function () {
-        state.pins = {}; state.weights = normalize({ 'consensus': 0.6, 'efficiency-tempered': 0.2, 'jevons-high': 0.1, 'demand-disappointment': 0.1 });
-        state.mefFamily = 'longrun'; } },
-    { id: 'skeptic', label: 'AI skeptic', apply: function () {
-        // Demand is overhyped: the bust future dominates and post-2030 growth flattens.
-        // (The delivery skepticism the discount used to carry now lives in the weights.)
-        state.pins = pinsAt({ saturation_mult: 'low' });
-        state.weights = normalize({ 'consensus': 0.2, 'efficiency-tempered': 0.1, 'jevons-high': 0.05, 'demand-disappointment': 0.65 });
-        state.mefFamily = 'shortrun'; } }
-  ];
 
   function displayVal(id, v) {
     var m = paramMeta(id);
     var digits = (m && m.digits !== undefined) ? m.digits : 2;
     return (m && m.format === 'pct') ? Math.round(v * 100) + '%' : v.toFixed(digits) + (m && m.unitShort ? ' ' + m.unitShort : '');
   }
-  function clearPresetSelection() {
-    document.querySelectorAll('#presets .preset').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
-  }
-
   function segControl(title, options, get, set, hintText) {
     var wrap = document.createElement('div'); wrap.className = 'ctl';
     var lab = document.createElement('label'); lab.innerHTML = '<span>' + title + '</span>';
@@ -2576,24 +2720,82 @@ if (typeof module !== "undefined") module.exports = GridModel;
     return wrap;
   }
 
-  function buildControls() {
-    var host = document.getElementById('controlList');
-    var presetHost = document.getElementById('presets');
-    if (!host || !presetHost) return;
-    clear(host); clear(presetHost);
-
-    PRESETS.forEach(function (p) {
+  function renderScenarioSelect() {
+    var host = document.getElementById('scenarioSelect');
+    if (!host) return;
+    clear(host);
+    worldOrder().forEach(function (slug) {
+      var info = worldInfo(slug) || {};
       var b = document.createElement('button');
-      b.className = 'preset'; b.textContent = p.label; b.type = 'button';
-      b.setAttribute('aria-pressed', p.id === 'published' ? 'true' : 'false');
+      b.type = 'button'; b.className = 'scenario-btn'; b.dataset.world = slug;
+      b.textContent = info.name || slug;
+      b.setAttribute('aria-pressed', slug === state.world ? 'true' : 'false');
       b.addEventListener('click', function () {
-        p.apply(); state.touched = p.id !== 'published';
-        clearPresetSelection();
+        if (state.world === slug) return;
+        state.world = slug;
+        // a fresh scenario re-bases the calculator: drop the previous scenario's
+        // stress switches (their stress lists differ); keep explicit slider pins.
+        state.includeStress = false; state.includeTrade = false;
+        host.querySelectorAll('.scenario-btn').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
         b.setAttribute('aria-pressed', 'true');
-        syncControls(); scheduleRecompute();
+        updateScenarioStory();
+        buildWhatIfs();
+        syncControls();
+        recompute();
       });
-      presetHost.appendChild(b);
+      host.appendChild(b);
     });
+    updateScenarioStory();
+  }
+
+  function updateScenarioStory() {
+    var story = document.getElementById('scenarioStory');
+    if (!story) return;
+    var info = worldInfo(state.world) || {};
+    story.textContent = info.gloss || '';
+  }
+
+  function switchRow(title, hint, get, set, disabled) {
+    var wrap = document.createElement('label'); wrap.className = 'switch' + (disabled ? ' disabled' : '');
+    var input = document.createElement('input'); input.type = 'checkbox';
+    input.checked = get(); input.disabled = !!disabled;
+    input.addEventListener('change', function () { set(input.checked); });
+    var txt = document.createElement('span'); txt.className = 'switch-txt';
+    var t = document.createElement('span'); t.className = 'switch-title'; t.textContent = title;
+    var h = document.createElement('span'); h.className = 'switch-hint'; h.textContent = hint;
+    txt.appendChild(t); txt.appendChild(h);
+    wrap.appendChild(input); wrap.appendChild(txt);
+    return wrap;
+  }
+
+  function buildWhatIfs() {
+    var host = document.getElementById('whatIfs');
+    if (!host) return;
+    clear(host);
+    var hasStress = worldHasStress(state.world);
+    var wm = worldsMeta();
+    var tradeName = (wm && wm.trade_name) || 'Trade-restricted infrastructure';
+    var lede = document.createElement('div'); lede.className = 'whatifs-lede';
+    lede.textContent = 'Include the what-ifs the evidence cannot yet size (off by default):';
+    host.appendChild(lede);
+    host.appendChild(switchRow('This scenario’s stress case',
+      hasStress ? 'The dirtier or riskier legs this scenario could take that no analysis can yet put a number on.'
+        : 'This scenario has no unsized stress legs — its central case is the whole story.',
+      function () { return state.includeStress; },
+      function (on) { state.includeStress = on; state.touched = true; recompute(); },
+      !hasStress));
+    host.appendChild(switchRow(tradeName,
+      'Supply-chain restriction: slower clean delivery and higher embodied carbon, but a tighter chip gate that trims offshore leakage.',
+      function () { return state.includeTrade; },
+      function (on) { state.includeTrade = on; state.touched = true; recompute(); },
+      false));
+  }
+
+  function buildControls() {
+    renderScenarioSelect();
+    var host = document.getElementById('controlList');
+    if (!host) return;
+    clear(host);
 
     CONTROL_DEFS.forEach(function (def) {
       var m = paramMeta(def.id);
@@ -2601,7 +2803,7 @@ if (typeof module !== "undefined") module.exports = GridModel;
       var wrap = document.createElement('div'); wrap.className = 'ctl'; wrap.dataset.param = def.id;
       var lab = document.createElement('label');
       var span = document.createElement('span'); span.textContent = m.label;
-      var val = document.createElement('span'); val.className = 'val num'; val.textContent = 'evidence range';
+      var val = document.createElement('span'); val.className = 'val num'; val.textContent = 'scenario default';
       lab.appendChild(span); lab.appendChild(val);
       var input = document.createElement('input');
       input.type = 'range'; input.min = range[0]; input.max = range[1];
@@ -2613,18 +2815,17 @@ if (typeof module !== "undefined") module.exports = GridModel;
       var reset = document.createElement('button');
       reset.type = 'button'; reset.className = 'preset';
       reset.style.cssText = 'font-size:.66rem;padding:.15em .6em;margin-top:.4rem;display:none;';
-      reset.textContent = 'unpin — use full range';
+      reset.textContent = 'unpin — use the scenario default';
       input.addEventListener('input', function () {
         state.pins[def.id] = parseFloat(input.value);
         state.touched = true;
         val.textContent = displayVal(def.id, state.pins[def.id]);
         reset.style.display = 'inline-block';
-        clearPresetSelection();
         scheduleRecompute();
       });
       reset.addEventListener('click', function () {
         delete state.pins[def.id];
-        val.textContent = 'evidence range';
+        val.textContent = 'scenario default';
         reset.style.display = 'none';
         scheduleRecompute();
       });
@@ -2634,46 +2835,15 @@ if (typeof module !== "undefined") module.exports = GridModel;
 
     host.appendChild(segControl('Emission-rate method', [
       { v: 'longrun', t: 'Long-run (central)' }, { v: 'shortrun', t: 'Short-run (sensitivity)' }
-    ], function () { return state.mefFamily; }, function (v) { state.mefFamily = v; state.touched = true; clearPresetSelection(); scheduleRecompute(); },
+    ], function () { return state.mefFamily; }, function (v) { state.mefFamily = v; state.touched = true; scheduleRecompute(); },
       'Long-run rates suit a decade-long anticipated load; short-run rates raise the result 1.5–3×.'));
 
     host.appendChild(segControl('Federal emergency orders', [
       { v: 'orders-continue', t: 'Continue' }, { v: 'orders-lapse', t: 'Lapse' }
-    ], function () { return state.regime; }, function (v) { state.regime = v; state.touched = true; clearPresetSelection(); scheduleRecompute(); },
+    ], function () { return state.regime; }, function (v) { state.regime = v; state.touched = true; scheduleRecompute(); },
       'Whether DOE reliability orders keeping coal online persist. Worth ~50 Mt cumulative.'));
 
-    var wWrap = document.createElement('div'); wWrap.className = 'ctl';
-    wWrap.innerHTML = '<label><span>Demand-future weights</span><span class="val num">Σ 100%</span></label>';
-    PUB.scenarios.forEach(function (s) {
-      var row = document.createElement('div'); row.style.marginTop = '.45rem';
-      var lab = document.createElement('div'); lab.style.cssText = 'display:flex;justify-content:space-between;font-size:.76rem;color:var(--ink-2);';
-      lab.innerHTML = '<span>' + s.name + '</span><span class="num" data-wlabel="' + s.id + '">' + Math.round(s.weight * 100) + '%</span>';
-      var input = document.createElement('input');
-      input.type = 'range'; input.min = 0; input.max = 100; input.value = Math.round(s.weight * 100);
-      input.dataset.wfor = s.id;
-      input.setAttribute('aria-label', 'Weight for ' + s.name + ' future');
-      input.addEventListener('input', function () {
-        var w = {};
-        wWrap.querySelectorAll('input[data-wfor]').forEach(function (inp) { w[inp.dataset.wfor] = parseFloat(inp.value); });
-        state.weights = normalize(w);
-        state.touched = true;
-        updateWeightLabels(wWrap);
-        clearPresetSelection();
-        scheduleRecompute();
-      });
-      row.appendChild(lab); row.appendChild(input); wWrap.appendChild(row);
-    });
-    var wn = document.createElement('div'); wn.className = 'weights-note';
-    wn.textContent = 'Weights renormalize to 100% automatically. Published: 40 / 27 / 20 / 13.';
-    wWrap.appendChild(wn);
-    host.appendChild(wWrap);
-  }
-
-  function updateWeightLabels(scope) {
-    var w = state.weights || defaultWeights();
-    (scope || document).querySelectorAll('[data-wlabel]').forEach(function (n) {
-      n.textContent = Math.round((w[n.dataset.wlabel] || 0) * 100) + '%';
-    });
+    buildWhatIfs();
   }
 
   function syncControls() {
@@ -2690,15 +2860,10 @@ if (typeof module !== "undefined") module.exports = GridModel;
       } else {
         var m = paramMeta(def.id); var r = m && m.range ? m.range : [0, 1];
         input.value = (r[0] + r[1]) / 2;
-        val.textContent = 'evidence range';
+        val.textContent = 'scenario default';
         if (reset) reset.style.display = 'none';
       }
     });
-    document.querySelectorAll('#controlList input[data-wfor]').forEach(function (inp) {
-      var w = state.weights || defaultWeights();
-      inp.value = Math.round((w[inp.dataset.wfor] || 0) * 100);
-    });
-    updateWeightLabels();
   }
 
   var pending = null, settleTimer = null;
@@ -2713,32 +2878,34 @@ if (typeof module !== "undefined") module.exports = GridModel;
     Object.keys(state.pins).forEach(function (id) { o[id] = state.pins[id]; });
     return o;
   }
-  function fullWeights() {
-    var w = state.weights || defaultWeights();
-    var out = {};
-    PUB.scenarios.forEach(function (s) { out[s.id] = w[s.id] || 0; });
-    return out;
-  }
   function recompute(n) {
-    n = n || 20000;
-    var res, cons;
-    if (API.available) {
+    var res = null;
+    if (API.available && typeof GridModel.world === 'function') {
       try {
-        res = API.weighted({ weights: fullWeights(), regime: state.regime, mefFamily: state.mefFamily, overrides: overridesFromPins(), n: n });
-        cons = API.scenario({ scenario: 'consensus', regime: state.regime, mefFamily: state.mefFamily, overrides: overridesFromPins(), n: Math.min(n, 8000) });
-      } catch (err) { console.error('[essay] model error', err); }
+        res = GridModel.world(state.world, {
+          regime: state.regime, mefFamily: state.mefFamily,
+          includeStress: state.includeStress, includeTrade: state.includeTrade,
+          overrides: overridesFromPins(), n: n
+        });
+      } catch (err) { console.error('[calc] world model error', err); }
     }
     if (!res) {
-      res = { quantiles: PUB.weightedCumulative, sharePositive: PUB.weightedCumulative.sharePositive, verdictTally: PUB.verdictTally };
-      cons = { channels2030: PUB.channels2030 };
+      // static fallback: the scenario's published central band (no live model)
+      var pub = publishedWorld(state.world);
+      if (!pub) return;
+      res = {
+        quantiles: { cumulative_2025_2035: { median: pub.median, p10: pub.p10, p90: pub.p90,
+          p05: pub.p05, p95: pub.p95, share_positive: pub.share_positive } },
+        sharePositive: pub.share_positive, channels2030: PUB.channels2030, verdictShares: null
+      };
     }
-    lastCalc = { res: res, cons: cons };
-    renderCalcOutputs(res, cons);
-    if (dashCurrent === 'calc') renderDashCalc(lastCalc);
+    lastCalc = { res: res, world: state.world };
+    renderCalcOutputs(res);
   }
 
-  function renderCalcOutputs(res, cons) {
-    var q = res.quantiles;
+  function renderCalcOutputs(res) {
+    var q = res.quantiles.cumulative_2025_2035;
+    var pub = publishedWorld(state.world);
     var cm = document.getElementById('calcMedian');
     if (cm) {
       cm.innerHTML = fmtMt(q.median, true) + ' <span class="unit">Mt</span>';
@@ -2749,44 +2916,59 @@ if (typeof module !== "undefined") module.exports = GridModel;
     var cs = document.getElementById('calcSign');
     if (cs) cs.innerHTML = Math.round(res.sharePositive * 100) + '<span class="unit">%</span>';
     var cv = document.getElementById('calcVerdict');
-    if (cv && res.verdictTally) {
-      var top = Object.keys(res.verdictTally).sort(function (a, b) { return (res.verdictTally[b] || 0) - (res.verdictTally[a] || 0); })[0];
-      cv.textContent = VERDICT_LABEL[top] + ' ' + (res.verdictTally[top] || 0).toFixed(2);
-      var sub = document.getElementById('calcVerdictSub');
-      if (sub) sub.textContent = ['delaying', 'accelerating', 'mixed'].map(function (k) {
-        return VERDICT_LABEL[k].slice(0, 5).toLowerCase() + ' ' + (res.verdictTally[k] || 0).toFixed(2);
-      }).join(' · ');
+    var sub = document.getElementById('calcVerdictSub');
+    if (cv) {
+      if (res.verdictShares) {
+        var vs = res.verdictShares;
+        var top = ['delaying', 'accelerating', 'mixed'].sort(function (a, b) { return (vs[b] || 0) - (vs[a] || 0); })[0];
+        cv.textContent = VERDICT_LABEL[top] + ' ' + (vs[top] || 0).toFixed(2);
+        if (sub) sub.textContent = ['delaying', 'accelerating', 'mixed'].map(function (k) {
+          return VERDICT_LABEL[k].slice(0, 5).toLowerCase() + ' ' + (vs[k] || 0).toFixed(2);
+        }).join(' · ');
+      } else {
+        cv.textContent = '—';
+        if (sub) sub.textContent = 'share of draws by direction';
+      }
     }
     var cd = document.getElementById('calcDelta');
     var cf = document.getElementById('calcFlipNote');
-    if (cd) {
-      var delta = q.median - PUB.weightedCumulative.median;
+    if (cd && pub) {
+      var delta = q.median - pub.median;
       cd.textContent = (delta >= 0 ? '+' : '') + Math.round(delta) + ' Mt';
       if (cf) {
-        if (!state.touched) cf.textContent = 'move a slider to begin';
-        else if (q.median < 0) cf.textContent = 'sign flipped — no single-assumption path does this; count your pins';
-        else if (res.sharePositive < 0.6) cf.textContent = 'sign now genuinely uncertain — a result worth writing up';
+        if (!state.touched) cf.textContent = 'this scenario’s central result';
+        else if (q.median < 0) cf.textContent = 'sign flipped — count the assumptions it took';
+        else if (res.sharePositive < 0.6) cf.textContent = 'sign now genuinely uncertain';
         else cf.textContent = 'still positive under these assumptions';
       }
     }
     var cstrip = document.getElementById('calcStrip');
-    if (cstrip) quantileStrip(cstrip, q, { height: 84, domain: [-250, 1350], ghost: PUB.weightedCumulative });
+    if (cstrip) {
+      var ghost = pub ? { p10: pub.p10, median: pub.median, p90: pub.p90 } : null;
+      var lo = Math.min(0, q.p05, ghost ? ghost.p10 : q.p05) - 80;
+      var hi = Math.max(q.p95, 0, ghost ? ghost.p90 : q.p95) + 80;
+      quantileStrip(cstrip, q, { height: 84, domain: [lo, hi], ghost: ghost });
+    }
     var cwf = document.getElementById('calcWaterfall');
-    if (cwf && cons && cons.channels2030) waterfall(cwf, cons.channels2030);
+    if (cwf && res.channels2030) waterfall(cwf, res.channels2030);
   }
 
   function renderDashCalc(lc) {
-    var q = lc.res.quantiles;
+    // Retired essay-page reading panel; kept in sync with the calculator's result
+    // shape. Not mounted on the review index (no #dashBody there).
+    var q = lc.res.quantiles.cumulative_2025_2035 || lc.res.quantiles;
+    var pub = publishedWorld(lc.world);
     var m = document.getElementById('dashCalcMedian');
     if (m) {
       m.textContent = fmtMt(q.median, true) + ' Mt';
       m.className = 'v num ' + (q.median >= 0 ? 'pos' : 'neg');
     }
     var ds = document.getElementById('dashCalcStrip');
-    if (ds) quantileStrip(ds, q, { compact: true, height: 40, domain: [-250, 1350], width: 320, ghost: PUB.weightedCumulative });
+    if (ds) quantileStrip(ds, q, { compact: true, height: 40, domain: [-250, 1350], width: 320,
+      ghost: pub ? { p10: pub.p10, median: pub.median, p90: pub.p90 } : null });
     var chips = document.getElementById('dashCalcChips');
-    if (chips && lc.res.verdictTally) {
-      var t = lc.res.verdictTally;
+    if (chips && lc.res.verdictShares) {
+      var t = lc.res.verdictShares;
       chips.innerHTML = ['delaying', 'accelerating', 'mixed'].map(function (k) {
         return '<span class="chip ' + VERDICT_CLASS[k] + '"><span class="swatch"></span>' + VERDICT_LABEL[k].slice(0, 6) + ' <span class="num">' + (t[k] || 0).toFixed(2) + '</span></span>';
       }).join('');
@@ -2802,7 +2984,6 @@ if (typeof module !== "undefined") module.exports = GridModel;
     if (w) waterfall(w, PUB.channels2030, w.dataset.catchall === 'off' ? {} : { catchAll: {
       label: 'Smaller, less-certain channels', center: 4, band: [-12, 18],
       note: 'a dozen channels sized to order of magnitude only; largest: transmission unlocking queued renewables (−), annual-vs-hourly certificates (+). Not in the net.' } });
-    var fu = document.getElementById('futuresChart'); if (fu) futuresChart(fu);
     var sc = document.getElementById('scenariosChart'); if (sc) scenariosChart(sc);
     var pc = document.getElementById('paradoxCleanChart');
     if (pc) riseChart(pc, { path: [0, 0.25, 0.7, 1.3, 1.9], end: 1.9, endLabel: '+1.9 pp', color: css('--abate'),
