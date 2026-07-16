@@ -156,6 +156,16 @@ figure { margin: 1.6rem 0 1.4rem; }
 .range-svg .bar-abate { fill: var(--abate); }
 .range-svg .bar-neutral { fill: var(--baseline); }
 
+/* definitions and formulas */
+.formula {
+  font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  font-variant-numeric: tabular-nums; font-size: .84rem; line-height: 1.55;
+  background: var(--surface); border: 1px solid var(--hairline); border-radius: 8px;
+  padding: .6rem .9rem; margin: 1rem 0 .3rem; overflow-x: auto;
+}
+.formula b { font-weight: 700; }
+.formula-note { font-size: .82rem; color: var(--ink-2); margin: 0 0 1rem; }
+
 /* assumption cards */
 .acard {
   background: var(--surface); border: 1px solid var(--hairline); border-radius: 10px;
@@ -274,8 +284,8 @@ figure { margin: 1.6rem 0 1.4rem; }
 </div>
 <header class="masthead">
   <div class="rubric">AI and the grid<span class="sep">·</span>module M2<span class="sep">·</span>retirement delays</div>
-  <h1>Delayed coal retirements are keeping carbon online. Measured dispatch makes it smaller than advertised, and federal orders, not data centers, are mostly the reason.</h1>
-  <p class="dek">Thirteen coal units pushed back their shutdown dates in a single year, but counting how they actually run — not their nameplate — cuts the emissions to a fraction, and only one of those delays so much as names a data center</p>
+  <h1>Are coal plants delaying retirement to serve AI demand?</h1>
+  <p class="dek">Thirteen coal units pushed back their shutdown dates in a single year. This analysis measures the emissions those delays cause from how the units actually run, and reads the public record for what is driving each delay</p>
   <div class="byline">Figures as of May 2026 (retirement vintages) and 2024–2025 (measured dispatch) · two decisions recorded 7–12 July 2026 · first empirical pass complete</div>
 </header>
 
@@ -289,31 +299,46 @@ figure { margin: 1.6rem 0 1.4rem; }
 <main class="brief">
 
 <section aria-labelledby="s-answer">
-  <h2 id="s-answer">The answer first</h2>
-  <p>The most visceral climate charge against the buildout is that it is keeping coal alive: plants scheduled to close are staying open to feed data centers. The first half of that sentence is true and measurable. Between May 2025 and May 2026, thirteen coal-fired units totalling 5,964 megawatts pushed their planned retirement to a later date, the raw signal from diffing two vintages of the <a href="https://www.eia.gov/electricity/data/eia860m/">US Energy Information Administration's monthly generator inventory</a>, the federal record of every power plant's status. Our analysis prices the emissions those specific delays cause, built from how the units actually run rather than from their nameplate, at a net roughly 8.7 million tonnes of CO₂ over the delay windows, with a gross figure of about 15.7 million tonnes before crediting the gas those coal units displace.</p>
-  <p>Set against the yardsticks this project uses, 8.7 million tonnes is a real but modest entry: about 1.9 million gasoline cars driven for a year (<a href="https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle">at the Environmental Protection Agency's 4.6 tonnes per car</a>), or roughly six-tenths of one percent of what US power plants put into the air in 2024 (<a href="https://www.eia.gov/environment/emissions/carbon/">1,427 million tonnes, per the same agency</a>). What that number shows is that delayed retirements are a small, real drag on the transition. What it does not show is the figure the advocacy coverage reaches for. An <a href="https://www.desmog.com/2025/12/12/15-coal-plant-retirements-delayed-ai-data-centers-trump-doe-orders/">analysis by DeSmog and the Frontier Group</a>, an environmental-research nonprofit, puts about 68 million tonnes on this story, but that is the delayed plants' entire 2024 output, everything they emit standing still, not the slice the delays caused. The gap between 8.7 and 68 is the gap between a stock and a consequence.</p>
-  <p>Three things would move our number, and none of them is the demand forecast. The first is whether the federal emergency orders now holding several of these units open keep renewing, which grows the delay, or lapse on schedule, which caps it near this window. The second is direct hourly metering of the ordered units, which idle far more than the annual averages we used suggest, so their share is more likely an over-estimate than an under-estimate. The third is the unfinished question of how much of the reliability-driven deferrals is itself downstream of anticipated data-center load, the one place where the AI channel could quietly grow.</p>
+  <h2 id="s-answer">Background</h2>
+  <p>A frequent claim about the data-center buildout is that it is keeping coal plants alive: units scheduled to close are staying open to serve new load. This analysis measures the emissions those delays cause and attributes each delay to its stated driver.</p>
+  <ul>
+    <li>Between May 2025 and May 2026, thirteen coal-fired units totalling 5,964 megawatts moved their planned retirement to a later date. The signal comes from comparing two vintages of the <a href="https://www.eia.gov/electricity/data/eia860m/">US Energy Information Administration's monthly generator inventory</a>, the federal record of every power plant's status.</li>
+    <li>Public estimates of the resulting emissions vary widely. An <a href="https://www.desmog.com/2025/12/12/15-coal-plant-retirements-delayed-ai-data-centers-trump-doe-orders/">analysis by DeSmog and the Frontier Group</a> attributes about 68 million tonnes of CO₂ to delayed coal retirements — but that figure is the delayed plants' entire 2024 output, not the increment the delays caused.</li>
+    <li>The size of the true increment depends on how much the delayed units actually generate during the delay, and on crediting the generation they displace. That is what this analysis measures, from federal plant-level generation data.</li>
+    <li>Candidate drivers of each delay, read from the public record: <a href="https://www.energy.gov/ceser/2025-doe-202c-orders">federal emergency orders under Section 202(c)</a> of the Federal Power Act, reliability and resource-adequacy decisions by utilities and regulators, and stated data-center demand.</li>
+  </ul>
 </section>
 
 <section aria-labelledby="s-how">
-  <h2 id="s-how">How the channel works</h2>
+  <h2 id="s-how">Analytical Framework</h2>
   <div class="chain" role="img" aria-label="Causal chain: anticipated load and reliability pressure, to a retirement delayed, to the unit dispatched at its measured capacity factor, to emissions caused net of displaced gas">
-    <div class="node"><b>Anticipated load</b><span>data-center growth, DOE emergency orders, and reliability tightening press to keep capacity</span></div>
+    <div class="node"><b>Anticipated load</b><span>data-center growth, federal emergency orders, and reliability tightening press to keep capacity</span></div>
     <div class="arrow" aria-hidden="true">→</div>
     <div class="node"><b>Retirement delayed</b><span>a capacity fact: gigawatts of coal held online past the planned close date</span></div>
     <div class="arrow" aria-hidden="true">→</div>
-    <div class="node"><b>Dirtier dispatch</b><span>the unit runs at its measured capacity factor, about a third of the year, not flat out</span></div>
+    <div class="node"><b>Measured dispatch</b><span>the unit runs at its measured capacity factor, not flat out</span></div>
     <div class="arrow" aria-hidden="true">→</div>
     <div class="node"><b>Emissions caused</b><span>coal tonnes over the delay window, net of the gas the coal displaces</span></div>
   </div>
-  <p>A delayed retirement is a capacity fact, measured in gigawatts held online for a stretch of time. It only becomes tonnes of carbon through a capacity factor, the share of the year a unit actually generates. This is the whole reason the module exists, because the tempting shortcut is to multiply nameplate capacity by every hour in the year, which assumes a unit runs flat out. These units do not: the thirteen ran at a capacity-weighted 0.33, meaning a third of the time, and the trend is downward as they age toward the exit. The dose is the gigawatt-hours of delay; the response is that measured capacity factor; and the result is netted against the marginal generator the coal shoulders aside, mostly gas, so the consequential figure sits below the gross one. The cap is honesty about the window: our estimate counts only the observed slips of one to twenty-four months, not each unit's ultimate fate, so rolling renewals of the federal orders would grow it and an on-time close at the new date roughly holds it here.</p>
+  <p>A delayed retirement is a capacity fact: megawatts held online for a stretch of time. Converting it into tonnes of CO₂ requires knowing how much the unit actually generates during the delay, then crediting the generation it displaces. The terms, in the order they are applied:</p>
+
+  <div class="formula"><b>capacity factor</b> = measured net generation ÷ (nameplate capacity × hours in the period)</div>
+  <p class="formula-note">The share of the period a unit effectively runs at full output. Measured per unit from EIA Form 923, the federal plant-level generation and fuel survey — never assumed. The common shortcut of multiplying nameplate capacity by every hour in the year implicitly sets this to 1.0 and overstates the result.</p>
+
+  <div class="formula"><b>delay-window generation</b> (MWh) = nameplate capacity × delay length in hours × capacity factor</div>
+  <p class="formula-note">The delay length is the observed slip between the two inventory vintages, from one to twenty-four months per unit — not the unit's ultimate retirement fate.</p>
+
+  <div class="formula"><b>gross emissions</b> (t CO₂) = delay-window generation × measured emission rate</div>
+  <p class="formula-note">The emission rate (tonnes of CO₂ per MWh) is computed per unit from reported fuel burn and generation in the same federal survey.</p>
+
+  <div class="formula"><b>net emissions</b> (t CO₂) = gross emissions − delay-window generation × marginal displacement rate</div>
+  <p class="formula-note">Coal that keeps running displaces the generation that would otherwise have served the same demand, mostly gas. The displacement rate is owned by the project's emissions-factor work and consumed here, so the net figure sits below the gross one.</p>
+
+  <p>Each delay is separately attributed to its stated driver by reading the public record for the unit: the federal order, the regulatory settlement or resource plan, or a named demand source. Attribution and emissions are independent measurements — a large delay with no data-center driver counts toward the emissions total but not toward the AI channel.</p>
 </section>
 
 <section aria-labelledby="s-evidence">
-  <h2 id="s-evidence">What the evidence says, and what it refuses to say</h2>
-  <p>Retirements are slipping across the board, not only for coal. Of about <a href="https://www.eia.gov/todayinenergy/detail.php?id=67206">12.3 gigawatts of generating capacity utilities planned to retire in 2025, only 4.6 gigawatts actually went</a>, and coal accounted for most of the shortfall. Against that backdrop the module takes the thirteen coal units that verifiably slipped, joins them to measured monthly generation from EIA Form 923, the federal plant-level generation and fuel survey, and reads their real dispatch: capacity factors run from 0.11 to 0.60, nine of the thirteen ran lower in 2025 than in 2024, and the emission rates land where subbituminous and bituminous coal belong. This is dispatch evidence, not nameplate arithmetic, and it is the admissible way to turn a capacity delay into an emissions number.</p>
-  <p>The attribution is where the popular story breaks. Reading the public record for why each unit stayed open, the dominant driver is federal policy: seven of the thirteen units, and roughly half the megawatts, are held open by <a href="https://www.energy.gov/ceser/2025-doe-202c-orders">the Department of Energy's Section 202(c) emergency orders</a>, a wartime-era authority the department has invoked <a href="https://www.powermag.com/doe-has-issued-more-than-40-section-202c-emergency-orders-since-may-2025-heres-an-updated-log/">more than forty times since May 2025</a>. Reliability settlements and utility resource plans account for the rest. Data centers are the sole stated driver of none of the thirteen. They appear exactly once, as a co-stated reason, at Oak Creek in Wisconsin, where <a href="https://news.we-energies.com/we-energies-announces-updated-timeline-for-oak-creek-plant-retirements/">We Energies delayed two units</a> citing both regional grid tightening and the Mount Pleasant and Port Washington developments the utility expects to roughly double its demand by 2030. That is the clearest direct link in the cohort, and it is a single co-signature, not a smoking gun.</p>
-  <p>We went looking for a retirement delayed solely because of data-center demand and did not find one in this cohort. The honest reading is that the currently slipping coal fleet is held online more by the federal-orders regime than by AI load directly, which routes the live uncertainty into the policy branch, whether the orders continue or lapse, rather than into the demand forecast. That is not the same as saying the channel is zero or safe. The mechanism is real and documented elsewhere: peer-reviewed capacity-expansion modelling finds that <a href="https://www.cell.com/iscience/fulltext/S2589-0042(26)01872-9">flexible data-center operation can lower costs yet raise emissions by keeping coal online</a>. The finding here is narrower and more specific: on the units actually slipping today, the trigger on record is Washington, not the hyperscalers, and nameplate arithmetic overstates the measured emissions by roughly two- to fivefold (see chart).</p>
+  <h2 id="s-evidence">Findings</h2>
 
   <figure>
     <div class="fig-title">Nameplate arithmetic overstates the delay two- to fivefold</div>
@@ -352,10 +377,15 @@ figure { margin: 1.6rem 0 1.4rem; }
     </div>
     <div class="fig-src">Source: module M2, from measured <a href="https://www.eia.gov/electricity/data/eia860m/">EIA-860M retirement vintages</a> and EIA-923 dispatch; net figure after a marginal-displacement credit of ~0.45 t CO₂/MWh · as of May 2026</div>
   </figure>
+
+  <p>Retirements are slipping across the board, not only for coal. Of about <a href="https://www.eia.gov/todayinenergy/detail.php?id=67206">12.3 gigawatts of generating capacity utilities planned to retire in 2025, only 4.6 gigawatts actually went</a>, and coal accounted for most of the shortfall. Against that backdrop the module takes the thirteen coal units that verifiably slipped, joins them to measured monthly generation from EIA Form 923, the federal plant-level generation and fuel survey, and reads their real dispatch: capacity factors run from 0.11 to 0.60, nine of the thirteen ran lower in 2025 than in 2024, and the emission rates land where subbituminous and bituminous coal belong. This is dispatch evidence, not nameplate arithmetic, and it is the admissible way to turn a capacity delay into an emissions number.</p>
+  <p>The attribution is where the popular story breaks. Reading the public record for why each unit stayed open, the dominant driver is federal policy: seven of the thirteen units, and roughly half the megawatts, are held open by <a href="https://www.energy.gov/ceser/2025-doe-202c-orders">the Department of Energy's Section 202(c) emergency orders</a>, a wartime-era authority the department has invoked <a href="https://www.powermag.com/doe-has-issued-more-than-40-section-202c-emergency-orders-since-may-2025-heres-an-updated-log/">more than forty times since May 2025</a>. Reliability settlements and utility resource plans account for the rest. Data centers are the sole stated driver of none of the thirteen. They appear exactly once, as a co-stated reason, at Oak Creek in Wisconsin, where <a href="https://news.we-energies.com/we-energies-announces-updated-timeline-for-oak-creek-plant-retirements/">We Energies delayed two units</a> citing both regional grid tightening and the Mount Pleasant and Port Washington developments the utility expects to roughly double its demand by 2030. That is the clearest direct link in the cohort, and it is a single co-signature, not a smoking gun.</p>
+  <p>We went looking for a retirement delayed solely because of data-center demand and did not find one in this cohort. The honest reading is that the currently slipping coal fleet is held online more by the federal-orders regime than by AI load directly, which routes the live uncertainty into the policy branch, whether the orders continue or lapse, rather than into the demand forecast. That is not the same as saying the channel is zero or safe. The mechanism is real and documented elsewhere: peer-reviewed capacity-expansion modelling finds that <a href="https://www.cell.com/iscience/fulltext/S2589-0042(26)01872-9">flexible data-center operation can lower costs yet raise emissions by keeping coal online</a>. The finding here is narrower and more specific: on the units actually slipping today, the trigger on record is Washington, not the hyperscalers, and nameplate arithmetic overstates the measured emissions by roughly two- to fivefold, as the chart above shows.</p>
+  <p>The resulting net figure of roughly 8.7 million tonnes of CO₂ over the delay windows is real but modest: about 1.9 million gasoline cars driven for a year (<a href="https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle">at the Environmental Protection Agency's 4.6 tonnes per car</a>), or roughly six-tenths of one percent of what US power plants emitted in 2024 (<a href="https://www.eia.gov/environment/emissions/carbon/">1,427 million tonnes, per the Energy Information Administration</a>). Three things would move it, and none of them is the demand forecast: whether the federal emergency orders keep renewing, which grows the delay, or lapse on schedule, which caps it near this window; direct hourly metering of the ordered units, which idle more than annual averages suggest, making their share more likely an over-estimate than an under-estimate; and how much of the reliability-driven deferrals is itself downstream of anticipated data-center load — the one place where the AI channel could quietly grow.</p>
 </section>
 
 <section aria-labelledby="s-assumptions">
-  <h2 id="s-assumptions">The assumption this rides on</h2>
+  <h2 id="s-assumptions">Assumption</h2>
   <p>Everything above resolves a single registry entry: the mapping from a delayed retirement to its emissions. It is marked contested, not because the dispatch measurement is shaky but because the load-bearing uncertainty sits one layer down, in how much of the reliability and resource-adequacy deferrals is itself a data-center story that the filings have not yet been read closely enough to settle. The bands below are what an approval endorses and what a contest changes. The marginal-displacement rate that turns the gross figure into the net one is owned elsewhere, on the emissions-factor work, and consumed here.</p>
 
   <article class="acard">
@@ -382,7 +412,7 @@ figure { margin: 1.6rem 0 1.4rem; }
 </section>
 
 <section aria-labelledby="s-decision">
-  <h2 id="s-decision">The decisions on record</h2>
+  <h2 id="s-decision">Decision Log</h2>
   <p>This module reached the registry through two approved changes. The first replaced a reasoned guess about how hard these units run with a measurement. The second added a second-order credit at the synthesis level, recognising that a life-extended coal unit becomes easier to retire once the clean capacity that justified its delay finally arrives.</p>
 
   <div class="decision">
