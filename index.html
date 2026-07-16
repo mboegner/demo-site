@@ -233,6 +233,12 @@ sup.fn:hover, sup.fn:focus-visible { text-decoration: underline; }
 .ctl .seg button { font-size: .75rem; font-weight: 600; padding: .38em .85em; cursor: pointer; background: var(--surface); color: var(--ink-2); border: 0; }
 .ctl .seg button + button { border-left: 1px solid var(--hairline); }
 .ctl .seg button[aria-pressed="true"] { background: color-mix(in srgb, var(--accent) 12%, var(--surface)); color: var(--ink); }
+.range-choices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: .5rem; border: 1px solid var(--hairline); border-radius: 7px; overflow: hidden; }
+.range-choices button { min-width: 0; font-size: .72rem; line-height: 1.25; font-weight: 600; padding: .48em .4em; cursor: pointer; background: var(--surface); color: var(--ink-2); border: 0; }
+.range-choices button + button { border-left: 1px solid var(--hairline); }
+.range-choices button:hover { color: var(--ink); background: color-mix(in srgb, var(--accent) 5%, var(--surface)); }
+.range-choices button[aria-pressed="true"] { background: color-mix(in srgb, var(--accent) 12%, var(--surface)); color: var(--ink); box-shadow: inset 0 -2px 0 var(--accent); }
+.world-shift { color: var(--accent); font-size: .66rem; font-weight: 700; white-space: nowrap; }
 .weights-note { font-size: .72rem; color: var(--ink-3); margin-top: .4rem; }
 .readout-row { display: flex; gap: .8rem; flex-wrap: wrap; }
 .readout { flex: 1 1 140px; background: var(--surface); border: 1px solid var(--hairline); border-radius: 10px; padding: .75rem .9rem; }
@@ -1202,12 +1208,23 @@ var GridModel = (function () {
     };
   }
 
-  // overrides: {param: scalar | [lo,hi]} applied to ranges / indicator ranges /
-  // fixed anchors by name. A scalar pins (lo = hi = value).
+  // overrides: {param: scalar | [lo,hi] | {condition:"low"|"high"}} applied
+  // to ranges / indicator ranges / fixed anchors by name. A scalar pins
+  // (lo = hi = value); a condition keeps uncertainty but selects the lower or
+  // upper half of the range after any world conditioning has been applied.
   function applyOverrides(spec, overrides) {
     if (!overrides) return spec;
     for (var k in overrides) {
       var v = overrides[k];
+      if (v && typeof v === "object" && !Array.isArray(v) && v.condition) {
+        var target = k in spec.ranges ? spec.ranges : k in spec.indicatorRanges ? spec.indicatorRanges : null;
+        if (!target) throw new Error("range condition for non-range parameter: " + k);
+        var lo = target[k][0], hi = target[k][1], mid = 0.5 * (lo + hi);
+        if (v.condition === "low") target[k] = [lo, mid];
+        else if (v.condition === "high") target[k] = [mid, hi];
+        else throw new Error("unknown range condition for " + k + ": " + v.condition);
+        continue;
+      }
       var pair = Array.isArray(v) ? [v[0], v[1]] : [v, v];
       if (k in spec.ranges) spec.ranges[k] = pair;
       else if (k in spec.indicatorRanges) spec.indicatorRanges[k] = pair;
@@ -2814,13 +2831,24 @@ if (typeof module !== "undefined") module.exports = GridModel;
      ("worlds"), applying that world's demand-path selection and central band
      conditionings exactly as synthesis/src/worlds.py does — the conditioning
      spec is exported from Python (PARAMS.worlds), so the two cannot drift.
-     Sliders are the top-swing evidence ranges. Nothing is
+     Directional controls condition the top-swing evidence ranges without
+     pinning them to false-precision point values. Nothing is
      probability-weighted or pooled across scenarios. The page always runs the
      long-run marginal-emission method. */
-  var CONTROL_DEFS = ['mef', 'additionality_share', 'leakage_band', 'embodied_band', 'rate_feedback_band']
-    .map(function (id) { return { id: id }; });
+  var CONTROL_DEFS = [
+    { id: 'mef', low: 'Cleaner grid', high: 'Dirtier grid',
+      hint: 'Tests how clean the generators responding to added load are.' },
+    { id: 'additionality_share', low: 'Less additional', high: 'More additional',
+      hint: 'Tests how much contracted clean power would not otherwise be built.' },
+    { id: 'leakage_band', low: 'Less offshore', high: 'More offshore',
+      hint: 'Tests how much constrained compute moves to higher-emitting grids.' },
+    { id: 'embodied_band', low: 'Lower footprint', high: 'Higher footprint',
+      hint: 'Tests lifecycle emissions from chips and data-center construction.' },
+    { id: 'rate_feedback_band', low: 'Weaker effect', high: 'Stronger effect',
+      hint: 'Tests how strongly higher power costs slow broader electrification.' }
+  ];
 
-  var state = { world: 'reference-case', pins: {}, regime: 'orders-continue',
+  var state = { world: 'reference-case', rangeTests: {}, regime: 'orders-continue',
     mefFamily: 'longrun', touched: false };
   var lastCalc = null;
 
@@ -2830,6 +2858,16 @@ if (typeof module !== "undefined") module.exports = GridModel;
   function publishedWorld(slug) {
     var wh = (typeof PARAMS !== 'undefined') && PARAMS.world_headline;
     return wh && wh.worlds && wh.worlds[slug];
+  }
+
+  function worldShiftFor(id) {
+    var info = worldInfo(state.world) || {};
+    var transforms = info.central || [];
+    for (var i = 0; i < transforms.length; i++) {
+      if (transforms[i][0] === id && (transforms[i][1] === 'low' || transforms[i][1] === 'high'))
+        return transforms[i][1];
+    }
+    return null;
   }
 
   function displayVal(id, v) {
@@ -2869,7 +2907,9 @@ if (typeof module !== "undefined") module.exports = GridModel;
       b.addEventListener('click', function () {
         if (state.world === slug) return;
         state.world = slug;
-        // a fresh scenario re-bases the calculator, keeping explicit slider pins.
+        // A fresh world clears the prior world's sensitivity test.
+        state.rangeTests = {};
+        state.touched = false;
         host.querySelectorAll('.scenario-btn').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
         b.setAttribute('aria-pressed', 'true');
         updateScenarioStory();
@@ -2896,37 +2936,31 @@ if (typeof module !== "undefined") module.exports = GridModel;
 
     CONTROL_DEFS.forEach(function (def) {
       var m = paramMeta(def.id);
-      var range = m && m.range ? m.range : [0, 1];
       var wrap = document.createElement('div'); wrap.className = 'ctl'; wrap.dataset.param = def.id;
       var lab = document.createElement('label');
       var span = document.createElement('span'); span.textContent = m.label;
-      var val = document.createElement('span'); val.className = 'val num'; val.textContent = 'scenario default';
-      lab.appendChild(span); lab.appendChild(val);
-      var input = document.createElement('input');
-      input.type = 'range'; input.min = range[0]; input.max = range[1];
-      input.step = (range[1] - range[0]) / 100 || 0.01;
-      input.value = (range[0] + range[1]) / 2;
-      input.setAttribute('aria-label', m.label + ' — pin a value inside the evidence range');
-      var hint = document.createElement('div'); hint.className = 'hint'; hint.textContent = m.hint || '';
-      lab.htmlFor = input.id = 'ctl-' + def.id;
-      var reset = document.createElement('button');
-      reset.type = 'button'; reset.className = 'preset';
-      reset.style.cssText = 'font-size:.66rem;padding:.15em .6em;margin-top:.4rem;display:none;';
-      reset.textContent = 'unpin — use the scenario default';
-      input.addEventListener('input', function () {
-        state.pins[def.id] = parseFloat(input.value);
-        state.touched = true;
-        val.textContent = displayVal(def.id, state.pins[def.id]);
-        reset.style.display = 'inline-block';
-        scheduleRecompute();
+      var shift = document.createElement('span'); shift.className = 'world-shift';
+      lab.appendChild(span); lab.appendChild(shift);
+      var choices = document.createElement('div'); choices.className = 'range-choices';
+      choices.setAttribute('role', 'group'); choices.setAttribute('aria-label', m.label + ' sensitivity range');
+      [
+        { value: 'low', text: def.low },
+        { value: 'world', text: 'World setting' },
+        { value: 'high', text: def.high }
+      ].forEach(function (choice) {
+        var button = document.createElement('button'); button.type = 'button';
+        button.dataset.rangeState = choice.value; button.textContent = choice.text;
+        button.addEventListener('click', function () {
+          state.rangeTests = {};
+          if (choice.value !== 'world') state.rangeTests[def.id] = choice.value;
+          state.touched = choice.value !== 'world';
+          syncControls();
+          scheduleRecompute();
+        });
+        choices.appendChild(button);
       });
-      reset.addEventListener('click', function () {
-        delete state.pins[def.id];
-        val.textContent = 'scenario default';
-        reset.style.display = 'none';
-        scheduleRecompute();
-      });
-      wrap.appendChild(lab); wrap.appendChild(input); wrap.appendChild(hint); wrap.appendChild(reset);
+      var hint = document.createElement('div'); hint.className = 'hint'; hint.textContent = def.hint;
+      wrap.appendChild(lab); wrap.appendChild(choices); wrap.appendChild(hint);
       host.appendChild(wrap);
     });
 
@@ -2940,19 +2974,13 @@ if (typeof module !== "undefined") module.exports = GridModel;
     CONTROL_DEFS.forEach(function (def) {
       var wrap = document.querySelector('.ctl[data-param="' + def.id + '"]');
       if (!wrap) return;
-      var input = wrap.querySelector('input[type=range]');
-      var val = wrap.querySelector('.val');
-      var reset = wrap.querySelector('button.preset');
-      if (state.pins[def.id] !== undefined) {
-        input.value = state.pins[def.id];
-        val.textContent = displayVal(def.id, state.pins[def.id]);
-        if (reset) reset.style.display = 'inline-block';
-      } else {
-        var m = paramMeta(def.id); var r = m && m.range ? m.range : [0, 1];
-        input.value = (r[0] + r[1]) / 2;
-        val.textContent = 'scenario default';
-        if (reset) reset.style.display = 'none';
-      }
+      var active = state.rangeTests[def.id] || 'world';
+      wrap.querySelectorAll('.range-choices button').forEach(function (button) {
+        button.setAttribute('aria-pressed', button.dataset.rangeState === active ? 'true' : 'false');
+      });
+      var marker = wrap.querySelector('.world-shift');
+      var shifted = worldShiftFor(def.id);
+      marker.textContent = shifted ? 'world shifted ' + (shifted === 'high' ? 'higher' : 'lower') : '';
     });
   }
 
@@ -2963,9 +2991,9 @@ if (typeof module !== "undefined") module.exports = GridModel;
     if (settleTimer) clearTimeout(settleTimer);
     settleTimer = setTimeout(function () { settleTimer = null; recompute(20000); }, 250);
   }
-  function overridesFromPins() {
+  function overridesFromRangeTests() {
     var o = {};
-    Object.keys(state.pins).forEach(function (id) { o[id] = state.pins[id]; });
+    Object.keys(state.rangeTests).forEach(function (id) { o[id] = { condition: state.rangeTests[id] }; });
     return o;
   }
   function recompute(n) {
@@ -2975,7 +3003,7 @@ if (typeof module !== "undefined") module.exports = GridModel;
         res = GridModel.world(state.world, {
           regime: state.regime, mefFamily: state.mefFamily,
           includeStress: false, includeTrade: false,
-          overrides: overridesFromPins(), n: n
+          overrides: overridesFromRangeTests(), n: n
         });
       } catch (err) { console.error('[calc] world model error', err); }
     }
