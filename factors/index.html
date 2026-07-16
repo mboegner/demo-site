@@ -1,6 +1,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Factor coverage</title>
+<title>Factor Coverage</title>
 <style>
 
 @font-face {
@@ -102,6 +102,7 @@ a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset:
   font-size: .76rem; white-space: nowrap;
 }
 .site-bar nav::-webkit-scrollbar { display: none; }
+.site-bar .nav-spacer { flex: 0 0 5.5rem; }
 .site-bar a { color: var(--ink-2); text-decoration: none; }
 .site-bar a:hover, .site-bar a[aria-current="page"] { color: var(--accent); }
 .site-bar a[aria-current="page"] { font-weight: 700; }
@@ -252,16 +253,6 @@ figure { margin: 1.6rem 0 1.4rem; }
 .idx section { padding: 1.6rem 0 .6rem; }
 .idx section + section { border-top: 1px solid var(--hairline); margin-top: 1.4rem; }
 
-.register-link-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
-.register-link-grid a {
-  display: block; padding: .9rem 1rem; border: 1px solid var(--hairline); border-radius: 9px;
-  background: var(--surface); color: var(--ink); text-decoration: none; box-shadow: var(--shadow);
-}
-.register-link-grid a:hover { border-color: var(--accent); }
-.register-link-grid strong { display: block; font-family: "Newsreader", Georgia, serif; font-size: 1.08rem; }
-.register-link-grid span { display: block; color: var(--ink-2); font-size: .78rem; line-height: 1.45; margin-top: .25rem; }
-@media (max-width: 560px) { .register-link-grid { grid-template-columns: 1fr; } }
-
 /* wide sections (interactive explorer, source table) break out of the text column */
 @media (min-width: 66rem) { .idx section.breakout { margin-inline: -8rem; } }
 
@@ -321,26 +312,72 @@ figure { margin: 1.6rem 0 1.4rem; }
 .register-page { max-width: 72rem; margin: 0 auto; padding: 0 1.25rem 5rem; }
 .registry-notes, .registry-entry { background: var(--surface); border: 1px solid var(--hairline); border-radius: 8px; }
 .registry-notes { margin-bottom: 1rem; }
-.registry-entry { margin: .55rem 0; overflow: clip; }
+.registry-entry { margin: .7rem 0; overflow: clip; }
 .registry-entry[open] { box-shadow: var(--shadow); }
-.registry-entry summary, .registry-notes summary {
+.registry-entry > summary, .registry-notes > summary {
   cursor: pointer; list-style: none; padding: .75rem 1rem; display: flex; align-items: center;
   justify-content: space-between; gap: 1rem;
 }
-.registry-entry summary::-webkit-details-marker, .registry-notes summary::-webkit-details-marker { display: none; }
-.registry-entry summary::before, .registry-notes summary::before { content: "+"; color: var(--ink-3); width: 1rem; flex: 0 0 1rem; }
-.registry-entry[open] summary::before, .registry-notes[open] summary::before { content: "−"; }
-.registry-id { flex: 1; min-width: 0; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .82rem; font-weight: 700; overflow-wrap: anywhere; }
+.registry-entry > summary::-webkit-details-marker, .registry-notes > summary::-webkit-details-marker { display: none; }
+.registry-entry > summary::before, .registry-notes > summary::before { content: "+"; color: var(--ink-3); width: 1rem; flex: 0 0 1rem; }
+.registry-entry[open] > summary::before, .registry-notes[open] > summary::before { content: "−"; }
+.registry-title { flex: 1; min-width: 0; display: grid; gap: .18rem; }
+.registry-id { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .82rem; font-weight: 700; overflow-wrap: anywhere; }
+.registry-preview {
+  color: var(--ink-2); font-size: .76rem; line-height: 1.4; font-weight: 400;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
 .registry-meta { display: flex; align-items: center; gap: .65rem; color: var(--ink-3); font-size: .7rem; }
 .status { border: 1px solid var(--hairline); border-radius: 999px; padding: .08rem .45rem; text-transform: lowercase; }
 .status-contested { border-color: var(--accent); color: var(--accent); }
 .status-settled { border-color: var(--abate); color: var(--abate); }
 .status-placeholder { border-color: var(--emit); color: var(--emit); }
-.registry-entry pre, .registry-notes pre {
+.registry-notes pre, .source-yaml pre {
   margin: 0; padding: 1rem; border-top: 1px solid var(--hairline); overflow: auto;
   background: var(--paper); color: var(--ink-2); font: .72rem/1.55 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   tab-size: 2; white-space: pre;
 }
+.assumption-body { border-top: 1px solid var(--hairline); padding: 1rem 1.15rem 1.15rem; }
+.assumption-definition {
+  max-width: 66rem; margin: 0 0 1rem; color: var(--ink); font-family: "Newsreader", Georgia, serif;
+  font-size: 1rem; line-height: 1.5;
+}
+.assumption-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; align-items: start; }
+.assumption-field {
+  min-width: 0; padding: .8rem .9rem; border: 1px solid var(--hairline); border-radius: 7px;
+  background: var(--paper);
+}
+.assumption-field.wide { grid-column: 1 / -1; }
+.assumption-field h3 {
+  margin: 0 0 .55rem; color: var(--ink-3); font-family: inherit; font-size: .66rem;
+  letter-spacing: .08em; line-height: 1.3; text-transform: uppercase;
+}
+.yaml-map { display: grid; gap: .35rem; }
+.yaml-row { display: grid; grid-template-columns: minmax(8rem, 28%) 1fr; gap: .75rem; padding: .35rem 0; border-bottom: 1px solid var(--hairline); }
+.yaml-row:last-child { border-bottom: 0; }
+.yaml-key { color: var(--ink-3); font-size: .7rem; line-height: 1.4; overflow-wrap: anywhere; }
+.yaml-value { min-width: 0; color: var(--ink-2); font-size: .76rem; line-height: 1.5; overflow-wrap: anywhere; }
+.yaml-text { white-space: pre-line; }
+.yaml-number, .yaml-literal, .yaml-null { font-family: ui-monospace, Menlo, Consolas, monospace; }
+.yaml-number { color: var(--ink); font-weight: 650; }
+.yaml-literal { color: var(--abate); }
+.yaml-null { color: var(--ink-3); font-style: italic; }
+.yaml-list { display: flex; flex-wrap: wrap; gap: .3rem; }
+.yaml-list > span { padding: .12rem .4rem; border: 1px solid var(--hairline); border-radius: 5px; background: var(--surface); }
+.yaml-group { border: 1px solid var(--hairline); border-radius: 6px; background: var(--surface); overflow: clip; }
+.yaml-group + .yaml-group, .yaml-row + .yaml-group, .yaml-group + .yaml-row { margin-top: .35rem; }
+.yaml-group > summary {
+  display: flex; justify-content: flex-start; gap: .4rem; padding: .45rem .55rem; cursor: pointer;
+  color: var(--ink-2); font-size: .72rem; font-weight: 650; list-style: none;
+}
+.yaml-group > summary::-webkit-details-marker { display: none; }
+.yaml-group > summary::before { content: "+"; color: var(--ink-3); }
+.yaml-group[open] > summary::before { content: "−"; }
+.yaml-group-body { padding: .2rem .55rem .55rem; border-top: 1px solid var(--hairline); }
+.yaml-records { display: grid; gap: .45rem; }
+.yaml-record { padding: .5rem .6rem; border: 1px solid var(--hairline); border-radius: 6px; background: var(--surface); }
+.source-yaml { margin-top: .8rem; border: 1px solid var(--hairline); border-radius: 6px; overflow: clip; }
+.source-yaml > summary { padding: .5rem .65rem; color: var(--ink-3); font-size: .7rem; cursor: pointer; }
 .empty-state { padding: 2rem; color: var(--ink-3); text-align: center; }
 
 .factor-head { padding-bottom: 0; }
@@ -371,15 +408,17 @@ figure { margin: 1.6rem 0 1.4rem; }
   .register-tools { align-items: stretch; flex-wrap: wrap; }
   .search { flex-basis: 100%; }
   .result-count { flex: 1; padding: .6rem 0; }
-  .registry-entry summary { align-items: flex-start; gap: .35rem; }
+  .registry-entry > summary { align-items: flex-start; gap: .35rem; }
   .registry-meta { align-items: flex-end; flex-direction: column; gap: .25rem; }
+  .assumption-fields { grid-template-columns: 1fr; }
+  .yaml-row { grid-template-columns: 1fr; gap: .15rem; }
 }
 
 </style>
-<div class="site-bar"><nav aria-label="Site"><a href="/">Analysis review</a><a href="/assumptions/">Assumptions</a><a href="/factors/" aria-current="page">Factor coverage</a><a href="/explorer/">Explorer</a></nav></div>
+<div class="site-bar"><nav aria-label="Site"><span class="nav-spacer" aria-hidden="true"></span><a href="/assumptions/">Assumptions</a><a href="/factors/" aria-current="page">Factor Coverage</a><a href="/explorer/">Explorer</a></nav></div>
 <header class="register-head factor-head">
   <div class="rubric">Research register</div>
-  <h1>Factor coverage</h1>
+  <h1>Factor Coverage</h1>
   <p class="dek">Published directly from <code>FACTOR_COVERAGE.md</code>.</p>
   <div class="register-tools">
     <label class="search"><span>Search factors</span><input id="factorSearch" type="search" placeholder="Factor, impact, status…" autocomplete="off"></label>
