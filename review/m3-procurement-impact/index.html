@@ -283,8 +283,8 @@ figure { margin: 1.6rem 0 1.4rem; }
 </div>
 <header class="masthead">
   <div class="rubric">AI and the grid<span class="sep">·</span>module M3<span class="sep">·</span>procurement impact</div>
-  <h1>Most of the clean power AI has contracted is genuinely new. About a third of the energy is not.</h1>
-  <p class="dek">How much of the "gigawatts contracted" headline is solar, wind, and nuclear that would not otherwise exist, and how much is a purchase agreement with a plant that was already running</p>
+  <h1>How much clean power do hyperscaler deals actually add?</h1>
+  <p class="dek">This analysis classifies the largest named US data-center clean-power deals by counterfactual — new build, restart, uprate, or a purchase from a plant already running — and converts what's genuinely additional into avoided emissions</p>
   <div class="byline">Figures as of 6 July 2026 (deals ledger) · two decisions recorded 7 and 12 July 2026 · first pass complete, coverage-limited to the largest named deals</div>
 </header>
 
@@ -298,14 +298,18 @@ figure { margin: 1.6rem 0 1.4rem; }
 <main class="brief">
 
 <section aria-labelledby="s-answer">
-  <h2 id="s-answer">The answer first</h2>
-  <p>Procurement is the one channel in this project where AI demand is supposed to help the climate rather than hurt it: when the largest cloud-computing companies sign long-term contracts to buy clean power, the theory is that their money pays for solar farms, wind farms, and reactors that would not otherwise get built. Whether it works turns on a question the marketing never asks — is the deal additional, meaning does it cause clean generation that would not otherwise exist? Our audit of the largest named US data-center clean-power deals finds that most of the contracted capacity clears that bar, but the energy tells a softer story, because the single biggest contracts are purchase agreements with nuclear plants that were already running.</p>
-  <p>Add up only the generation these deals genuinely cause, and the gross climate benefit at steady state is roughly 25 to 38 million tonnes of CO₂ avoided a year. Against the <a href="https://www.eia.gov/environment/emissions/carbon/">~1,427 million tonnes US power plants emitted in 2024, the Energy Information Administration's tally</a>, that is between about two and three percent of the sector; put another way, it is the yearly tailpipe output of five to eight million cars taken off the road, at <a href="https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle">the Environmental Protection Agency's 4.6 tonnes per car</a>. What that figure shows is a real but modest contribution to cutting emissions. What it does not show is the transition's scorecard: it is a gross ceiling, counted before netting out whether these buyers simply outbid other customers for clean projects that would have been built anyway, and it rests on a short-run emissions accounting the project now keeps only as a cross-check rather than its <a href="https://www.osti.gov/biblio/2305481">central long-run method</a>, which would place the number lower.</p>
-  <p>Three things would move the estimate. The largest single lever is one nuclear contract: Meta's twenty-year deal with the Clinton plant in Illinois, classified conservatively as re-labeled existing output, would instead count as saved clean capacity — worth about nine more terawatt-hours of additional generation a year — if the plant would otherwise retire when its state subsidy lapses in 2027. The second is the pile of clean power that exists today only as announcements: about 27 gigawatts, roughly three-quarters of it small modular reactors, a still-unbuilt class of compact nuclear that is largely non-binding and none of it operating, excluded from every number here by rule. The third is whether this buying displaces other clean-energy customers or expands the industry, a question this pass sizes but leaves unresolved, with the near-term signal pointing to displacement.</p>
+  <h2 id="s-answer">Background</h2>
+  <p>Procurement is the one channel in this project where AI demand is supposed to help the climate rather than hurt it: when the largest cloud-computing companies sign long-term contracts to buy clean power, the theory is that their money causes solar farms, wind farms, and reactors to get built that would not otherwise exist. This analysis audits the largest named US data-center clean-power deals against that claim.</p>
+  <ul>
+    <li>The observable signal is the set of signed long-term power purchase agreements between named cloud-computing companies and specific solar, wind, and nuclear projects, tracked as each moves from announcement to financial close to commercial operation.</li>
+    <li>Public estimates of the scale vary by what they count. <a href="https://www.spglobal.com/sustainable1/en/insights/special-editorial/hyperscaler-procurement-to-shape-us-power-investment">S&amp;P Global counts more than 80 gigawatts</a> of US data-center clean power under contract, a market-data vendor's figure that mixes deals at every stage, from press-release announcement to a plant already energized.</li>
+    <li>Whether that contracted capacity matters for the climate turns on additionality — whether a deal causes clean generation that would not otherwise exist, as against simply buying the output of a plant that was already running and would have kept running regardless.</li>
+    <li>Candidate drivers of the split: whether a contract takes a new project to financial close, brings a retired plant back online, squeezes extra output from a plant already running, or merely reallocates the output of a plant already on the grid; and, at the margin, whether hyperscaler buying displaces other clean-energy customers or expands the industry overall.</li>
+  </ul>
 </section>
 
 <section aria-labelledby="s-how">
-  <h2 id="s-how">How the channel works</h2>
+  <h2 id="s-how">Analytical Framework</h2>
   <div class="chain" role="img" aria-label="Causal chain: contracted deals, to classification by counterfactual, to additional clean energy, to emissions avoided">
     <div class="node"><b>Contracted deals</b><span>the largest named data-center clean-power agreements, by lifecycle stage</span></div>
     <div class="arrow" aria-hidden="true">→</div>
@@ -315,12 +319,40 @@ figure { margin: 1.6rem 0 1.4rem; }
     <div class="arrow" aria-hidden="true">→</div>
     <div class="node"><b>Emissions avoided</b><span>additional clean energy times the rate of the generator it displaces — a gross ceiling</span></div>
   </div>
-  <p>The dose is the contracted capacity, the gigawatts of clean power under signed agreement. The response is the fraction of it that is genuinely additional, which the classification decides deal by deal against the counterfactual: a contract that takes a project to financial close is new build; a contract that brings a retired reactor back is a restart; a contract that squeezes extra megawatts from a running plant is an uprate; and a contract that simply buys the output of a plant already spinning is reallocation, which adds essentially no new clean electricity. Two caps keep the number honest. Deals that are only announced never enter a headline figure, because pre-energized capacity drops out heavily before it is ever built; and existing-plant reallocation is excluded from the avoided-emissions offset, because the load it serves would otherwise be met by the next generator on the grid.</p>
+  <p>The dose is the contracted capacity, the gigawatts of clean power under signed agreement. The response is the fraction of it that is genuinely additional, which the classification decides deal by deal against the counterfactual: a contract that takes a project to financial close is new build; a contract that brings a retired reactor back is a restart; a contract that squeezes extra megawatts from a running plant is an uprate; and a contract that simply buys the output of a plant already spinning is reallocation, which adds essentially no new clean electricity. The terms, in the order they are applied:</p>
+
+  <!-- \text{additional capacity} = \text{contracted capacity} \times \text{additional class share} -->
+  <div class="formula">
+    <math display="block"><mrow>
+      <mtext>additional capacity</mtext><mo>=</mo>
+      <mtext>contracted capacity</mtext><mo>×</mo><mtext>additional class share</mtext>
+    </mrow></math>
+  </div>
+  <p class="formula-note">The additional class share is the fraction of contracted capacity classified as new build, restart, or uprate against the deal's counterfactual — measured deal by deal from the module's ledger of the largest named contracts, per the project's deal-classification method. An agreement with a plant already running carries a class share of zero.</p>
+
+  <!-- \text{additional energy} = \text{additional capacity} \times \text{capacity factor} -->
+  <div class="formula">
+    <math display="block"><mrow>
+      <mtext>additional energy</mtext><mo>=</mo>
+      <mtext>additional capacity</mtext><mo>×</mo><mtext>capacity factor</mtext>
+    </mrow></math>
+  </div>
+  <p class="formula-note">In terawatt-hours per year. The capacity factor is a blended run rate that varies by technology — a reactor runs near its full nameplate around the clock, a solar or wind farm far less — assumed from federal per-technology capacity-factor tables and weighted to the contracted fleet's technology mix.</p>
+
+  <!-- \text{emissions avoided} = \text{additional energy} \times \text{displaced emission rate} -->
+  <div class="formula">
+    <math display="block"><mrow>
+      <mtext>emissions avoided</mtext><mo>=</mo>
+      <mtext>additional energy</mtext><mo>×</mo><mtext>displaced emission rate</mtext>
+    </mrow></math>
+  </div>
+  <p class="formula-note">In tonnes of CO₂ avoided, and a gross ceiling. The displaced emission rate is the emissions of the generation the additional clean power stands in for; it is owned by the project's emissions-accounting method and consumed here rather than valued in this module, and can be read as a short-run grid-average rate or a long-run marginal rate — the choice between them moves the answer.</p>
+
+  <p>Two caps keep the number honest. Deals that are only announced never enter a headline figure, because pre-energized capacity drops out heavily before it is ever built; and existing-plant reallocation is excluded from the avoided-emissions offset, because the load it serves would otherwise be met by the next generator on the grid.</p>
 </section>
 
 <section aria-labelledby="s-evidence">
-  <h2 id="s-evidence">What the evidence says, and what it refuses to say</h2>
-  <p>Sorted by what each contract actually causes, the largest named deals break cleanly (see chart). By capacity, better than three-quarters is new-build solar, wind, storage, and two nuclear restarts. By energy the picture softens: existing-plant nuclear agreements, which add nothing, carry about a third of the contracted generation, because a reactor runs around the clock while a solar farm sits near a quarter of its nameplate. New build alone slips from 77 percent of the capacity to 52 percent of the energy. This is an audit of the largest named deals, about 27.9 gigawatts at headline stages, roughly a third of the <a href="https://www.spglobal.com/sustainable1/en/insights/special-editorial/hyperscaler-procurement-to-shape-us-power-investment">more-than-80-gigawatt universe S&amp;P Global counts</a>, a market-data vendor's figure; the uncounted remainder is a long tail of smaller solar and wind contracts that would, if anything, raise the new-build share.</p>
+  <h2 id="s-evidence">Findings</h2>
 
   <figure>
     <div class="fig-title">By capacity it is mostly new build; by energy a third is re-labeled</div>
@@ -372,14 +404,17 @@ figure { margin: 1.6rem 0 1.4rem; }
     <div class="fig-src">Source: M3 deals ledger — 46 deals, 27.9 GW at headline stages, classified per the project's deal taxonomy; universe context from <a href="https://www.spglobal.com/sustainable1/en/insights/special-editorial/hyperscaler-procurement-to-shape-us-power-investment">S&amp;P Global's &gt;80 GW</a> · ledger as of 6 Jul 2026</div>
   </figure>
 
+  <p>Sorted by what each contract actually causes, the largest named deals break cleanly, as the chart above shows. By capacity, better than three-quarters is new-build solar, wind, storage, and two nuclear restarts. By energy the picture softens: existing-plant nuclear agreements, which add nothing, carry about a third of the contracted generation, because a reactor runs around the clock while a solar farm sits near a quarter of its nameplate. New build alone slips from 77 percent of the capacity to 52 percent of the energy. This is an audit of the largest named deals, about 27.9 gigawatts at headline stages, roughly a third of the <a href="https://www.spglobal.com/sustainable1/en/insights/special-editorial/hyperscaler-procurement-to-shape-us-power-investment">more-than-80-gigawatt universe S&amp;P Global counts</a>, a market-data vendor's figure; the uncounted remainder is a long tail of smaller solar and wind contracts that would, if anything, raise the new-build share.</p>
   <p>The re-labeling concentrates in three contracts. Amazon's roughly 1,920-megawatt agreement with <a href="https://ir.talenenergy.com/news-releases/news-release-details/talen-energy-expands-nuclear-energy-relationship-amazon">the Susquehanna nuclear plant</a>, operating since the 1980s, and Meta's roughly 1,121-megawatt deal with <a href="https://www.constellationenergy.com/news/2025/constellation-meta-sign-20-year-deal-for-clean-reliable-nuclear-energy-in-illinois.html">the still-running Clinton plant</a> are agreements with reactors that were already on the grid; a third, an undisclosed buyer at the Comanche Peak plant in Texas, is the same shape. None causes new generation. The genuinely additional nuclear is different in kind: <a href="https://www.constellationenergy.com/news/2024/Constellation-to-Launch-Crane-Clean-Energy-Center-Restoring-Jobs-and-Carbon-Free-Power-to-The-Grid.html">Three Mile Island Unit 1, shut in 2019, is being restarted for Microsoft</a>, and <a href="https://newsroom.nexteraenergy.com/NextEra-Energy-and-Google-Announce-New-Collaboration-to-Accelerate-Nuclear-Energy-Deployment-in-the-U-S?l=12">Duane Arnold, shut in 2020, for Google</a> — retired plants returning to service because a contract now pays for them. The split is keyed strictly to whether the plant is on or off absent the deal, not to the press releases, which call all five "new clean energy." Every one of these deals rests on a company or developer announcement, a motivated source we grade Tier 2; the counterfactual reasoning, not the framing, decides the class.</p>
   <p>Re-labeled output is not merely a bookkeeping nicety. When a buyer claims a running plant's clean attributes through certificates, the electricity on the grid does not change; <a href="https://www.nature.com/articles/s41558-022-01379-5">independent work finds that certificate-based matching can leave a company's real emissions untouched</a>, and <a href="https://arxiv.org/abs/2606.00811">a recent analysis shows the timing gap</a> between when clean power is generated and when a data center draws it can raise emissions even under full annual certificate coverage. This is why the audit credits only the generation a contract causes, never the generation it merely claims.</p>
   <p>We went looking for the opposite of a good-news story: the claim that data-center clean procurement is mostly re-contracted existing nuclear and hydro with near-zero additionality, greenwashing dressed as a buildout. At headline stages it does not hold. Reallocation is 18 percent of contracted capacity and 35 percent of the energy, real but not a majority, while the bulk of contracted capacity is genuinely new solar, wind, and storage. The larger error runs the other way, and the audit is built to block it: counting the 27-gigawatt announced pile, almost all of it non-binding small modular reactors with nothing yet operating, would nearly double "additional clean," and the announced-stage exclusion is what keeps that vapor out of every number.</p>
   <p>One finding is an absence. The newest and fastest-moving wave of AI power — the on-site turbines and gas-fed fuel cells behind the largest new compute campuses — is overwhelmingly natural gas, which is not clean under any definition this project uses, so it earns no row in a clean-energy ledger. The point is that procurement momentum should not be read as decarbonization: the most aggressive buildout of the moment is contributing close to zero additional clean generation and a large amount of new gas, an emissions story that belongs to the retirement and leakage channels, not this one.</p>
+  <p>Add up only the generation these deals genuinely cause, and the gross climate benefit at steady state is roughly 25 to 38 million tonnes of CO₂ avoided a year. Against the <a href="https://www.eia.gov/environment/emissions/carbon/">~1,427 million tonnes US power plants emitted in 2024, the Energy Information Administration's tally</a>, that is between about two and three percent of the sector; put another way, it is the yearly tailpipe output of five to eight million cars taken off the road, at <a href="https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle">the Environmental Protection Agency's 4.6 tonnes per car</a>. What that figure shows is a real but modest contribution to cutting emissions. What it does not show is the transition's scorecard: it is a gross ceiling, counted before netting out whether these buyers simply outbid other customers for clean projects that would have been built anyway, and it rests on a short-run emissions accounting the project now keeps only as a cross-check rather than its <a href="https://www.osti.gov/biblio/2305481">central long-run method</a>, which would place the number lower.</p>
+  <p>Three things would move the estimate. The largest single lever is one nuclear contract: Meta's twenty-year deal with the Clinton plant in Illinois, classified conservatively as re-labeled existing output, would instead count as saved clean capacity — worth about nine more terawatt-hours of additional generation a year — if the plant would otherwise retire when its state subsidy lapses in 2027. The second is the pile of clean power that exists today only as announcements: about 27 gigawatts, roughly three-quarters of it small modular reactors, a still-unbuilt class of compact nuclear that is largely non-binding and none of it operating, excluded from every number here by rule. The third is whether this buying displaces other clean-energy customers or expands the industry, a question this pass sizes but leaves unresolved, with the near-term signal pointing to displacement.</p>
 </section>
 
 <section aria-labelledby="s-assumptions">
-  <h2 id="s-assumptions">The two assumptions this resolves</h2>
+  <h2 id="s-assumptions">Assumptions</h2>
   <p>Every number above resolves two registry entries. Both are marked contested — empirically anchored, but built from a hand-curated top slice of the deal universe rather than a census, which a reviewer could reasonably attack. The bands below are what an approval endorses and what a contest changes. The direction question, whether this buying displaces other clean-energy customers, is supplied on the volume side here but left unresolved on its sign; it is flagged in the decisions below.</p>
 
   <article class="acard">
@@ -422,7 +457,7 @@ figure { margin: 1.6rem 0 1.4rem; }
 </section>
 
 <section aria-labelledby="s-decision">
-  <h2 id="s-decision">The decisions on record</h2>
+  <h2 id="s-decision">Decision Log</h2>
   <p>This module's resolution reached the registry through one proposal, approved a day later; a second, broader decision then handled the long-run version of the direction question this channel raises.</p>
 
   <div class="decision">
