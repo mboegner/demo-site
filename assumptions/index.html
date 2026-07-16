@@ -3306,6 +3306,13 @@ worlds:
         The driver-&gt;delay response cannot move a published central; it is a
         labeled stress routed through the policy-regime
         orders-continue/orders-lapse branch until CEMS + attribution work lands.
+      negative_result_2026_07_16: &gt;
+        Re-searched for load-growth-driven retirement deferral evidence
+        (proposals/2026-07-16-boom-differentiation-evidence.md, item 3): EIA
+        2026 reporting confirms 2025 slips (4.6 of 12.3 planned GW retired,
+        lowest since 2008) are attributed to named federal DOE 202(c)
+        emergency orders, with data-center demand not named; one confounded
+        utility-IRP co-driver case found. Grade unchanged.
       owner_module: m2-retirement-emissions
       double_counting_tags:
         - &gt;
@@ -3415,7 +3422,34 @@ worlds:
           clean-weighted region mix (toward the ERCOT/CAISO low trajectories)
         central: five-ISO mean central band [135, 360] kg CO2/MWh
         high: fossil-weighted mix (toward SPP/gas-only 400-600 kg CO2/MWh)
-      evidence_status: stress-only
+      evidence_status: two-part (trajectory calibrated; region-mix stress-only)
+      trajectory_response:   # APPROVED 2026-07-16 (proposals/2026-07-16-boom-differentiation-evidence.md)
+        evidence_status: calibrated
+        basis: &gt;
+          Cambium 2024 scenario-trajectory comparison, national mean of all 18
+          GEA regions, LRMER combustion, from the canonical extract
+          (data/canonical/marginal_emissions_factors/v0/cambium_lrmer_gea.parquet,
+          Tier 1, workbook released 2025-03). Independently re-verified against
+          the canonical parquet 2026-07-16: Mid-case 217.6 (2030) / 100.4
+          (2035) kg CO2/MWh vs High Renewable Energy Costs 238.7 / 144.8.
+        constrained_delivery_multiplier_on_midcase:
+          y2030: 1.097   # +10%; 238.7 / 217.6
+          y2035: 1.442   # +44%; 144.8 / 100.4
+          interpolation: linear 2030-2035; taper to 1.0 at 2025 (no pre-2030 divergence claim)
+        coupling_caveat: &gt;
+          &quot;High Renewable Energy Costs&quot; is a cost-driven proxy for slow clean
+          buildout, not a queue/transmission-delay scenario; coupling
+          &quot;constrained delivery&quot; to this trajectory is the judged step that
+          keeps this calibrated, not measured.
+        low_side_contradicted: &gt;
+          The mirror upgrade (cleaner margin under FAST delivery) is NOT
+          supported: the Low Renewable Energy Costs scenario&#x27;s 2035 national
+          LRMER (111.6) is HIGHER than Mid-case (100.4), verified 2026-07-16.
+          The Boom, Grid Keeps Up cleaner-margin leg stays stress-only.
+        consumed_by: &gt;
+          Boom, Grid Falls Behind conditions the marginal rate at CENTRAL by
+          this multiplier trajectory (synthesis/src/worlds.py reads these
+          fields by key).
       evidence_status_note: &gt;
         Stress-only for the WORLD-&gt;REGION-MIX response: the regional LRMER levels
         are Tier-1 measured, but the model is a national blend
@@ -3487,6 +3521,21 @@ worlds:
         LEVELS are documented (M5), but the firm-load-and-delay -&gt; BTM-GW
         RESPONSE is judgment, and the geographic driver undercuts a pure
         grid-constraint reading.
+      stress_range_gw:   # CORRECTED DOWNWARD 2026-07-16 (proposals/2026-07-16-boom-differentiation-evidence.md)
+        range: [2.0, 5.0]
+        basis: &gt;
+          The stress case formerly reached the upper half of the [1, 8] GW
+          interim band ([4.5, 8]). The 2026-07-16 evidence hunt refutes that
+          level: operating on-site gas is ~2 GW today (xAI Memphis ~250-420 MW
+          on-site vs ~8 MW initial grid connection is the bulk flagship case -
+          Tier 1 permit/TVA facts, Tier 2 causal narrative, 2025), and the
+          OEM turbine-order backlog (sold out to ~2030; Tier 2, manufacturers&#x27;
+          statements, motivation: order-book promotion) caps conversion of the
+          announced pool this decade. Direction evidence firmed (Enverus:
+          ERCOT operators build on-site DESPITE higher cost than grid power -
+          Tier 2, motivation: sells market intelligence), but no dose-response
+          exists, so the card stays stress-only at the corrected [2, 5] GW.
+          synthesis/src/worlds.py reads this range by key for the stress case.
       stress_only_rule: &gt;
         Cannot move a published central; labeled stress until a second
         independent BTM aggregate and an EIA-860 peaker-survival base rate exist.
