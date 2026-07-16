@@ -452,8 +452,8 @@ figure { margin: 1.6rem 0 1.4rem; }
 </div>
 <header class="masthead">
   <div class="rubric">AI and the grid<span class="sep">·</span>module M4<span class="sep">·</span>market structure</div>
-  <h1>Market structure decides who pays when data-center load fails to show. The line that matters is not the one the debate draws.</h1>
-  <p class="dek">Take-or-pay tariffs and merchant collateral push speculative demand off ratepayers and toward realness while single-buyer utilities build gas ahead of load, yet capacity market versus energy-only, the divide everyone cites, barely moves the clean-energy mix</p>
+  <h1>Which institutions absorb losses when projected data-center demand disappears?</h1>
+  <p class="dek">This analysis compares demand-risk tariffs and generation-queue composition across four US electricity regions to test whether market structure explains which one builds clean supply and which builds gas</p>
   <div class="byline">Figures as of 7 July 2026 (region panel) and December 2025 (Georgia certification) · one decision recorded 7 July 2026 · first pass complete, falsification-tested</div>
 </header>
 
@@ -467,14 +467,17 @@ figure { margin: 1.6rem 0 1.4rem; }
 <main class="brief">
 
 <section aria-labelledby="s-answer">
-  <h2 id="s-answer">The answer first</h2>
-  <p>The loudest structural claim in this debate is that some electricity markets are built to decarbonize and others to burn gas, so that where the AI buildout lands quietly decides the climate outcome. Our market-structure analysis finds that half right. Structure is a first-order moderator, but of a narrower thing than the slogan: it decides who bears demand risk — who pays when forecast data-center load fails to show — and whether an aging fossil fleet is held open to serve it. On the question that the slogan actually cares about, whether the new supply is solar or gas, structure is only one of three co-equal forces, alongside a region's raw wind-and-sun endowment and a federal timing squeeze that blocks near-term gas everywhere at once.</p>
-  <p>The clearest evidence sits in Ohio. After regulators forced the data centers connecting to AEP Ohio, a large regulated utility, onto a tariff that bills them for about 85% of the grid capacity they reserve whether or not they use it, the speculative interconnection pool fell from roughly 30 gigawatts to 11.1 gigawatts of committed load. The nineteen-odd gigawatts that walked away come to more than a fifth of all of Texas's peak demand — the entire Texas grid tops out near 85 gigawatts — gone from the queue the moment the reservation carried a bill. What that shows is that who bears demand risk is not an accounting footnote: it sets how much requested load ever becomes steel, and downstream, how much capacity a utility builds ahead of demand that may never arrive. What it does not show is that the same two-thirds deflation happens on the load side in every region; it is measured on Ohio's pool, read across from the generation queue, and inferred elsewhere.</p>
-  <p>Three things would sharpen the call, and none of them is the demand forecast. The first is a direct look at large-load funnels in more than one region, to test whether a take-or-pay contract deflates load the way it visibly deflates the generation queue. The second is the sealed terms: Georgia's per-contract take-or-pay percentages are non-public, so the Southeast's discipline is inferred from a proposed North Carolina minimum bill rather than measured. The third, and the largest, is that market structure travels with resource endowment across the four regions we can see clearly — Texas is at once the most open market and the best place in the country to build solar — so telling the two apart needs more regions than four.</p>
+  <h2 id="s-answer">Background</h2>
+  <p>A common claim about the AI data-center buildout is that market structure — organized capacity markets, energy-only markets, and vertically integrated utilities each run on different rules — decides whether new load pulls in clean generation or locks in gas, and that where a data center lands quietly settles the climate outcome. This analysis compares demand-risk allocation and generation-interconnection queue composition across four US electricity regions to examine that claim.</p>
+  <ul>
+    <li>The observable signal is regional: US electricity regions differ in who bears the cost if forecast data-center load never shows up, ranging from take-or-pay tariffs and merchant-collateral rules that shift the risk onto the customer, to a monopoly utility's obligation to serve, the legal duty to plan and build capacity for every customer in its territory, which shifts the risk onto ratepayers.</li>
+    <li>The popular framing sorts markets by design: a capacity market, which pays generators for available capacity as well as energy delivered, versus an energy-only market such as ERCOT, the grid operator for most of Texas, which pays generators only for energy — with capacity-market states cast as the disciplined ones and energy-only states cast as prone to under-building. An alternative framing attributes regional differences instead to resource endowment — a region's wind, sun, and land quality — or to a national bottleneck in gas-turbine manufacturing that constrains new gas construction everywhere at once, regardless of market design.</li>
+    <li>Candidate drivers read from the public record: the tariff and interconnection regime a region has adopted, including take-or-pay minimum-bill tariffs and merchant-collateral rules such as <a href="https://capitol.texas.gov/BillLookup/History.aspx?LegSess=89R&amp;Bill=SB6">Texas's SB6</a>, a 2025 law requiring large loads to post interconnection security and accept curtailment; a region's raw wind-and-sun endowment; and the near-term availability of gas turbines, whose order books are sold out toward 2030.</li>
+  </ul>
 </section>
 
 <section aria-labelledby="s-how">
-  <h2 id="s-how">How the channel works</h2>
+  <h2 id="s-how">Analytical Framework</h2>
   <div class="chain" role="img" aria-label="Causal chain: tariff and interconnection regime, to who pays if the load never shows, to build-ahead versus build-to-contract, to a disciplined queue or stranded gas">
     <div class="node"><b>Tariff and interconnection regime</b><span>take-or-pay, merchant collateral, or a utility's duty to serve</span></div>
     <div class="arrow" aria-hidden="true">→</div>
@@ -484,12 +487,47 @@ figure { margin: 1.6rem 0 1.4rem; }
     <div class="arrow" aria-hidden="true">→</div>
     <div class="node"><b>Disciplined queue or stranded gas</b><span>speculative demand evaporates, or becomes rate-based gas</span></div>
   </div>
-  <p>The dose is a region's tariff and interconnection regime; the response is how much speculative load survives to drive capacity, and of what kind. Under take-or-pay in PJM, the largest US grid operator, and under the merchant-collateral rules of Texas's SB6 — a 2025 law that makes loads above 75 megawatts post interconnection security and accept remote curtailment — the customer or its developer eats the risk, and a reservation that carries a cost mostly evaporates before it builds anything. Under an obligation to serve, the legal duty a monopoly utility owes every customer in its territory, a single company plans and rate-bases capacity ahead of load through its integrated resource plan, the filed long-term plan that is both the primary record and a document written to justify capital spending, so speculative demand is socialized to captive ratepayers and turned into steel most directly. The cap on all of this is federal: turbine order books are sold out toward 2030, so near-term gas cannot be built fast anywhere, which compresses the structural differences in the very near term and pushes every region's fast, credit-eligible option toward solar and storage.</p>
+  <p>The dose is a region's tariff and interconnection regime; the response is how much speculative load survives to drive capacity, and of what kind. The terms below carry that mechanism, in the order it is applied:</p>
+
+  <!-- \text{billed reservation payment} = \text{reserved capacity} \times \text{minimum take fraction} \times \text{capacity charge rate} -->
+  <div class="formula">
+    <math display="block"><mrow>
+      <mtext>billed reservation payment</mtext><mo>=</mo>
+      <mtext>reserved capacity</mtext><mo>×</mo><mtext>minimum take fraction</mtext><mo>×</mo><mtext>capacity charge rate</mtext>
+    </mrow></math>
+  </div>
+  <p class="formula-note">What a take-or-pay tariff bills a large customer regardless of how much of the reserved capacity it actually uses. The minimum take fraction is a rate-design parameter set in the utility's tariff filing — not modeled or assumed by this analysis — and differs by region: PJM's large-load tariffs and Texas's SB6 merchant-collateral rules set this risk allocation through different regulatory mechanisms.</p>
+
+  <!-- \text{speculative-load discount} = 1 - \frac{\text{committed load}}{\text{requested interconnection load}} -->
+  <div class="formula">
+    <math display="block"><mrow>
+      <mtext>speculative-load discount</mtext><mo>=</mo>
+      <mn>1</mn><mo>−</mo>
+      <mfrac>
+        <mtext>committed load</mtext>
+        <mtext>requested interconnection load</mtext>
+      </mfrac>
+    </mrow></math>
+  </div>
+  <p class="formula-note">The share of requested interconnection load that never becomes committed load once a demand-risk tariff attaches a cost to reservation. Measured per region by comparing interconnection-queue vintages before and after a tariff takes effect — never assumed.</p>
+
+  <!-- \text{clean share of active queue} = \frac{\text{clean generation capacity in queue}}{\text{total active generation capacity in queue}} -->
+  <div class="formula">
+    <math display="block"><mrow>
+      <mtext>clean share of active queue</mtext><mo>=</mo>
+      <mfrac>
+        <mtext>clean generation capacity in queue</mtext>
+        <mtext>total active generation capacity in queue</mtext>
+      </mfrac>
+    </mrow></math>
+  </div>
+  <p class="formula-note">The resource mix a region's generation-interconnection queue is converting toward. Computed per region from Lawrence Berkeley National Laboratory's Queued Up interconnection-queue tracker by resource type — measured, not assumed, and independent of the demand-risk terms above.</p>
+
+  <p>Under take-or-pay in PJM, the largest US grid operator, and under the merchant-collateral rules of Texas's SB6, the customer or its developer eats the risk, and a reservation that carries a cost mostly evaporates before it builds anything. Under an obligation to serve, the legal duty a monopoly utility owes every customer in its territory, a single company plans and rate-bases capacity ahead of load through its integrated resource plan, the filed long-term plan that is both the primary record and a document written to justify capital spending, so speculative demand is socialized to captive ratepayers and turned into steel most directly. The cap on all of this is federal: turbine order books are sold out toward 2030, so near-term gas cannot be built fast anywhere, which compresses the structural differences in the very near term and pushes every region's fast, credit-eligible option toward solar and storage.</p>
 </section>
 
 <section aria-labelledby="s-evidence">
-  <h2 id="s-evidence">What the evidence says, and what it refuses to say</h2>
-  <p>The popular sorting — capacity market clean, energy-only dirty, or the reverse — does not survive contact with the queues. PJM runs a capacity market and ERCOT, the grid operator for most of Texas, runs an energy-only market that pays generators only for energy, the textbook opposites, yet their active generation-interconnection queues sit within a fifth of a percentage point of each other on clean share, both near 89% (see chart). The region that breaks from the pack is the vertically integrated Southeast, where a single utility plans the whole system: barely half of its active queue is clean, and it carries 63.7 gigawatts of fossil generation in the pipeline, the largest absolute fossil build of the four regions despite the smallest total queue.</p>
+  <h2 id="s-evidence">Findings</h2>
 
   <figure>
     <div class="fig-title">Capacity market or energy-only, the clean pipeline looks the same. The outlier is the single-buyer Southeast.</div>
@@ -534,13 +572,17 @@ figure { margin: 1.6rem 0 1.4rem; }
     <div class="fig-src">Source: module M4 market-structure panel, from canonical interconnection-queue data (<a href="https://emp.lbl.gov/publications/queued-2025-edition-characteristics">Lawrence Berkeley National Laboratory, Queued Up, 2026 edition</a>) · as of 7 Jul 2026</div>
   </figure>
 
+  <p>The popular sorting — capacity market clean, energy-only dirty, or the reverse — does not survive contact with the queues. PJM runs a capacity market and ERCOT, the grid operator for most of Texas, runs an energy-only market that pays generators only for energy, the textbook opposites, yet their active generation-interconnection queues sit within a fifth of a percentage point of each other on clean share, both near 89% (see chart above). The region that breaks from the pack is the vertically integrated Southeast, where a single utility plans the whole system: barely half of its active queue is clean, and it carries 63.7 gigawatts of fossil generation in the pipeline, the largest absolute fossil build of the four regions despite the smallest total queue.</p>
+
   <p>Where structure does bite cleanly is retirement and demand risk. ERCOT, with no obligation to serve large loads, delayed zero fossil retirements in the last year of federal inventory data; obligation-to-serve regions and reliability-must-run contracts elsewhere held several gigawatts of coal and gas online. And the single clearest path from speculative load to real emissions runs through Georgia, where a utility's duty to serve turns a forecast into rate-based gas. Georgia Power's own seven-year growth estimate climbed from 400 megawatts in 2022 to 6,600 the next year to 8,500 by 2025, and in December 2025 the state's utility regulators <a href="https://psc.ga.gov/site/downloads/datacenterfactsheet.pdf">certified 9,985 megawatts of new generation</a>, about 80% of it expected to serve data centers, that is <a href="https://www.gpb.org/news/2025/12/19/georgia-psc-gives-the-greenlight-georgia-powers-massive-data-center-spurred">overwhelmingly new gas</a> with coal-retirement dates pushed back to match. The ratepayer, not the data center, is left backstopped only through 2031 if that load never fully arrives.</p>
 
   <p>The honest counter is that this reads as much like geology as like market design. We went looking for evidence that structure, not endowment, explains the pattern, and mostly found the opposite: Texas dominates in solar and storage because it has the best combined wind, sun, and land in the country, and the Southeast reaches for gas because Gulf gas is cheap and its wind is weak, outcomes that would hold under almost any market rules. Independent site-selection work ranks power, fiber, land, and tax incentives as the drivers of where data centers land, and market structure does not appear on the list. The finding that survives is narrower than the slogan: structure decides who pays for load that never shows and whether old fossil plants are kept alive, while the clean-or-gas character of the new supply is co-written by endowment and a national turbine bottleneck.</p>
+
+  <p>The clearest measured evidence for how demand-risk allocation actually operates sits in Ohio. After regulators forced the data centers connecting to AEP Ohio, a large regulated utility, onto a tariff that bills them for about 85% of the grid capacity they reserve whether or not they use it, the speculative interconnection pool fell from roughly 30 gigawatts to 11.1 gigawatts of committed load. The nineteen-odd gigawatts that walked away come to more than a fifth of all of Texas's peak demand — the entire Texas grid tops out near 85 gigawatts — gone from the queue the moment the reservation carried a bill. That collapse is the clearest evidence that who bears demand risk is not an accounting footnote: it sets how much requested load ever becomes steel, and downstream, how much capacity a utility builds ahead of demand that may never arrive. What it does not show is that the same two-thirds deflation happens on the load side in every region; it is measured on Ohio's pool, read across from the generation queue, and inferred elsewhere. Three things would sharpen the call, and none of them is the demand forecast: a direct look at large-load funnels in more than one region, to test whether a take-or-pay contract deflates load the way it visibly deflates the generation queue; the sealed terms behind Georgia's per-contract take-or-pay percentages, which are non-public, so the Southeast's discipline is inferred from a proposed North Carolina minimum bill rather than measured; and a larger sample of regions, since market structure travels with resource endowment across the four visible today — Texas is at once the most open market and the best place in the country to build solar — so telling the two apart needs more than four data points.</p>
 </section>
 
 <section aria-labelledby="s-assumptions">
-  <h2 id="s-assumptions">The assumption this resolves</h2>
+  <h2 id="s-assumptions">Assumption</h2>
   <p>Everything above resolves a single registry entry that the module took from an unfilled placeholder to documented per-region terms: who bears demand risk under the tariff and interconnection rules in force. It is marked contested, not because the terms are unclear but because the load-bearing effect — how much a take-or-pay contract deflates the pool of requested load — is inferred from the generation queue and one Ohio episode, not yet measured on a multi-region large-load funnel. The values below are what an approval endorses and what a contest changes.</p>
 
   <article class="acard">
@@ -567,7 +609,7 @@ figure { margin: 1.6rem 0 1.4rem; }
 </section>
 
 <section aria-labelledby="s-decision">
-  <h2 id="s-decision">The decision on record</h2>
+  <h2 id="s-decision">Decision Log</h2>
   <p>This module reached the registry through one approved change that did two things at once: it filled an empty placeholder with per-region terms, and it dismantled the framing most people bring to the question.</p>
 
   <div class="decision">

@@ -452,8 +452,8 @@ figure { margin: 1.6rem 0 1.4rem; }
 </div>
 <header class="masthead">
   <div class="rubric">AI and the grid<span class="sep">·</span>module M7<span class="sep">·</span>price feedback</div>
-  <h1>Higher bills slow electrification. So far, the bills are a regional story.</h1>
-  <p class="dek">How data-center demand reaches retail electricity rates, what that does to heat pumps and electric cars, and the correction this channel just absorbed</p>
+  <h1>How do data-center rate increases affect economy-wide electrification?</h1>
+  <p class="dek">This analysis traces how data-center demand passes through to retail electricity rates, and prices the heat-pump, electric-vehicle, and industrial electrification that pricier power deters</p>
   <div class="byline">Figures as of 7 July 2026 · one decision recorded 12 July 2026 · first pass complete, adversarially audited</div>
 </header>
 
@@ -467,30 +467,60 @@ figure { margin: 1.6rem 0 1.4rem; }
 <main class="brief">
 
 <section aria-labelledby="s-answer">
-  <h2 id="s-answer">The answer first</h2>
-  <p>Of the nine channels this project prices, none is more political than the electric bill. Data-center demand can raise retail electricity rates; pricier electricity slows the switch away from fossil fuels — fewer heat pumps installed, fewer electric cars charged, fewer gas furnaces retired — and every switch that does not happen keeps its old fuel burning. Our analysis prices that suppression at a central +2.4 million tonnes of CO₂ per year by 2035 under the consensus demand future, inside a 5th-to-95th-percentile band of −2.3 to +17.7.</p>
-  <p>Set against the ledger this project keeps, 2.4 million tonnes a year is a small entry: about one sixth of one percent of what US power plants emitted in 2024 (<a href="https://www.eia.gov/environment/emissions/carbon/">1,427 million tonnes, per the Energy Information Administration</a>), or roughly half a million gasoline cars kept on the road for a year (<a href="https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle">at the EPA's 4.6 tonnes per car</a>). The channel earns a full brief anyway, because the band is wide, the top end is not small, and the sentence underneath it — "data centers are raising your electric bill" — is the most repeated and least settled claim in this debate. What the estimate shows is a real but second-order drag on the transition; what it does not show is a national bill crisis.</p>
-  <p>Three things would move it: the next capacity auction in PJM, the thirteen-state grid operator where the effect is actually measurable; the fate of <a href="https://insidelines.pjm.com/ferc-approves-capacity-auction-price-collar-to-next-two-capacity-auctions/">the federal price cap on that market</a>, due for a decision around mid-2026; and whether any second regional market tightens the way PJM did.</p>
+  <h2 id="s-answer">Background</h2>
+  <p>A recurring claim in the data-center debate is that the buildout is pushing up electricity bills, and that pricier electricity slows the switch away from fossil-fueled end uses: fewer heat pumps installed, fewer electric vehicles charged, fewer gas furnaces retired in favor of electric ones. This analysis prices how far that rate pressure reaches into those switching decisions, and the emissions of the fossil fuel use that stays in place as a result.</p>
+  <ul>
+    <li>The clearest observable signal sits in <a href="https://www.utilitydive.com/news/data-centers-pjm-capacity-auction/808951/">the PJM Interconnection</a>, the thirteen-state grid operator centered on the mid-Atlantic: its capacity price, the payment generators receive for being available to meet peak demand, rose roughly tenfold over two years, and <a href="https://www.utilitydive.com/news/data-centers-pjm-capacity-auction/808951/">the market's independent monitor's counterfactual auction re-runs</a> attribute most of the increase to data-center load.</li>
+    <li>Public estimates of the resulting bill impact diverge sharply once the picture widens past PJM. <a href="https://emp.lbl.gov/news/new-berkeley-lab-report-summarizes-trends-retail-electricity-prices-and-price-drivers">Lawrence Berkeley National Laboratory's decomposition of 2019–2025 retail rate increases</a> finds distribution and transmission spending, fuel costs, and storm recovery dominant nationally, with load growth not a major driver through 2024. Industry-funded analyses from <a href="https://www.ethree.com/electricity-rate-drivers-data-center-role-2026/">E3</a> and <a href="https://www.epri.com/research/products/000000003002034696">EPRI</a> go further, finding essentially no correlation between data-center concentration and state rates, or even a modest downward effect from spreading fixed grid costs over new load. The divergence tracks who is asking: the Berkeley work is not industry-funded, the E3 and EPRI studies are.</li>
+    <li>Candidate drivers behind the spread: differences in regional market design, since PJM's capacity market passes costs through quickly while Texas's energy-only market mostly does not, and regulated utilities pass costs through slowly; the lag between a load forecast and a regulatory response, given that <a href="https://www.eei.org/-/media/Project/EEI/Documents/Issues%20and%20Policy/List%20of%20Large%20Customer%20Projects%20and%20Tariffs">twenty-four states have already adopted tariffs</a> that pin new costs on the data centers themselves; and the possibility that a large, well-allocated flat load lowers rates for everyone else rather than raising them.</li>
+  </ul>
 </section>
 
 <section aria-labelledby="s-how">
-  <h2 id="s-how">How the channel works</h2>
-  <div class="chain" role="img" aria-label="Causal chain: data-center load, to retail rate increase, to electrification forgone, to emissions kept alive">
+  <h2 id="s-how">Analytical Framework</h2>
+  <div class="chain" role="img" aria-label="Causal chain: data-center load, to retail rate rise, to electrification forgone, to emissions kept alive">
     <div class="node"><b>Data-center load</b><span>incremental gigawatts, by demand future</span></div>
     <div class="arrow" aria-hidden="true">→</div>
-    <div class="node"><b>Retail rates rise</b><span>0.02–0.22% per national gigawatt, capped by political response</span></div>
+    <div class="node"><b>Retail rates rise</b><span>price pass-through, capped by the documented political and regulatory response</span></div>
     <div class="arrow" aria-hidden="true">→</div>
-    <div class="node"><b>Electrification forgone</b><span>price elasticity × the load exposed by 2035</span></div>
+    <div class="node"><b>Electrification forgone</b><span>price elasticity applied to the load exposed by 2035</span></div>
     <div class="arrow" aria-hidden="true">→</div>
     <div class="node"><b>Emissions kept alive</b><span>the fossil end-use runs on, net of the grid power it skipped</span></div>
   </div>
-  <p>The dose is anchored on the strongest evidence in the project: <a href="https://www.utilitydive.com/news/data-centers-pjm-capacity-auction/808951/">the PJM market monitor's counterfactual auction re-runs</a>, which attribute $9.3 billion of one year's capacity-market cost to data-center load. The slope from there to the national average bill is deliberately a band, not a point — PJM passes capacity costs through, Texas's energy-only design mostly does not, and regulated utilities pass them through slowly. The loop also caps itself: regulators respond to load forecasts before bills actually rise (in five of the six documented regulatory arcs, protection arrived one to two and a half years after the load surge, ahead of realized rates), and <a href="https://www.eei.org/-/media/Project/EEI/Documents/Issues%20and%20Policy/List%20of%20Large%20Customer%20Projects%20and%20Tariffs">twenty-four states have already adopted tariffs</a> that pin new costs on the data centers themselves. Suppressed electrification is then priced as emissions using a long-run marginal emission rate — the emissions of the generators that a decade of anticipated demand calls into existence.</p>
+  <p>A retail rate increase is a price fact: a percentage change in what a gigawatt of new data-center demand adds to the average bill. Converting it into tonnes of CO₂ requires translating that price change into electrification that does not happen, then pricing what continuing to burn the displaced fuel costs in emissions. The terms, in the order they are applied:</p>
+
+  <!-- \text{retail rate increase} = \min(\text{rate slope} \times \text{data-center load},\ \text{saturation cap}) -->
+  <div class="formula">
+    <math display="block"><mrow>
+      <mtext>retail rate increase</mtext><mo>=</mo>
+      <mtext>min</mtext><mo>(</mo><mtext>rate slope</mtext><mo>×</mo><mtext>data-center load</mtext><mo>,</mo><mtext>saturation cap</mtext><mo>)</mo>
+    </mrow></math>
+  </div>
+  <p class="formula-note">In percent of the national or regional average retail rate. The rate slope and the saturation cap are both estimated parameters of the rate-feedback loop, anchored on the PJM Independent Market Monitor's counterfactual auction re-runs; the cap reflects the documented pace of regulatory and tariff response rather than a directly measured ceiling.</p>
+
+  <!-- \text{electrification suppressed} = \text{price elasticity} \times \text{retail rate increase} \times \text{baseline electrification exposed} -->
+  <div class="formula">
+    <math display="block"><mrow>
+      <mtext>electrification suppressed</mtext><mo>=</mo>
+      <mtext>price elasticity</mtext><mo>×</mo><mtext>retail rate increase</mtext><mo>×</mo><mtext>baseline electrification exposed</mtext>
+    </mrow></math>
+  </div>
+  <p class="formula-note">The volume of heat-pump, electric-vehicle, and industrial electrification that does not happen because of the price change. The price elasticity is estimated per end use by the electrification price-elasticity assumption, drawing on published estimates for heat pumps and electric vehicles and a judgment band for industrial load; the baseline electrification exposed to the price change is a demand-future-conditioned projection owned by the project's demand modules and consumed here, named but not valued in this module.</p>
+
+  <!-- \text{emissions kept alive} = \text{electrification suppressed} \times \text{long-run marginal emission rate} -->
+  <div class="formula">
+    <math display="block"><mrow>
+      <mtext>emissions kept alive</mtext><mo>=</mo>
+      <mtext>electrification suppressed</mtext><mo>×</mo><mtext>long-run marginal emission rate</mtext>
+    </mrow></math>
+  </div>
+  <p class="formula-note">In tonnes of CO₂ per year. The long-run marginal emission rate — the emissions of the generators that a decade of anticipated demand calls into existence — is owned by the project's emissions-factor work and consumed here, the same rate the project applies wherever a forgone or added switch needs pricing.</p>
+
+  <p>Because pass-through differs by market design, the rate slope is carried as a band rather than a point, wider inside PJM than in the national average, and each demand future draws its own rate increase and its own suppressed-electrification response rather than borrowing the full across-futures range — so the width of the demand forecast and the width of the price response are not compounded twice.</p>
 </section>
 
 <section aria-labelledby="s-evidence">
-  <h2 id="s-evidence">What the evidence says, and what it refuses to say</h2>
-  <p>The realized harm is regional and specific. In PJM, the capacity price rose roughly tenfold in two years, the market monitor's counterfactuals attribute most of the surge to data-center load, and <a href="https://opc-dc.gov/wp-content/uploads/2025/05/PJM-Wholesale-Price-Increase-5222025-Revised-1.pdf">about ten dollars a month of Washington, DC's standard-offer bill increase</a> traces to it. Outside PJM the national record points the other way: <a href="https://emp.lbl.gov/news/new-berkeley-lab-report-summarizes-trends-retail-electricity-prices-and-price-drivers">Lawrence Berkeley National Laboratory's decomposition of 2019–2025 rate increases</a> finds distribution and transmission spending, fuel, and storm recovery dominant, with load growth not a major national driver through 2024, and <a href="https://www.ethree.com/electricity-rate-drivers-data-center-role-2026/">independent 2026 analyses find essentially no correlation</a> between data-center concentration and state rates — <a href="https://www.epri.com/research/products/000000003002034696">one causal study</a> estimates that spreading fixed grid costs over new data-center demand left average residential prices about 6% lower over 2019–2024 than they would otherwise have been. Both of those latter studies were industry-funded, and we treat them as motivated; the Berkeley decomposition is not, and it agrees.</p>
-  <p>The honest reading, and the one the estimate encodes: this channel is forward-looking and regionally concentrated — real in PJM now, plausible elsewhere as spare capacity runs out, and genuinely two-sided at the low end, since a large flat load that pays its way can push everyone else's rates down. Only a demand bust turns the central estimate negative (see chart).</p>
+  <h2 id="s-evidence">Findings</h2>
 
   <figure>
     <div class="fig-title">Only a demand bust turns this channel negative</div>
@@ -546,10 +576,15 @@ figure { margin: 1.6rem 0 1.4rem; }
     </div>
     <div class="fig-src">Source: module M7 dose-response, anchored on <a href="https://www.utilitydive.com/news/data-centers-pjm-capacity-auction/808951/">the PJM market monitor's counterfactual auction re-runs</a> · as of 7 Jul 2026</div>
   </figure>
+
+  <p>The realized harm is regional and specific. In PJM, the capacity price rose roughly tenfold in two years, the market monitor's counterfactuals attribute most of the surge to data-center load, and <a href="https://opc-dc.gov/wp-content/uploads/2025/05/PJM-Wholesale-Price-Increase-5222025-Revised-1.pdf">about ten dollars a month of Washington, DC's standard-offer bill increase</a> traces to it. Outside PJM the national record points the other way: <a href="https://emp.lbl.gov/news/new-berkeley-lab-report-summarizes-trends-retail-electricity-prices-and-price-drivers">Lawrence Berkeley National Laboratory's decomposition of 2019–2025 rate increases</a> finds distribution and transmission spending, fuel, and storm recovery dominant, with load growth not a major national driver through 2024, and <a href="https://www.ethree.com/electricity-rate-drivers-data-center-role-2026/">independent 2026 analyses find essentially no correlation</a> between data-center concentration and state rates — <a href="https://www.epri.com/research/products/000000003002034696">one causal study</a> estimates that spreading fixed grid costs over new data-center demand left average residential prices about 6% lower over 2019–2024 than they would otherwise have been. Both of those latter studies were industry-funded, and we treat them as motivated; the Berkeley decomposition is not, and it agrees.</p>
+  <p>The honest reading, and the one the estimate encodes: this channel is forward-looking and regionally concentrated — real in PJM now, plausible elsewhere as spare capacity runs out, and genuinely two-sided at the low end, since a large flat load that pays its way can push everyone else's rates down. Only a demand bust turns the central estimate negative (see chart above).</p>
+  <p>Our analysis prices this suppression at a central 2.4 million tonnes of CO₂ per year by 2035 under the consensus demand future, inside a 5th-to-95th-percentile band of −2.3 to +17.7 million tonnes. Set against the ledger this project keeps, the central estimate is a small entry: about one-sixth of one percent of what US power plants emitted in 2024 (<a href="https://www.eia.gov/environment/emissions/carbon/">1,427 million tonnes, per the Energy Information Administration</a>), or roughly half a million gasoline cars kept on the road for a year (<a href="https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle">at the EPA's 4.6 tonnes per car</a>). The channel earns a full brief anyway, because the band is wide, the top end is not small, and the sentence underneath it — "data centers are raising your electric bill" — is the most repeated and least settled claim in this debate. What the estimate shows is a real but second-order drag on the transition; what it does not show is a national bill crisis.</p>
+  <p>Three things would move it: the next capacity auction in PJM, the thirteen-state grid operator where the effect is actually measurable; the fate of <a href="https://insidelines.pjm.com/ferc-approves-capacity-auction-price-collar-to-next-two-capacity-auctions/">the federal price cap on that market</a>, due for a decision around mid-2026; and whether any second regional market tightens the way PJM did.</p>
 </section>
 
 <section aria-labelledby="s-assumptions">
-  <h2 id="s-assumptions">The two assumptions this rides on</h2>
+  <h2 id="s-assumptions">Assumptions</h2>
   <p>Every number above flows from two registry entries. Both are marked contested — estimated with real anchors, but with named gaps a reviewer could reasonably attack. This section is the review surface: the bands below are what an approval endorses and what a contest changes.</p>
 
   <article class="acard">
@@ -593,7 +628,7 @@ figure { margin: 1.6rem 0 1.4rem; }
 </section>
 
 <section aria-labelledby="s-decision">
-  <h2 id="s-decision">The decision on record</h2>
+  <h2 id="s-decision">Decision Log</h2>
   <p>This channel carries the project's most recent audit, and the exchange is worth reading in full because it is the collaboration working as designed: a one-paragraph challenge from the review seat became a commissioned refutation attempt, two confirmed defects, and a recorded correction — in three days.</p>
 
   <div class="decision">

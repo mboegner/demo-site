@@ -452,8 +452,8 @@ figure { margin: 1.6rem 0 1.4rem; }
 </div>
 <header class="masthead">
   <div class="rubric">AI and the grid<span class="sep">·</span>module M1<span class="sep">·</span>queue conversion</div>
-  <h1>Most requested data-center load never plugs in. How much never arrives depends on the stage.</h1>
-  <p class="dek">Utilities book hundreds of gigawatts of interconnection requests and then forecast a fraction of it; the honest discount collapses from most of the pile at the announcement stage to almost none once construction starts</p>
+  <h1>What fraction of requested data-center load ultimately becomes operational?</h1>
+  <p class="dek">This analysis prices how much of a data-center interconnection queue is speculative, using measured conversion analogs, by project stage, contract terms, and region</p>
   <div class="byline">Figures as of October 2025 (Texas large-load queue) and December 2025 (interconnection queue) · two decisions recorded 7–8 July 2026 · first pass and load-side pass complete</div>
 </header>
 
@@ -467,31 +467,75 @@ figure { margin: 1.6rem 0 1.4rem; }
 <main class="brief">
 
 <section aria-labelledby="s-answer">
-  <h2 id="s-answer">The answer first</h2>
-  <p>No number in this project is more load-bearing, or more abused, than the size of data-center demand. The requests are real and enormous: the Electric Reliability Council of Texas, the state's grid operator, tracks <a href="https://www.utilitydive.com/news/ercots-large-load-queue-jumped-almost-300-last-year-official/808820/">about 275 gigawatts of large-load interconnection requests</a> as of October 2025 — more than three times the entire Texas grid at its <a href="https://www.ercot.com/gridmktinfo/dashboards">all-time peak of roughly 85 gigawatts</a>, a record set on the hottest afternoon of 2023. Read literally, one state's request pile is three Texases. It cannot be real load arriving soon, because <a href="https://www.volts.wtf/p/whats-the-deal-with-interconnection">a queue position is a request to study a connection</a>, not a plant under construction, and reading the raw queue as demand would triple-count a grid that does not yet exist.</p>
-  <p>Our analysis prices how much of that requested load to discount as speculative, the share that never gets built, and finds it depends almost entirely on how far a project has travelled. At the announcement stage, where a developer has filed a request but signed nothing binding, the discount runs 60 to 90 percent; by the time a project is under construction it falls to 3 to 15 percent. The contracted middle is where the story turns. A single blended band of 20 to 38 percent hides a split visible only on the load side: a firm take-or-pay contract, which bills the customer whether or not the power is used, behaves like construction and is discounted just 2 to 15 percent, while a loose letter of authorization behaves like an announcement, discounted around 55 to 75 percent.</p>
-  <p>Three things would move these numbers. The load queues are young — most of the 275 gigawatts was filed in 2025 — so today's conversion rates are floors that will rise as projects age, which makes the discounts ceilings that will fall. Texas's new financial-security gate, which forces a developer to post money or drop out, faces its first real test around June 2027 and could compress the announcement-stage discount if it deters speculative filings. And the single largest unmeasured piece is the same project sitting in several utilities' queues at once, a double-count still folded into the announcement band because the tool to detect it does not yet exist.</p>
+  <h2 id="s-answer">Background</h2>
+  <p>A recurring question about the data-center buildout is how much of the load utilities report is actually going to show up. The requests themselves are real and enormous: the Electric Reliability Council of Texas, the state's grid operator, tracks <a href="https://www.utilitydive.com/news/ercots-large-load-queue-jumped-almost-300-last-year-official/808820/">about 275 gigawatts of large-load interconnection requests</a> as of October 2025, up almost 300 percent in a year — more than three times the entire Texas grid at its <a href="https://www.ercot.com/gridmktinfo/dashboards">all-time peak of roughly 85 gigawatts</a>, a record set on the hottest afternoon of 2023. It cannot be real load arriving soon in that quantity, because <a href="https://www.volts.wtf/p/whats-the-deal-with-interconnection">a queue position is a request to study a connection</a>, not a plant under construction.</p>
+  <ul>
+    <li>The question this module prices: what share of a reported interconnection queue never converts to load that actually draws power, and how does that share vary with how far a project has progressed.</li>
+    <li>The best public analog for the conversion rate is not data centers at all. The US generation interconnection queue, catalogued for two decades by Lawrence Berkeley National Laboratory, a US Department of Energy lab, shows that of projects entering a queue between 2000 and 2019, old enough to have resolved, <a href="https://emp.lbl.gov/publications/queued-2025-edition-characteristics">only about a fifth were ever built and roughly seven in ten withdrew</a>. Data-center load queues are mostly too young to have resolved the same way and are largely proprietary, so this history is a prior rather than a direct measurement.</li>
+    <li>Public framings of the queue differ mainly in whether they treat a request as a forecast or as a filing. Utilities that discount their own pipelines in public disclosures — a large pipeline otherwise justifies capital these utilities recover from ratepayers — implicitly treat it as a filing; press coverage that reports the raw gigawatt total implicitly treats it as a forecast.</li>
+    <li>Candidate drivers of how much of a queue converts: the firmness of the underlying contract, since a take-or-pay agreement that bills a customer whether or not power is used is costly to walk away from while a loose letter of authorization is not; a regulated utility's legal obligation to serve its territory, which can justify building ahead of even speculative load; how young a queue is, since conversion rates measured early understate eventual builds; and financial-security requirements such as the <a href="https://capitol.texas.gov/BillLookup/History.aspx?LegSess=89R&amp;Bill=SB6">mid-2025 Texas law requiring developers to post money or drop out</a>, intended to deter speculative filings.</li>
+  </ul>
 </section>
 
 <section aria-labelledby="s-how">
-  <h2 id="s-how">How the channel works</h2>
-  <div class="chain" role="img" aria-label="Causal chain: requested load, to a discount by lifecycle stage, to real load, to the emissions consequence">
-    <div class="node"><b>Requested load</b><span>interconnection requests, hundreds of gigawatts, by demand future</span></div>
+  <h2 id="s-how">Analytical Framework</h2>
+  <div class="chain" role="img" aria-label="Causal chain: requested load, to a discount by lifecycle stage, region and contract firmness, to real load, to the emissions consequence">
+    <div class="node"><b>Requested load</b><span>interconnection requests filed with utilities and grid operators, across four demand futures</span></div>
     <div class="arrow" aria-hidden="true">→</div>
-    <div class="node"><b>Discount by stage</b><span>most requests withdraw; the discount collapses from announced to contracted to under construction</span></div>
+    <div class="node"><b>Discount applied</b><span>a share of each cohort is written off as unlikely to ever draw power, set by lifecycle stage, contract firmness, and region</span></div>
     <div class="arrow" aria-hidden="true">→</div>
-    <div class="node"><b>Real load</b><span>the fraction that energizes, plus firm take-or-pay contracts that hold</span></div>
+    <div class="node"><b>Real load</b><span>the residual forecast to actually energize, including firm contracts that hold regardless of stage</span></div>
     <div class="arrow" aria-hidden="true">→</div>
-    <div class="node"><b>Emissions consequence</b><span>supply built against load that never arrives, or surplus capacity that later helps</span></div>
+    <div class="node"><b>Emissions consequence</b><span>supply built against load that never arrives, or capacity that later proves useful</span></div>
   </div>
-  <p>The dose is the raw volume of requested load; the response is the discount that shrinks it to something buildable. Two forces pull in opposite directions. Take-or-pay tariffs and interconnection collateral, money a developer forfeits by walking away, push requested load toward realness and off the ratepayer, deflating the speculative share; that mechanism belongs to the market-structure work (M4, who bears demand risk) and is consumed here rather than decided. Pulling the other way, a regulated utility's legal duty to serve its territory can justify building capacity ahead of even half-speculative load, so obligation-to-serve regions inflate the share. The discount runs inside the four demand futures, from consensus through the bust, whose weights the demand-durability work (M9) sets and this module consumes.</p>
+  <p>A queue position is a capacity fact: gigawatts of requested interconnection, nothing more. Converting it into real load requires a discount, and the discount is not one number — it is looked up by how far the project has progressed, refined by how firm its contract is, and nudged by where it filed. The terms, in the order they are applied:</p>
+
+  <!-- \text{conversion rate} = \frac{\text{projects built}}{\text{projects built} + \text{projects withdrawn}} -->
+  <div class="formula">
+    <math display="block"><mrow>
+      <mtext>conversion rate</mtext><mo>=</mo>
+      <mfrac>
+        <mtext>projects built</mtext>
+        <mrow><mtext>projects built</mtext><mo>+</mo><mtext>projects withdrawn</mtext></mrow>
+      </mfrac>
+    </mrow></math>
+  </div>
+  <p class="formula-note">The share of a mature cohort that reaches commercial operation rather than withdrawing. Measured once, on the generation-interconnection queue Lawrence Berkeley National Laboratory has tracked for two decades — the best public analog available, since data-center queue outcomes are mostly too young to have resolved and otherwise proprietary. It anchors the announced-stage discount below; it does not replace it.</p>
+
+  <!-- \text{regional discount} = \text{stage discount} \times \text{regional multiplier} -->
+  <div class="formula">
+    <math display="block"><mrow>
+      <mtext>regional discount</mtext><mo>=</mo>
+      <mtext>stage discount</mtext><mo>×</mo><mtext>regional multiplier</mtext>
+    </mrow></math>
+  </div>
+  <p class="formula-note">The stage discount (announced, contracted, under construction) is the registry's speculative-load assumption, valued on the assumption card below. The regional multiplier is this module's own comparison of light-study markets, such as the Electric Reliability Council of Texas, against cluster-study markets, such as the California Independent System Operator; it is applied here, not re-derived here.</p>
+
+  <!-- \text{contracted discount} = \text{firm share} \times \text{firm discount} + \text{loose share} \times \text{loose discount} -->
+  <div class="formula">
+    <math display="block"><mrow>
+      <mtext>contracted discount</mtext><mo>=</mo>
+      <mtext>firm share</mtext><mo>×</mo><mtext>firm discount</mtext>
+      <mo>+</mo>
+      <mtext>loose share</mtext><mo>×</mo><mtext>loose discount</mtext>
+    </mrow></math>
+  </div>
+  <p class="formula-note">Applies within the contracted stage only. The firm and loose discounts come from the contract-firmness conditioner, a second registry assumption owned by this module and valued below. The firm and loose shares — how much of a cohort holds each kind of contract — are read from utility tariff filings and disclosures, not assumed.</p>
+
+  <!-- \text{real load} = \text{requested load} \times (1 - \text{discount}) -->
+  <div class="formula">
+    <math display="block"><mrow>
+      <mtext>real load</mtext><mo>=</mo>
+      <mtext>requested load</mtext><mo>×</mo><mo>(</mo><mn>1</mn><mo>−</mo><mtext>discount</mtext><mo>)</mo>
+    </mrow></math>
+  </div>
+  <p class="formula-note">In gigawatts, applied per cohort and summed. Requested load is measured directly from interconnection queues and utility disclosures. The discount is whichever of the terms above applies to that cohort's stage, region, and, in the contracted stage, contract firmness.</p>
+
+  <p>A project carries one discount at a time, drawn from its current stage; a project in the contracted stage is further split by whether its contract is firm or loose, and every stage is nudged by the region it filed in. Stage, firmness, and region are read from filings rather than inferred from one another, so a large filing with no firm contract counts toward the requested total but not toward the real-load total. Take-or-pay tariffs and interconnection collateral, money a developer forfeits by walking away, push a project's discount down; that mechanism belongs to the market-structure work (M4, who bears demand risk) and is consumed here rather than decided. The discount also runs inside the four demand futures, from consensus through the bust, whose weights the demand-durability work (M9) sets and this module consumes.</p>
 </section>
 
 <section aria-labelledby="s-evidence">
-  <h2 id="s-evidence">What the evidence says, and what it won't</h2>
-  <p>The strongest evidence is not about data centers at all. The best-measured record of how often a queued request becomes real is the US generation interconnection queue, catalogued for two decades by Lawrence Berkeley National Laboratory, a US Department of Energy lab: of generation projects that entered a queue between 2000 and 2019, old enough to have resolved, <a href="https://emp.lbl.gov/publications/queued-2025-edition-characteristics">only about a fifth were ever built and roughly seven in ten withdrew</a>. That is not a measurement of data-center load, which is mostly proprietary, but it is a defensible prior for how a request-to-reality funnel behaves, and where public load data exists it points the same way.</p>
-  <p>Two direct load-side reads confirm the shape. Texas's grid operator publishes an actual large-load funnel: of the <a href="https://www.utilitydive.com/news/ercots-large-load-queue-jumped-almost-300-last-year-official/808820/">roughly 275 gigawatts tracked in October 2025</a>, about 6 percent had cleared the approval-to-energize milestone and under 1 percent was observed drawing power, a collapse from request to reality even steeper than the generation queue, and one heavily flattered by how young the queue is. Several large utilities also discount their own pipelines in public. <a href="https://www.pjm.com/-/media/DotCom/planning/res-adeq/load-forecast/dominion-documentation.pdf">Dominion Energy, Virginia's largest utility, reported about 47 gigawatts of data-center load under contract in mid-2025 but forecast only 16.6 gigawatts of it as realized demand</a>, discounting its own book by roughly two-thirds. <a href="https://puco.ohio.gov/news/puco-orders-aep-ohio-to-create-data-center-specific-tariff">AEP Ohio, the American Electric Power utility, watched a 30-gigawatt inquiry pool shrink to about 11 gigawatts</a> once its tariff imposed 85-percent take-or-pay terms. <a href="https://www.utilitydive.com/news/oncor-sempra-interconnection-texas-data-center-earnings/757262/">Oncor, the largest Texas transmission utility, logged around 200 gigawatts of requests against roughly 9 gigawatts carrying signed agreements</a>. Each of these is a motivated disclosure — a big pipeline justifies the capital these utilities recover from ratepayers — which makes the part they discount themselves the most telling.</p>
-  <p>Two honest caveats cut against reading too much into this. First, the Texas reform meant to deter speculative requests has not visibly bent the curve: the state's large-load queue kept climbing straight through the <a href="https://capitol.texas.gov/BillLookup/History.aspx?LegSess=89R&amp;Bill=SB6">mid-2025 law that added financial-security requirements</a>, and the first measured pipeline shrinkage anywhere came from a different state's framework, not this one. The reform's real test does not arrive until 2027. Second, and less comfortable, the load-side figures here were assembled under a network that blocked every primary source host, so all but one were transcribed from search results quoting the original filings rather than downloaded and checked against them. They are plausible and internally consistent, but until the underlying reports are re-fetched and verified they carry a lower grade of confidence than the citations alone suggest.</p>
+  <h2 id="s-evidence">Findings</h2>
 
   <figure>
     <div class="fig-title">The discount collapses down the ladder, unless the contract is loose</div>
@@ -554,10 +598,14 @@ figure { margin: 1.6rem 0 1.4rem; }
     </div>
     <div class="fig-src">Source: M1 queue-conversion bands for the speculative-load discount, anchored on <a href="https://emp.lbl.gov/publications/queued-2025-edition-characteristics">LBNL's twenty-year interconnection-queue history</a> and <a href="https://www.utilitydive.com/news/ercots-large-load-queue-jumped-almost-300-last-year-official/808820/">Texas's large-load funnel</a> · bands as of 8 Jul 2026, underlying evidence Oct–Dec 2025</div>
   </figure>
+
+  <p>Two direct load-side reads confirm the shape above. Texas's grid operator publishes an actual large-load funnel: of the <a href="https://www.utilitydive.com/news/ercots-large-load-queue-jumped-almost-300-last-year-official/808820/">roughly 275 gigawatts tracked in October 2025</a>, about 6 percent had cleared the approval-to-energize milestone and under 1 percent was observed drawing power, a collapse from request to reality even steeper than the generation queue, and one heavily flattered by how young the queue is. Several large utilities also discount their own pipelines in public. <a href="https://www.pjm.com/-/media/DotCom/planning/res-adeq/load-forecast/dominion-documentation.pdf">Dominion Energy, Virginia's largest utility, reported about 47 gigawatts of data-center load under contract in mid-2025 but forecast only 16.6 gigawatts of it as realized demand</a>, discounting its own book by roughly two-thirds. <a href="https://puco.ohio.gov/news/puco-orders-aep-ohio-to-create-data-center-specific-tariff">AEP Ohio, the American Electric Power utility, watched a 30-gigawatt inquiry pool shrink to about 11 gigawatts</a> once its tariff imposed 85-percent take-or-pay terms. <a href="https://www.utilitydive.com/news/oncor-sempra-interconnection-texas-data-center-earnings/757262/">Oncor, the largest Texas transmission utility, logged around 200 gigawatts of requests against roughly 9 gigawatts carrying signed agreements</a>. Each of these is a motivated disclosure — a big pipeline justifies the capital these utilities recover from ratepayers — which makes the part they discount themselves the most telling.</p>
+  <p>Two honest caveats cut against reading too much into this. First, the Texas reform meant to deter speculative requests has not visibly bent the curve: the state's large-load queue kept climbing straight through the <a href="https://capitol.texas.gov/BillLookup/History.aspx?LegSess=89R&amp;Bill=SB6">mid-2025 law that added financial-security requirements</a>, and the first measured pipeline shrinkage anywhere came from a different state's framework, not this one. The reform's real test does not arrive until 2027. Second, and less comfortable, the load-side figures here were assembled under a network that blocked every primary source host, so all but one were transcribed from search results quoting the original filings rather than downloaded and checked against them. They are plausible and internally consistent, but until the underlying reports are re-fetched and verified they carry a lower grade of confidence than the citations alone suggest.</p>
+  <p>The headline lands at the stage where the bulk of the gigawatts sit. Our analysis discounts the announced stage — a developer has filed a request but signed nothing binding — by 60 to 90 percent, central estimate 80 percent. Applied to ERCOT's 275-gigawatt count, most of which is still announced or early contracted, a central-case reading treats no more than roughly 55 gigawatts of that pile as real load, consistent with the state's own measured funnel, where only about 6 percent of the queue had reached the approval-to-energize milestone and under 1 percent was observed actually drawing power. An 80 percent discount on the largest bucket is most of the reason three Texases of paper requests do not mean the grid triples, and the discount falls fast, to 3 to 15 percent, once a project is under construction and the industry's own capital is riding on it. Three things would move these bands. The load queues are young — most of the 275 gigawatts was filed in 2025 — so today's conversion rates are floors that will rise as projects age, which makes the discounts ceilings that will fall. Texas's financial-security gate faces its first real test around June 2027 and could compress the announcement-stage discount if it deters speculative filings. And the single largest unmeasured piece is the same project sitting in several utilities' queues at once, a double-count still folded into the announced band because the tool to detect it does not yet exist.</p>
 </section>
 
 <section aria-labelledby="s-assumptions">
-  <h2 id="s-assumptions">The assumption this rides on</h2>
+  <h2 id="s-assumptions">Assumptions</h2>
   <p>Everything above resolves a single registry entry: the speculative-load discount. Its contracted stage carries a second, newer refinement — the contract-firmness split — that this module added on its load-side pass. Both are marked contested, estimated with real anchors but with named gaps a reviewer could reasonably attack. The bands below are what an approval endorses and what a contest changes. The demand futures the discount runs inside, and the tariff rules that set contract firmness, are owned and reviewed on the demand-durability (M9) and market-structure (M4) briefs.</p>
 
   <article class="acard">
@@ -601,7 +649,7 @@ figure { margin: 1.6rem 0 1.4rem; }
 </section>
 
 <section aria-labelledby="s-decision">
-  <h2 id="s-decision">The decisions on record</h2>
+  <h2 id="s-decision">Decision Log</h2>
   <p>This module's resolution reached the registry through two proposals a week apart, both approved. The first fitted the discount to evidence; the second re-anchored that evidence on direct load data and added the contract-firmness split.</p>
 
   <div class="decision">
