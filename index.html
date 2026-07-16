@@ -526,16 +526,16 @@ figure { margin: 1.6rem 0 1.4rem; }
   margin: .7rem 0 .2rem; padding-left: .7rem; border-left: 3px solid var(--accent);
 }
 .idx .calc .transition-grid {
-  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .8rem;
 }
 .idx .calc .transition-card {
   min-width: 0; background: var(--surface); border: 1px solid var(--hairline);
-  border-radius: 10px; box-shadow: var(--shadow); padding: 1rem 1rem .65rem;
+  border-radius: 10px; box-shadow: var(--shadow); padding: .85rem .85rem .5rem;
 }
 .idx .calc .transition-card .chart-title { margin-bottom: .05rem; }
 .idx .calc .transition-card .chart-sub { margin-bottom: .25rem; }
-.idx .calc .transition-mount { min-height: 180px; }
-@media (max-width: 680px) {
+.idx .calc .transition-mount { min-height: 150px; }
+@media (max-width: 760px) {
   .idx .calc .transition-grid { grid-template-columns: 1fr; }
 }
 /* collaboration-patterns table */
@@ -766,16 +766,6 @@ figure { margin: 1.6rem 0 1.4rem; }
             <div class="chart-sub">cumulative net-additional capacity · GW</div>
             <div class="chart-mount transition-mount" id="calcCleanCapacity"></div>
           </div>
-          <div class="transition-card">
-            <div class="chart-title">Electrification</div>
-            <div class="chart-sub">change vs no-buildout · TWh per year</div>
-            <div class="chart-mount transition-mount" id="calcElectrification"></div>
-          </div>
-        </div>
-        <div class="panel">
-          <div class="chart-title">Your distribution</div>
-          <div class="chart-sub">cumulative CO₂ 2025–2035, millions of tonnes · gray band: this scenario's published central result</div>
-          <div class="chart-mount" id="calcStrip"></div>
         </div>
         <div class="panel">
           <div class="chart-title">Your channel breakdown</div>
@@ -3017,9 +3007,6 @@ if (typeof module !== "undefined") module.exports = GridModel;
       transitionTrajectoryChart(document.getElementById('calcCleanCapacity'), tp.years,
         tp.metrics.clean_capacity_built_gw, { unit: 'GW', color: css('--abate'),
           aria: 'Cumulative additional clean capacity built from 2025 to 2035' });
-      transitionTrajectoryChart(document.getElementById('calcElectrification'), tp.years,
-        tp.metrics.electrification_delta_twh, { unit: 'TWh/yr', color: css('--emit'),
-          aria: 'Change in electrification from 2025 to 2035 relative to no buildout' });
     }
     var cm = document.getElementById('calcMedian');
     if (cm) {
