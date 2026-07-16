@@ -1,6 +1,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Price feedback — analysis review</title>
+<title>Assumptions registry</title>
 <style>
 
 @font-face {
@@ -376,203 +376,3025 @@ figure { margin: 1.6rem 0 1.4rem; }
 }
 
 </style>
-<div class="review-bar">
-  <div class="review-bar-inner">
-    <span class="where">Analysis review · brief 7 of 9</span>
-    <nav aria-label="brief sequence"><span class="stub " title="Brief not yet written">← 6 · load flexibility</span><a href="/">All briefs</a><span class="stub " title="Brief not yet written">8 · leakage and embodied carbon →</span></nav>
+<div class="site-bar"><nav aria-label="Site"><a href="/">Analysis review</a><a href="/assumptions/" aria-current="page">Assumptions</a><a href="/factors/">Factor coverage</a><a href="/explorer/">Explorer</a></nav></div>
+<header class="register-head">
+  <div class="rubric">Research register</div>
+  <h1>Assumptions registry</h1>
+  <p class="dek">The project’s shared parameter state, presented directly from <code>assumptions/registry.yaml</code>.</p>
+  <div class="register-tools">
+    <label class="search"><span>Search assumptions</span><input id="registrySearch" type="search" placeholder="ID, term, source, consumer…" autocomplete="off"></label>
+    <span class="result-count" id="registryCount">25 assumptions</span>
+    <button type="button" id="expandRegistry">Expand all</button>
   </div>
-</div>
-<header class="masthead">
-  <div class="rubric">AI and the grid<span class="sep">·</span>module M7<span class="sep">·</span>price feedback</div>
-  <h1>Higher bills slow electrification. So far, the bills are a regional story.</h1>
-  <p class="dek">How data-center demand reaches retail electricity rates, what that does to heat pumps and electric cars, and the correction this channel just absorbed</p>
-  <div class="byline">Figures as of 7 July 2026 · one decision recorded 12 July 2026 · first pass complete, adversarially audited</div>
 </header>
+<main class="register-page">
+  <details class="registry-notes">
+    <summary>Registry rules and schema</summary>
+    <pre><code># Assumption registry — the project&#x27;s shared parameter state.
+#
+# Rules (see CLAUDE.md):
+#   - Modules import by id; never hardcode a value that exists here.
+#   - Agents PROPOSE changes (structured diff + evidence); a human approves.
+#   - status: placeholder | contested | settled | irreducible
+#     &quot;irreducible&quot; = investigated, cannot be narrowed; carry as scenario dimension.
+#   - In narrative, always pair the id with its plain-language meaning.
+#   - Values below are Phase 0 placeholders with deliberately wide ranges,
+#     seeded from sources current as of 2026-07. All require validation.
 
-<div class="state-strip" role="list" aria-label="review state">
-  <span class="chip" role="listitem">2 assumptions consumed</span>
-  <span class="chip contested" role="listitem">both contested</span>
-  <span class="chip approved" role="listitem">decision of 12 Jul 2026 — approved</span>
-  <span class="chip" role="listitem">0 awaiting your review</span>
-</div>
+schema_version: 1
 
-<main class="brief">
+assumptions:</code></pre>
+  </details>
+  <div id="registryEntries"><details class="registry-entry">
+  <summary>
+    <span class="registry-id">phantom-load-haircut</span>
+    <span class="registry-meta"><span class="status status-contested">contested</span><span>2026-07-14</span></span>
+  </summary>
+  <pre><code>  - id: phantom-load-haircut
+    definition: &gt;
+      Fraction of requested data center interconnection load that should be
+      discounted as speculative/duplicated (never energizes), by region AND by
+      lifecycle stage. Includes double- and triple-counting from same-project
+      multi-region requests. The haircut collapses down the announced -&gt;
+      contracted -&gt; under-construction -&gt; energized lifecycle; a flat national
+      scalar mis-estimates any scenario that mixes stages.
+    denominator: requested_interconnection_load
+    denominator_note: &gt;
+      ADDED (2026-07-14 anchor-basis audit). This discount is defined on the
+      requested-load pile (announced / contracted / under-construction pools)
+      and collapses it toward realized load. It must NOT be applied to
+      consumption-forecast quantities (LBNL-class realized-load forecasts; the
+      demand-trajectory scenario anchors), which already price in
+      non-materialization -- applying it there double-counts, and did so in
+      synthesis runs 1-7 (see proposals/2026-07-14-anchor-basis-audit.md;
+      the consensus central implied a 488 TWh 2030 total, below the LBNL
+      band&#x27;s low end). Consumers holding a consumption-denominated quantity
+      consume this assumption only through pipeline-denominated intermediates
+      (supply response to requests, indicator thresholds), never as a
+      multiplier on forecast TWh.
+    value:
+      national_range: [0.25, 0.60]   # blended announced-to-early-stage pool; unchanged (mix-dependent)
+      by_lifecycle_stage:
+        announced: [0.60, 0.90]           # CONFIRMED + corroborated by DIRECT load funnels (M1 v2).
+                                          # Utility announced-pool discounts 0.63-0.96 (Dominion loose LOA tier,
+                                          # AEP inquiry, Georgia Power pipeline, Oncor requests); Georgia Power
+                                          # 25%/quarter announced exit (Q3 2025). ERCOT energized share 0.010
+                                          # (time-censored floor). Center-of-mass at the HIGH end (~0.80+).
+                                          # Not narrowed: censoring means realized rises (discount falls) with age.
+        contracted: [0.20, 0.38]          # CONFIRMED band, but REFINE by CONTRACT FIRMNESS (new load finding):
+                                          # firm take-or-pay / executed service agreements ~0.02-0.15 (AEP 11.1 GW
+                                          # firm; Dominion firm ESA/CLOA ~= its 16.6 GW realized forecast);
+                                          # loose letters-of-authorization ~0.65 (announced-like). See
+                                          # contract_firmness_conditioner. Generation queue lacks a take-or-pay
+                                          # analog, so it may overstate the firm-contracted load discount.
+        under_construction: [0.03, 0.15]  # CONFIRMED low. No measured load construction-stage exits (Georgia
+                                          # Power added 5 broke-ground customers, none exited); matches gen prior.
+      contract_firmness_conditioner:      # NEW (M1 v2). Applies to the `contracted` stage on the LOAD side only.
+        note: &gt;
+          Load-side &quot;contracted&quot; bifurcates by contract firmness in a way the generation queue cannot show.
+          Firm take-or-pay tariffs / executed service agreements (AEP Ohio ~85% take-or-pay; Dominion ESA)
+          push the discount toward the under_construction band (~0.02-0.15); loose letters-of-authorization
+          (Dominion ELOA/SELOA &quot;not firm load&quot;) behave like announced (~0.60-0.75). Consume via M4
+          (demand-risk-allocation): the firmness split is a function of tariff regime, so M1 and M4 must
+          share it rather than assert different contracted discounts.
+        firm_take_or_pay_or_esa: [0.02, 0.15]
+        loose_letter_of_authorization: [0.55, 0.75]
+      by_region_multiplier_on_early_stage:   # applies to announced/contracted, gen-queue prior
+        note: &gt;
+          Regional conversion structure from the mature-cohort generation-queue funnel
+          (LBNL thru2025): connect-and-manage / light-study regions convert ~2.3x better
+          than cluster-study-congested regions, so the phantom haircut is regionally
+          heterogeneous. Multipliers are relative to the national early-stage haircut.
+          The skeleton has no regional dimension yet, so it consumes the national blend;
+          these multipliers are documented for the regional resolution (M1/M5).
+        ERCOT: 0.80      # lowest phantom (highest conversion, 30% completion)
+        PJM: 0.95
+        MISO: 1.00
+        SPP: 1.05
+        West: 1.05
+        Southeast: 1.08
+        CAISO: 1.12      # highest phantom (lowest conversion, 13% completion)
+      time_trend_note: &gt;
+        Post-2026 reforms (TX SB6 ~$50k/MW security; VA GS-5 ~$1.5M/MW collateral;
+        PJM firm-derating; take-or-pay pledge) push newly-requested load toward
+        realness, so the haircut on later vintages should decline. Support: ERCOT SB6
+        Batch-Zero financial-security + site-control gate (commitment deadline ~June
+        2027) is the mechanism that should compress the announced band. UPDATE (2026-07):
+        no clean SB6 break visible yet -- ERCOT queue kept growing through it (63-&gt;233-&gt;410
+        GW); first measured attrition is Georgia Power&#x27;s Q3-2025 -14.3 GW (25%/quarter)
+        exit, a GA-framework effect, not TX SB6. The 2027-06 Batch-Zero deadline is the
+        unresolved natural experiment.
+      raw_queue_note: &gt;
+        On a raw-queue basis the never-energizes fraction is 0.75-0.90. M1 measures
+        generation-queue mature-cohort never-energizes ~0.72-0.80 nationally (CAISO ~0.87,
+        ERCOT ~0.70). DIRECT LOAD (new): ERCOT requested-&gt;energized 0.010 and
+        requested-&gt;approved-to-energize 0.059 (both time-censored, 2025-10-14); utility
+        realized/top-of-funnel 0.037-0.37 (announced-pool discount 0.63-0.96). All anchor
+        the top of the announced band.
+      central_caveat: &gt;
+        UPDATED (2026-07). The generation-&gt;load inference gap is now PARTIALLY CLOSED: direct
+        large-LOAD funnels (ERCOT time series + Georgia Power / Dominion / AEP Ohio / Oncor
+        pipeline ladders) exist for the first time and AGREE with the generation-queue prior
+        on both the funnel shape and the announced band. It is NOT closed enough to settle the
+        assumption, for two reasons that are now the dominant uncertainty: (1) TIME-CENSORING --
+        load queues are young (most requests are 2025 vintage), so requested-&gt;energized ratios
+        are lower bounds on realization, not settled rates; (2) DEFINITIONAL HETEROGENEITY --
+        utilities use incompatible stage vocabularies (ERCOT 5-stage; Dominion ESA/CLOA/ELOA
+        firmness buckets; take-or-pay firm vs letters of authorization), and firm contracts
+        behave very differently from loose ones. DATA-CONFIDENCE CAVEAT: in the 2026-07 pass all
+        load figures except one ERCOT deck were WEB-SEARCH-SURFACED (session egress policy blocked
+        every primary host; see load_queue_panel/load_pipeline_claims provenance_class columns and
+        the raw MANIFEST fetch_failures) -- plausible and internally consistent but UNVERIFIED
+        against source. The bands stay wide, the firmness split is added, and status stays contested.
+    status: contested   # UNCHANGED. Gap partially closed; time-censoring + definitional heterogeneity remain.
+    resolved_by: m1-queue-conversion
+    consumers: [m4, m5, m7]   # m2 removed (never a real consumer -- verified 2026-07-14 vs its README); skeleton removed with the 2026-07-14 anchor-basis audit (discount no longer multiplies forecast anchors)
+    last_validated: 2026-07-14
+    provenance:
+      - source: &quot;M1 analysis of canonical queue_panel v0 (LBNL Queued Up 2026 Ed., thru2025) + ERCOT Large Load Status Update (TAC 2026-03-13)&quot;
+        as_of: 2026-07-06
+        tier: 1
+        motivation_note: &quot;Internal module analysis; generation-queue funnel is a PRIOR, not a load measurement (see central_caveat).&quot;
+      - source: &quot;M1 v2 analysis of canonical load_queue_panel v0 (ERCOT large-load funnel, dated vintages 2024-2026)&quot;
+        as_of: 2026-07-07
+        tier: 1
+        motivation_note: &gt;
+          Direct load-side funnel (ERCOT). One vintage primary_retrieved (2026-03-13 TAC deck, hashed);
+          the rest search_surfaced from named ERCOT docs (egress policy blocked ercot.com download) --
+          see provenance_class column. Time-censored: realization ratios are lower bounds.
+      - source: &quot;M1 v2 analysis of canonical load_pipeline_claims v0 (Georgia Power, Dominion, AEP Ohio, Oncor stage-ladders)&quot;
+        as_of: 2026-07-07
+        tier: 2
+        motivation_note: &gt;
+          Utility disclosures are motivated (pipeline justifies capex). Self-haircut rows (Dominion 16.6 vs
+          47 GW; AEP 30-&gt;11.1 GW; Georgia Power Q3 -14.3 GW exit) are the least-motivated, most informative.
+          All search_surfaced this pass (egress-blocked primaries).
+      - source: &quot;ERCOT Large Load Update to TX Senate B&amp;C committee&quot;
+        as_of: 2026-04
+        tier: 1
+      - source: &quot;PJM 2026 Load Forecast (non-firm large-load derating)&quot;
+        as_of: 2026-01
+        tier: 1
+      - source: &quot;LBNL, Queued Up: 2025 Edition (13% queue completion analog)&quot;
+        as_of: 2025-12
+        tier: 1
+      - source: &quot;Grid Strategies National Load Growth Report 2025 (~28% haircut on forecast growth)&quot;
+        as_of: 2025-11
+        tier: 2
+        motivation_note: &quot;Consultancy; sells load-growth research; flags unrealistic load factors.&quot;
+      - source: &quot;SemiAnalysis, Stop Saying Half of 2026 US Datacenter Capacity Is Canceled&quot;
+        as_of: 2026-06
+        tier: 2
+        motivation_note: &quot;Research firm selling data-center supply-chain intelligence; argues cancellations are announcement-layer only.&quot;</code></pre>
+</details>
+<details class="registry-entry">
+  <summary>
+    <span class="registry-id">marginal-emissions-method</span>
+    <span class="registry-meta"><span class="status status-settled">settled</span><span>2026-07-06</span></span>
+  </summary>
+  <pre><code>  - id: marginal-emissions-method
+    definition: &gt;
+      The accounting method for emissions caused by new load: hourly locational
+      marginal emission factors vs annual-average grid intensity. Method choice
+      can flip the sign of regional conclusions. Canonical method specified in
+      methods/emissions-accounting.md; this entry tracks which method the
+      synthesis uses and the sensitivity to the alternative.
+    value: &quot;hourly-marginal (canonical); annual-average retained as sensitivity&quot;
+    status: settled  # as a project standard; empirical factors still to be built
+    consumers: [m2, m3, m5, m6, skeleton]
+    last_validated: 2026-07-06</code></pre>
+</details>
+<details class="registry-entry">
+  <summary>
+    <span class="registry-id">marginal-emissions-factor</span>
+    <span class="registry-meta"><span class="status status-placeholder">placeholder</span><span>2026-07-07</span></span>
+  </summary>
+  <pre><code>  - id: marginal-emissions-factor
+    definition: &gt;
+      Marginal CO2 emission factor for new load on major US grids (kg CO2 / MWh;
+      tonnes = value/1000) -- the emission rate of the generation that responds to a
+      demand increment, distinct from and generally HIGHER than average grid
+      intensity. Carries TWO method-tagged factor families that measure different
+      things and must not be blended: (a) LONG-RUN marginal (Cambium 2024 LRMER),
+      which lets the load restructure the grid -- CENTRAL for the project&#x27;s headline
+      (long-lived, planner-anticipated data-center buildout); (b) SHORT-RUN marginal
+      (WattTime MOER), which holds the fleet fixed -- retained as a LABELED near-term
+      cross-check / sensitivity, never the central factor. Numeric complement to
+      marginal-emissions-method.
+    value:
+      unit: kg_CO2_per_MWh
+      central_range_shortrun_2025: [370, 560]   # WattTime MOER basis; a short-run/2025 artifact (SENSITIVITY only)
+      central_range_longrun_midcase_2025_2035: [135, 360]  # Cambium LRMER Mid-case ISO-mean band (CENTRAL)
+      longrun_full_scenario_bound: [50, 565]     # all 8 Cambium scenarios, 2025-2035 milestones
+      gas_only_bound: [400, 600]                 # if new load served entirely by new gas
+      by_region_longrun_cambium_lrmer_midcase:   # Cambium 2024, combustion CO2, end-use, kg/MWh
+        # metric=LRMER (long-run); milestone years; ISO = unweighted mean of member GEA regions
+        PJM:   {2025: 304, 2030: 216, 2035: 174}
+        ERCOT: {2025: 409, 2030: 151, 2035: 53}
+        SPP:   {2025: 564, 2030: 416, 2035: 91}
+        CAISO: {2025: 228, 2030: 126, 2035: 50}
+        MISO:  {2025: 327, 2030: 256, 2035: 109}
+      by_region_shortrun_watttime_moer:          # RETAINED cross-check, NOT the central factor
+        as_of: 2025-02
+        tier: 2
+        PJM: 556
+        ERCOT: 464
+        SPP: 430
+        CAISO: 371
+      average_intensity_contrast:                # EPA eGRID2023 Rev 2, kg/MWh, reference
+        CAMX: 195
+        RFCE: 272
+        ERCT: 334
+        SPP: 395
+        MISO: 430
+        SRSO: 384
+      method_tag_required: &gt;
+        Every use MUST state which family it draws (LRMER long-run vs MOER
+        short-run) and, for LRMER, the scenario (default Mid-case), stage
+        (combustion), year or levelization window, and end-use basis. LRMER and
+        MOER are different quantities; do not average them into one number.
+      srmer_gap_note: &gt;
+        Cambium SHORT-RUN marginal (SRMER) was not obtained -- it is absent from the
+        NREL workbook and available only via scenarioviewer.nrel.gov hourly bulk
+        files (unreachable this pass). The short-run slot is therefore still filled
+        by WattTime MOER (Tier 2) pending a Tier-1 Cambium SRMER pull.
+      note: &gt;
+        Marginal exceeds average ~1.4-1.9x in low-carbon grids ON A SHORT-RUN basis;
+        on a LONG-RUN (Cambium LRMER) basis the marginal falls below today&#x27;s average
+        in several regions by 2030-2035 as induced clean capacity (policy-bound)
+        serves the increment. Method choice (LRMER vs MOER) is a first-order,
+        potentially sign-flipping source of spread -- carry the method tag.
+    status: placeholder   # LRMER now Tier-1-sourced; SRMER half still Tier-2 (WattTime)
+    consumers: [m2, m3, m5, skeleton]
+    last_validated: 2026-07-07
+    provenance:
+      - source: &quot;NREL Workbook for Cambium 2024 Data (GEA-region), Data - Annual sheet; LRMER combustion CO2, Mid-case&quot;
+        as_of: 2025-03
+        tier: 1
+        note: &gt;
+          OEDI submission 289 (DOI 10.7799/2560791), CC-BY-4.0. Retrieved via
+          Internet Archive Wayback capture 2025-05-01 (nrel.gov unreachable);
+          sha256 80e930a7...a63eb. Extract: data/canonical/marginal_emissions_factors/v0/.
+      - source: &quot;WattTime, emissions risks of AI data center buildout (short-run MOER cross-check)&quot;
+        as_of: 2025-02
+        tier: 2
+        motivation_note: &quot;Sells marginal-emissions (MOER) data; advocates emissions-aware siting; interest in showing marginal != average.&quot;
+      - source: &quot;EPA eGRID2023 Rev 2 (average-intensity contrast)&quot;
+        as_of: 2025-06
+        tier: 1
+      - source: &quot;Gagnon &amp; O&#x27;Shaughnessy 2024, NREL (LRMER vs SRMER concept authority)&quot;
+        as_of: 2024-01
+        tier: 1</code></pre>
+</details>
+<details class="registry-entry">
+  <summary>
+    <span class="registry-id">ppa-additionality-shares</span>
+    <span class="registry-meta"><span class="status status-contested">contested</span><span>2026-07-07</span></span>
+  </summary>
+  <pre><code>  - id: ppa-additionality-shares
+    definition: &gt;
+      Share of contracted hyperscaler clean-energy capacity in each consequential
+      class of methods/deal-taxonomy.md (new-build / restart / uprate /
+      reallocation-of-existing), carried on TWO axes: capacity (MW) AND energy
+      (TWh/yr), because reallocation-of-existing nuclear carries far more energy per
+      MW than variable renewables and so understates as capacity / overstates as
+      energy. Reallocation causes ~zero new clean generation. Carry a SEPARATE
+      energized-vs-announced axis: essentially all additional-class nuclear (SMRs,
+      most restarts) is pre-energized and attrition-prone.
+    value:
+      # HEADLINE (contracted + under-construction + energized) shares.
+      # Empirical, from data/canonical/deals_ledger/v0 (M3, 2026-07-06).
+      headline_class_shares_capacity_MW:
+        new_build:                 {central: 0.77, range: [0.68, 0.82]}
+        reallocation_of_existing:  {central: 0.18, range: [0.12, 0.28]}
+        restart:                   {central: 0.05, range: [0.03, 0.08]}
+        uprate:                    {central: 0.006, range: [0.003, 0.02]}
+      headline_class_shares_energy_TWh:
+        new_build:                 {central: 0.52, range: [0.45, 0.60]}
+        reallocation_of_existing:  {central: 0.35, range: [0.25, 0.42]}
+        restart:                   {central: 0.11, range: [0.08, 0.15]}
+        uprate:                    {central: 0.012, range: [0.006, 0.03]}
+      energized_vs_announced_axis:
+        headline_stage_GW: 27.9       # contracted + under-construction + energized
+        announced_only_GW: 26.7       # 100% new-build; EXCLUDED from headline
+        announced_nuclear_smr_GW: 20.7  # attrition-prone; ~0% energized today
+        nuclear_new_build_energized_share: 0.0   # confirms prior caveat
+      note: &gt;
+        Scale context: &gt;80 GW clean contracted by US data centers. Ranges reflect (a)
+        one large estimate-flagged row (Microsoft-Brookfield US-attributable ~6 GW of
+        a 10.5 GW global framework) and (b) the Clinton classification swing. Capacity
+        shares OVERSTATE additionality relative to energy shares by ~25 percentage
+        points because existing-fleet nuclear (reallocation) runs near 0.92 CF. Ledger
+        over-samples nuclear (~21% of headline MW) vs the full &gt;80 GW universe (~5-6%
+        nuclear), so the renewables-heavy universe&#x27;s new-build energy share is likely
+        HIGHER than the ledger&#x27;s 0.52 -- treat the energy shares as a LOWER BOUND on
+        true additionality. Announced nuclear pile is ~13 GW, ~70% SMR/new-build, ~28%
+        existing-fleet (Carnegie, Jun 2026, Tier 1), consistent with the ledger&#x27;s
+        20.7 GW announced SMR. The skeleton consumes the ENERGY-basis shares because it
+        converts the contracted GW anchor to TWh (see synthesis/model.py).
+    status: contested   # was placeholder; empirically anchored but coverage-limited
+    resolved_by: m3-procurement-impact
+    consumers: [m3, m4, skeleton]
+    last_validated: 2026-07-07
+    provenance:
+      - source: &quot;Canonical deals ledger v0 (46 deals; ingest/deals_ledger/build.py); M3 analysis&quot;
+        as_of: 2026-07-06
+        tier: 2
+        motivation_note: &quot;Hand-curated from public disclosures; Tier-2-dominant (42/46 rows), Tier-1 anchors for nuclear (SEC 8-Ks, FERC, DOE) and LPSC-procured solar. Coverage-limited top-N, not a census.&quot;
+      - source: &quot;Carnegie Endowment, Beyond the Hype: Hyperscaler Nuclear Commitments (~13 GW announced, ~28% existing-fleet, ~70% SMR/new-build)&quot;
+        as_of: 2026-06
+        tier: 1
+      - source: &quot;S&amp;P Global Sustainable1 (&gt;80 GW US data-center contracted; universe denominator)&quot;
+        as_of: 2026-03
+        tier: 2
+        motivation_note: &quot;Market-data vendor; sells to the industry it covers.&quot;
+      - source: &quot;Clean Energy Buyers Association, Corporate Clean Energy Breaks 130 GW&quot;
+        as_of: 2025-12
+        tier: 2
+        motivation_note: &quot;Buyers&#x27; trade association; exists to show procurement drives additionality.&quot;</code></pre>
+</details>
+<details class="registry-entry">
+  <summary>
+    <span class="registry-id">contracted-clean-capacity-factor</span>
+    <span class="registry-meta"><span class="status status-contested">contested</span><span>2026-07-07</span></span>
+  </summary>
+  <pre><code>  - id: contracted-clean-capacity-factor
+    definition: &gt;
+      Blended annual capacity factor used to convert the &gt;80 GW contracted clean
+      capacity anchor (ppa-additionality-shares) into annual TWh. Promoted from the
+      walking skeleton&#x27;s interim placeholder to an empirical registry value by M3.
+    value:
+      central: 0.31
+      range: [0.27, 0.42]      # low = renewables-only; high = as-sampled fleet incl nuclear
+      units: dimensionless (annual capacity factor)
+      basis: &gt;
+        Empirical from deals ledger v0: renewables-only headline blend 0.295; full
+        headline fleet (incl ~21% nuclear) 0.426. The &gt;80 GW universe is renewables-
+        dominant (~58% solar / 26% wind / storage), so central sits near the renewables
+        blend; the upper bound covers a nuclear-heavier contracted mix.
+      note: &gt;
+        REPLACES the walking skeleton&#x27;s interim placeholder [0.35, 0.55], whose old
+        midpoint (~0.45) over-converted the &gt;80 GW nameplate anchor to TWh by assuming
+        a nuclear/firm-heavy blend the contracted universe does not have.
+    status: contested
+    resolved_by: m3-procurement-impact
+    consumers: [m3, skeleton]
+    last_validated: 2026-07-07
+    provenance:
+      - source: &quot;Deals ledger v0 (mix) + EIA EPM Table 6.07.B component capacity factors (Tier 1)&quot;
+        as_of: 2026-07-06
+        tier: 1
+        motivation_note: &quot;Component CFs Tier-1 (EIA); technology mix from the coverage-limited ledger.&quot;</code></pre>
+</details>
+<details class="registry-entry">
+  <summary>
+    <span class="registry-id">retirement-delay-dispatch</span>
+    <span class="registry-meta"><span class="status status-contested">contested</span><span>2026-07-14</span></span>
+  </summary>
+  <pre><code>  - id: retirement-delay-dispatch
+    definition: &gt;
+      Mapping from a delayed fossil retirement to counterfactual generation and
+      emissions: capacity factors and dispatch behavior of delayed units
+      (measured from EPA CEMS, never nameplate), and the attribution split of each
+      delay across data-center demand, DOE 202(c) emergency orders, and general
+      reliability tightening.
+    value:
+      retirements_2025_all_fuel: {planned_GW: 12.3, actual_GW: 4.6}   # Tier 1 EIA
+      retirements_2025_coal_only: {planned_GW: 8.5, actual_GW: 2.6, delayed_GW: 4.8, cancelled_GW: 1.1}
+      doe_ordered_coal_frozen_GW: 4.4
+      delayed_unit_capacity_factor_range: [0.11, 0.60]  # MEASURED annual CF, 13 slipped coal units, EIA-923 2024-25
+      delayed_unit_cf_capacity_weighted: 0.33           # 2025-preferred; trend DECLINING (2024 median 0.40 -&gt; 2025 0.30)
+      cf_measurement_note: &gt;
+        Measured by M2 from EIA-923 plant x prime-mover coal net generation over
+        operating coal nameplate (plant-level; units at a plant share the CF --
+        unit-level resolution needs CEMS, the v1 emissions-panel scope). DOE-ordered
+        units are held available but economically dispatched; their post-order CFs
+        are likely below the 2025 measurements.
+      measured_2025_26_slip_cohort:                     # as-of 2026-05 vintage diff; M2 first pass 2026-07-06
+        coal_units: 13
+        coal_GW: 5.96
+        slip_months_range: [1, 24]
+        delay_attributable_Mt_CO2_gross: 15.7           # measured CF x nameplate x slip window x measured rate
+        delay_attributable_Mt_CO2_net_consequential: 11.8  # minus long-run central marginal displacement, 0.2475 t/MWh = midpoint of marginal-emissions-factor central_range_longrun_midcase_2025_2035 [135,360] kg/MWh (short-run [370,560] is sensitivity only)
+        naive_nameplate_cf1_Mt_CO2: 41.3                # the PROHIBITED calc, kept for contrast only
+        measured_vs_naive_ratio: 0.38
+        window_caveat: &gt;
+          Covers only the observed 1-24 month slips in one 12-month 860M vintage
+          diff, NOT ultimate retirement fates; rolling DOE-order renewals grow the
+          true figure.
+        attribution_split:
+          doe_202c: {units: 7, GW: 2.96, gross_Mt: 9.2}
+          irp_resource_adequacy: {units: 4, GW: 1.64, gross_Mt: 6.2}
+          reliability_rmr_transmission: {units: 2, GW: 1.37, gross_Mt: 0.2}
+          data_center_sole_stated_driver: {units: 0}
+          data_center_co_stated_driver: {units: 2, note: &quot;South Oak Creek 7-8; We Energies names data-center load growth alongside MISO tightening&quot;}
+          unknown: {units: 0}
+      baseline_stock_context_only:
+        figure_Mt_CO2: 68
+        note: &gt;
+          DeSmog/Frontier report these generators&#x27; 2024 baseline emissions. This is
+          a STOCK figure, NOT the delay&#x27;s counterfactual consequence; do not use as
+          the delay impact. True consequence must be built from CEMS + a marginal-
+          displacement counterfactual.
+    status: contested   # remaining uncertainty: how much IRP/reliability deferral is itself downstream of DC load; post-order dispatch needs CEMS
+    resolved_by: m2-retirement-emissions
+    consumers: [m2, m4, skeleton]
+    last_validated: 2026-07-14
+    provenance:
+      - source: &quot;EIA Today in Energy #67206 (all-fuel) and #67427 (coal-only)&quot;
+        as_of: 2026-04
+        tier: 1
+      - source: &quot;EIA Electric Power Monthly Table 6.07.A (fleet capacity factors)&quot;
+        as_of: 2026-04
+        tier: 1
+      - source: &quot;EIA Form 923, 2024 final (Schedules 2-3-4-5, Page 1)&quot;
+        as_of: 2024-12
+        tier: 1
+      - source: &quot;EIA Form 923, 2025 early release (30JUN2026; provisional per EIA)&quot;
+        as_of: 2025-12
+        tier: 1
+      - source: &quot;DOE CESER Section 202(c) order texts + 2025/2026 order pages (Campbell, Craig, Schahfer, Culley)&quot;
+        as_of: 2026-06
+        tier: 1
+      - source: &quot;POWER Magazine, DOE 202(c) emergency-order log (43+ orders since May 2025)&quot;
+        as_of: 2026-04
+        tier: 2
+        motivation_note: &quot;Trade press compiling Tier-1 DOE orders; no strong motivation.&quot;
+      - source: &quot;Utility Dive, DOE-ordered plants producing far less energy (reporting EIA monthly)&quot;
+        as_of: 2026-06
+        tier: 2
+        motivation_note: &quot;Trade press reporting Tier-1 EIA data; no strong motivation.&quot;
+      - source: &quot;We Energies, new timeline for Oak Creek plant retirements (data-center co-driver)&quot;
+        as_of: 2026-04
+        tier: 2
+        motivation_note: &quot;Utility press release; motivated to justify reliability/capex decisions.&quot;
+      - source: &quot;Colorado Politics on Xcel PUC petition to delay Comanche 2&quot;
+        as_of: 2025-11
+        tier: 2
+        motivation_note: &quot;Regional political press reporting a Tier-1 PUC filing.&quot;
+      - source: &quot;DeSmog / Frontier Group (68 Mt / 65 Mt baseline-year emissions)&quot;
+        as_of: 2025-12
+        tier: 2
+        motivation_note: &quot;Advocacy against the buildout; baseline-year emissions, method undisclosed; NOT a counterfactual.&quot;</code></pre>
+</details>
+<details class="registry-entry">
+  <summary>
+    <span class="registry-id">demand-trajectory</span>
+    <span class="registry-meta"><span class="status status-irreducible">irreducible</span><span>2026-07-15</span></span>
+  </summary>
+  <pre><code>  - id: demand-trajectory
+    definition: &gt;
+      Data center load growth scenarios consumed by everything downstream.
+      Parameterized on compute-efficiency trajectory x demand elasticity
+      (Jevons), training/inference mix shift, and a demand-disappointment case
+      (material capex correction 2027-2029). Never a single point forecast.
+      Carried with M9 evidence-weighted scenario probabilities (weights are
+      re-weightable via the leading-indicator panel; the scenario set itself stays
+      irreducible).
+    value:
+      scenarios:
+        - name: consensus
+          note: &gt;
+            US data-center FACILITY/grid power ~62 GW (2025) -&gt; 76 GW (2026) -&gt;
+            ~92 GW (2027, interp.) -&gt; 108 GW (2028) [S&amp;P, hyperscale+leased+crypto;
+            add non-hyperscale enterprise uplift]. US load ~649 TWh by 2030 (LBNL 2025
+            Update reference case; Tier-1 band 521-843 TWh, 9.5-15.3% of US electricity).
+            The prior ~765 TWh point (S&amp;P-flavored, Tier 2, as-of 2025-10, expired under
+            the 6-month AI-demand staleness clock, no canonical row) was retired by
+            proposals/2026-07-14-consensus-anchor-rekey.md.
+            NOTE: 44/55/74 GW of the prior placeholder were critical-IT-load figures
+            at PUE~1.4, not facility power; do not mix bases.
+        - name: efficiency-tempered
+          note: &quot;Power-per-AI-output improves fast enough to flatten load growth despite adoption.&quot;
+        - name: jevons-high
+          note: &quot;Efficiency gains fully absorbed by elastic consumption; upper-bound ~843 TWh (LBNL high).&quot;
+        - name: demand-disappointment
+          note: &gt;
+            Capex correction; converts supply response into stranded gas and surplus
+            clean PPAs. Reference bound: the LBNL 2030 band&#x27;s low case (~521 TWh) is a
+            slower-growth FORECAST conditional on a continuing buildout, not a bust
+            floor -- a genuine capex correction takes realized consumption below the
+            band, and this scenario&#x27;s load multiplier is derived as a correction
+            path against the consensus anchor (freeze near the pre-correction
+            realized level, utilization decline on the newest capacity; see
+            proposals/2026-07-15-m9-weights-rederivation.md). The scenario&#x27;s real
+            floor is contractual and physical (FLOOR PARAMETERS below), bounded
+            above the 2024 baseline. Non-materialization is embedded in the
+            multiplier and must not be applied to it again downstream.
+            Tier-1 support: EIA Dec-2025 downgrade (US 3%-&gt;1.7%; ERCOT 15.7%-&gt;9.6%).
+            FLOOR PARAMETERS (M9, from M3 contracted-commitments evidence, as-of
+            2026-07-06): even in a bust, ~67.5 TWh/yr of ADDITIONAL-class contracted
+            clean (new-build+restart+uprate at contracted/under-construction/energized
+            stages, ~23 GW) keeps arriving under long-term PPAs, ~10 GW of it already
+            physically committed (under-construction+energized); and take-or-pay
+            tariffs (demand-risk-allocation: ~23 states, 80-85% minimum-take, 12-15 yr
+            terms, ~3-yr exit fees) convert cancelled load into billed minimums or
+            exit-fee revenue for the contract term. The bust is therefore
+            stranded-supply-with-contracted-clean, not zero-delivery. FLOOR
+            COMPOSITION CAVEAT (M0 falsification, approved 2026-07-12): the robust
+            floor is the ~10 GW physically committed slice (under-construction +
+            energized; the 2001 telecom dark-fiber analog -- built capacity strands
+            and stays). The residual ~13 GW is merely CONTRACTED forward PPAs, which
+            a genuine bust puts at risk (offtaker distress -&gt; repudiation or
+            renegotiation; 2001 precedent shows planned build cancelled and forward
+            contracts repudiated in bankruptcy even as built capacity stayed). Carry
+            the ~13 GW as at-risk-in-bust, not as a hard floor; if it attenuates,
+            the surplus-clean offset shrinks and cumulative dE moves back toward
+            zero. The committed-vs-contracted split is exposable as a skeleton
+            sensitivity.
+      anchor_basis_2030:
+        # ADDED (2026-07-14 anchor-basis audit). Classifies each scenario&#x27;s 2030
+        # load anchor on the request-to-consumption funnel so the speculative-load
+        # discount (phantom-load-haircut, defined on REQUESTED interconnection
+        # load) is never applied to a quantity that already prices in
+        # non-materialization. Basis vocabulary: requested_pipeline |
+        # contracted_pipeline | consumption_forecast.
+        note: &gt;
+          All four scenario anchors are CONSUMPTION FORECASTS of realized
+          facility-basis load: bottom-up estimates of electricity data centers
+          will actually use, not sums of interconnection requests. The synthesis
+          direct-load channel consumes them UNDISCOUNTED. Anchors count TOTAL
+          consumption (LBNL basis; onsite generation not netted out), so
+          behind-the-meter-served TWh are netted out of the grid-served channel
+          by the model, never charged both a grid marginal rate and an onsite
+          gas intensity.
+        consensus:
+          anchor_2030_twh: 649   # LBNL 2025 Update reference case (Tier 1, as-of 2026-06);
+                                 # re-keyed from the retired ~765 Tier-2 point by
+                                 # proposals/2026-07-14-consensus-anchor-rekey.md
+          basis: consumption_forecast
+        efficiency-tempered:
+          anchor_2030_twh: null  # no own anchor; interim multiplier 0.58-0.82 on consensus
+          basis: consumption_forecast   # inherited
+        jevons-high:
+          anchor_2030_twh: 843   # LBNL 2025 Update high case -- the note&#x27;s own stated upper bound
+          basis: consumption_forecast
+        demand-disappointment:
+          anchor_2030_twh: null  # path multiplier 0.40-0.72 on consensus; the multiplier&#x27;s
+                                 # derivation ALREADY embeds non-materialization -- never
+                                 # discount this scenario&#x27;s load a second time
+          basis: consumption_forecast   # mixed derivation, consumption endpoint
+      proposed_scenario_weights:   # M9, evidence-weighted probabilities; NOT market forecasts
+        basis: &gt;
+          M9 durability ledger + leading-indicator panel (2026-07-07); weights
+          re-derived 2026-07-15 after the anchor-basis audit removed the
+          channel-level speculative-load discount, making these weights the
+          model&#x27;s sole carrier of demand-delivery skepticism
+          (proposals/2026-07-15-m9-weights-rederivation.md). Weights move only
+          via the panel&#x27;s activation thresholds; the scenario set is never
+          collapsed. Ordering: consensus &gt; demand-disappointment &gt;
+          efficiency-tempered &gt; jevons-high.
+        consensus:              {central: 0.40, range: [0.30, 0.50]}
+        efficiency-tempered:    {central: 0.20, range: [0.12, 0.30]}
+        jevons-high:            {central: 0.13, range: [0.05, 0.20]}
+        demand-disappointment:  {central: 0.27, range: [0.15, 0.35]}
+        reasoning: &gt;
+          Re-derived 2026-07-15 on FUNNEL-INDEPENDENT evidence only: the
+          scenario anchors are consumption forecasts that already price in
+          request-pile attrition, so pipeline statistics (queue conversion,
+          withdrawal rates, utility self-discounts of contract books) are
+          anchor-basis facts, not weight evidence -- citing them here would
+          re-introduce the retired double-count in probability space.
+          Consensus modal (0.40): 2026 combined capex guided ~$635-725B
+          (+~77%), ~$267B annualized AI-attributable cloud revenue growing
+          28-123%, &gt;=$1T booked NVIDIA backlog; the 2026-07-14 re-key to the
+          Tier-1 LBNL reference makes the modal claim more moderate.
+          Jevons-high (0.13) down-weighted on funnel-independent delivery
+          limits: gas-turbine-constraint (settled; OEM slots sold out through
+          2029-2030, order-to-inservice 5-6 yr) and realized-pace arithmetic
+          (843 TWh by 2030 needs ~28%/yr sustained growth from LBNL&#x27;s 192 TWh
+          2024 actual vs ~9% realized 2023-&gt;2024), plus EIA&#x27;s Dec-2025
+          downgrade cutting against the band&#x27;s upper half; NOT on queue
+          conversion/withdrawal (retired citation). Demand-disappointment
+          (0.27) held ABOVE momentum-implied levels on the financial core
+          alone: FCF modeled negative at majors, ~$1.5T debt need, 2026-27
+          GPU-debt refinancing wall, documented circular financing, diverging
+          depreciation schedules, and EIA&#x27;s Tier-1 forecast downgrade (the
+          utility self-discount leg is demoted to corroboration -- it explains
+          the anchor basis, not bust probability; take-or-pay floors protect
+          billed revenue, not consumed TWh, so they do not soften the bust).
+          Efficiency-tempered carried at 0.20 (EIA downgrade consistent with
+          it; Jevons absorption has held so far). Weights unchanged from the
+          2026-07-07 derivation: the struck legs were corroborating, the
+          load-bearing evidence is intact, and no indicator has crossed an
+          activation threshold.
+      leading_indicator_panel:   # M9&#x27;s durable monitoring output; re-weighting is evidence-driven
+        source: modules/m9-demand-durability/outputs/indicator_panel.csv
+        core_indicators:
+          - capex-guidance-revisions        # activation: &gt;=2 majors cut &gt;=15% consecutively, or 2027 guidance &lt;= 2026 actuals
+          - gpu-depreciation-schedules      # activation: second hyperscaler shortens, or any major to &lt;=4 yr
+          - neocloud-credit-spreads         # activation: &gt;+300 bps vs big-tech, pulled/failed refi on 2026-27 wall, default
+          - contracted-vs-announced-ratio   # activation: signed (contracted+) GW declines across deals-ledger refreshes
+          - queue-withdrawal-acceleration   # activation: withdrawal &gt;&gt; 0.30/yr, IA-signed &gt;0.40, ERCOT SB6 Batch-Zero spike
+          - tariff-take-or-pay-uptake       # activation: refusals/waivers/exit-fee events in PUC dockets
+        composite_reading_2026_07_07: &gt;
+          Financing-side indicators durability-supporting (capex accelerating,
+          GPU-backed credit at ~+90 bps); physical-side mixed-to-fragility (utility
+          self-haircuts 57-65%, EIA downgrade, 30%/yr queue churn). No core indicator
+          has crossed its activation threshold.
+      durability_evidence_summary: &gt;
+        Full tiered/motivation-tagged ledger:
+        data/raw/m9-durability-evidence/2026-07-07/durability_ledger.yaml. Capex 2024
+        ~$226-251B -&gt; 2025 ~$320-410B -&gt; 2026 guided ~$635-725B (+77%); circularity
+        census (NVIDIA-&gt;OpenAI $100B, NVIDIA~7% CoreWeave + 2032 backstop, MSFT
+        invest-lease-back); depreciation dispute (Burry $176B understated 2026-28,
+        SHORT-motivated, vs cascade rebuttal, industry-motivated; Amazon shortened
+        6-&gt;5 yr while Meta extended to 5.5 yr); revenue real (~$267B cloud AI run-rate;
+        OpenAI ~$33B / Anthropic ~$30B ARR) but $600B gap widening and capex-vs-sales
+        growth gap (~46%) wider than 2001 telecom (~32%).
+    status: irreducible  # UNCHANGED by design; carried as scenario dimension with M9 weights
+    resolved_by: m9-demand-durability
+    consumers: [all-modules, skeleton]
+    last_validated: 2026-07-15
+    provenance:
+      - source: &quot;M9 weights re-derivation (proposals/2026-07-15-m9-weights-rederivation.md): weights reaffirmed on funnel-independent evidence; bust floor language corrected; approved 2026-07-15&quot;
+        as_of: 2026-07-15
+        tier: 1
+      - source: &quot;LBNL 2025 Update (successor to 2024 DC energy report; 521-843 TWh by 2030)&quot;
+        as_of: 2026-06
+        tier: 1
+      - source: &quot;LBNL 2025 Update reference case, via canonical load_forecast_set v0 row lbnl-2030-reference (649 TWh, 11.8% of forecast 2030 US electricity)&quot;
+        as_of: 2026-06
+        tier: 1
+      - source: &quot;EIA Short-Term Energy Outlook (Dec-2025 downgrade; US +1% 2026 / +3% 2027)&quot;
+        as_of: 2026-06
+        tier: 1
+      - source: &quot;EIA Annual Energy Outlook 2026 (long-horizon, server-only 446-818 BkWh by 2050)&quot;
+        as_of: 2026-04
+        tier: 1
+      - source: &quot;S&amp;P Global 451 Research (facility-power GW path); June-2026 webinar&quot;
+        as_of: 2025-10
+        tier: 2
+        motivation_note: &quot;Sells DC/energy market monitors; bullish infrastructure outlook aids the product.&quot;
+      - source: &quot;M9 durability ledger (data/raw/m9-durability-evidence/2026-07-07): Q1-2026 hyperscaler capex guidance via CreditSights/Futurum; Amazon 10-Q / Meta 10-K depreciation; CoreWeave IR financing; NVIDIA 8-K Q1 FY2027 backlog&quot;
+        as_of: 2026-07-07
+        tier: 2
+        motivation_note: &gt;
+          Mixed-tier compilation: Tier-1 primary anchors (10-Q/10-K/8-K, CoreWeave IR,
+          MIT NANDA) inside a Tier-2-dominant financial-media pool motivated in BOTH
+          directions (bulls sell the supercycle; bears sell the crash). Every row tagged
+          bull/bear where directional.
+      - source: &quot;M9 own-data physical check: canonical load_forecast_set v0 (Dominion 47-vs-16.6 GW; AEP 30-&gt;13 GW), deals_ledger v0 via M3, M1 queue transitions (30%/yr withdrawal)&quot;
+        as_of: 2026-07-06
+        tier: 1
+        motivation_note: &quot;Internal module analyses of Tier-1-anchored canonical data; M1 gen-queue figures are a prior, not a load measurement.&quot;</code></pre>
+</details>
+<details class="registry-entry">
+  <summary>
+    <span class="registry-id">load-flexibility-fraction</span>
+    <span class="registry-meta"><span class="status status-contested">contested</span><span>2026-07-07</span></span>
+  </summary>
+  <pre><code>  - id: load-flexibility-fraction
+    definition: &gt;
+      Fraction of data center load that is contractually AND operationally
+      curtailable (training checkpointable, inference largely not), and the
+      curtailment-hours tolerance. The Duke Nicholas Institute (Norris et al.,
+      2025-02) ~76-126 GW / sub-1%-curtailment result is a TECHNICAL, transmission-
+      unconstrained, system-level UPPER BOUND, unreplicated at the point of
+      interconnection -- not evidence of realized curtailability.
+    value:
+      # Decomposed by M6 (2026-07-07): the single curtailable_share_range conflated
+      # three quantities with different evidence bases. The SKELETON consumes
+      # contracted_share_range (what exists contractually), NOT the technical ceiling.
+      curtailable_share_range: [0.0, 0.5]           # LEGACY technical-ceiling band; retained for the M6 module back-reference; superseded by the decomposition below
+      technical_ceiling_share_range: [0.18, 0.55]   # measured flex studies + Phoenix demo (25% x 3h, zero SLA violations); erodes as inference share rises
+      contracted_share_range: [0.0, 0.15]           # adopted+docketed curtailable instruments vs ~33 GW consensus incremental peak load; Google ~1 GW = ~0.03 today; PJM non-firm + SB6 voluntary DR could grow it
+      realized_share_today: 0.03                    # ~1 GW enrolled / ~33 GW consensus peak-coincident incremental (as-of 2026-07)
+      curtailment_hours_tolerance:
+        mandatory_firm_shed_h_per_yr: &quot;~0 (ERCOT SB6 binds only in firm load shed)&quot;
+        economic_demonstrated_h_per_yr: 200          # Duke/Emerald &quot;&lt;1% of hours&quot; regime; demonstrated 3h events, NOT contracted at scale
+      distribution_note: &quot;Right-skewed toward 0 on the contracted axis; ceiling erodes as inference share rises (~47%-&gt;~60% of AI GW by 2030, Tier-2 global).&quot;
+      backup_fossil_substitution_note: &gt;
+        Realized &quot;curtailment&quot; in PJM under DOE 202(c) orders (2026-06-30) is a switch
+        to on-site diesel backup (15-min), locally emissions-RAISING. Until the
+        compute-reduction vs generator-switch split is measured, do NOT credit
+        emergency curtailment as clean load reduction.
+      leading_indicator:
+        genuinely_curtailable_tariffs_and_enrolled_MW: &quot;~1 GW (Google, 5 utilities); PJM Non-Firm Contract Demand + SB6 voluntary DR = the two adoption trackers (recheck 2027-01)&quot;
+        take_or_pay_firm_tariffs: &quot;the fast-growing MAJORITY (~23 states); pushes realized flexibility DOWN&quot;
+      sign_flip_guard: &gt;
+        QUANTIFIED (M6, 2026-07-07): flipping the consensus cumulative-dE sign needs
+        curtailable share ~18.6 at 200 h/yr tolerance (or ~4.3 at 876 h/yr) even
+        crediting full gas displacement -- ~37x the technical ceiling. The Duke ~100 GW
+        result and the Phoenix ~100 GW extrapolation are capacity-HEADROOM claims (GW
+        absorbed), not emissions claims (tonnes avoided); they cannot flip the sign.
+        Flexibility&#x27;s real value is capacity deferral (~16 GW at ceiling), which belongs
+        in the rate-feedback channel (M7), not dE.
+    status: contested
+    resolved_by: m6-load-flexibility
+    consumers: [m4, m5, m6, skeleton]
+    last_validated: 2026-07-07
+    provenance:
+      - source: &quot;Texas SB6 (89R) large-load statute (mandatory remote curtailment, financial security)&quot;
+        as_of: 2026-06
+        tier: 1
+      - source: &quot;FERC PJM Non-Firm Contract Demand Transmission Service show-cause order&quot;
+        as_of: 2025-12
+        tier: 1
+      - source: &quot;arXiv:2507.00909 Phoenix GPU-cluster field demo (EPRI DCFlex; 25% x 3h, zero SLA violations)&quot;
+        as_of: 2026-06
+        tier: 1
+      - source: &quot;Norris et al., Rethinking Load Growth, Duke Nicholas Institute&quot;
+        as_of: 2025-02
+        tier: 1
+        staleness_note: &quot;~17 months old; borderline on 12-month grid clock; recheck vs EPRI DCFlex late-2026.&quot;
+      - source: &quot;PJM Independent Market Monitor (opt-out cost analysis)&quot;
+        as_of: 2025-11
+        tier: 1
+      - source: &quot;Google 1 GW demand-response commitment (5 utilities)&quot;
+        as_of: 2025-12
+        tier: 2
+        motivation_note: &quot;Hyperscaler; motivated to appear grid-friendly / preempt curtailment mandates.&quot;
+      - source: &quot;McKinsey AI workload model (inference share ~47%-&gt;~60% of AI GW by 2030)&quot;
+        as_of: 2026-05
+        tier: 2
+        motivation_note: &quot;Consultancy; global workload projection; sells AI-infrastructure advisory.&quot;
+      - source: &quot;DOE Section 202(c) diesel-backup orders (2026-06-30) via Utility Dive / Inside Climate News&quot;
+        as_of: 2026-06
+        tier: 2
+        motivation_note: &quot;Trade-press reporting of Tier-1 DOE orders; no strong motivation.&quot;</code></pre>
+</details>
+<details class="registry-entry">
+  <summary>
+    <span class="registry-id">gas-turbine-constraint</span>
+    <span class="registry-meta"><span class="status status-settled">settled</span><span>2026-07-06</span></span>
+  </summary>
+  <pre><code>  - id: gas-turbine-constraint
+    definition: &gt;
+      Gas turbine order-to-delivery lead times and the resulting inability of newly
+      ordered gas to serve near-term load. Track OEM order books (GE Vernova,
+      Siemens Energy, Mitsubishi) as leading indicator.
+    value:
+      turbine_delivery_years: [3, 4]       # GE ~3 (Q1 2026), Siemens ~4 (mid-2026)
+      order_to_inservice_years: [5, 6]     # turbine delivery + ~1-2 yr EPC
+      note: &gt;
+        Newly-ordered heavy-duty gas generally not in service before ~2030; OEMs
+        sold out through 2029-2030 with slots pushing into 2030-2031. Solar+storage
+        is the fastest fast-connect option AT SCALE, but not the only one:
+        aeroderivatives (e.g. ProEnergy 2027), reciprocating engines, and BTM fuel
+        cells offer niche sub-2029 gas paths. The EIA 18.7 GW combined-cycle
+        pipeline for 2026-2028 is pre-2026 orders and does not contradict this.
+    status: settled
+    consumers: [m4, m5, skeleton]
+    last_validated: 2026-07-06
+    provenance:
+      - source: &quot;GE Vernova Q1 2026 earnings (~3-yr turbine lead time; ~10 GW slots left 2029-2030)&quot;
+        as_of: 2026-04
+        tier: 2
+        motivation_note: &quot;OEM investor comms; motivated to signal a tight/valuable order book (the ~3-yr figure is against that interest).&quot;
+      - source: &quot;Siemens Energy investor materials (~4-yr wait; EUR154B backlog)&quot;
+        as_of: 2026-06
+        tier: 2
+        motivation_note: &quot;OEM; same scarcity-signaling motivation.&quot;
+      - source: &quot;EIA Today in Energy (18.7 GW combined-cycle in service 2026-2028)&quot;
+        as_of: 2025-10
+        tier: 1</code></pre>
+</details>
+<details class="registry-entry">
+  <summary>
+    <span class="registry-id">policy-regime</span>
+    <span class="registry-meta"><span class="status status-irreducible">irreducible</span><span>2026-07-06</span></span>
+  </summary>
+  <pre><code>  - id: policy-regime
+    definition: &gt;
+      Discrete political scenario branches, not forecasts: (a) DOE Section
+      202(c) emergency orders continue vs lapse; (b) OBBBA tax-credit
+      safe-harbor rush then cliff (2026 deployment pull-forward artifact);
+      (c) state large-load tariff adoption fast vs slow. Results reported
+      conditional on regime.
+    value:
+      branches: [orders-continue, orders-lapse, credit-cliff, state-tariffs-fast, state-tariffs-slow]
+      obbba_fixed_dates:   # recorded so downstream modules don&#x27;t re-derive them
+        wind_solar_credit_begin_construction_deadline: &quot;2026-07-04&quot;
+        wind_solar_credit_placed_in_service_deadline: &quot;2028-01-01&quot;
+        irs_notice_2025_42_safe_harbor_removed: &quot;2025-09-02&quot;
+        prohibited_foreign_entity_rules_effective: &quot;2026-01-01&quot;
+        caveat: &gt;
+          Dates confirmed via law-firm alerts tracking the enacted statute; a FINAL
+          check against the enrolled OBBBA bill text + IRS Notice 2025-42 directly
+          is still pending before these are treated as locked. Standalone storage is
+          NOT on the accelerated credit cliff.
+    status: irreducible
+    consumers: [m2, m4, m7, skeleton]
+    last_validated: 2026-07-06
+    provenance:
+      - source: &quot;OBBBA as enacted (signed 2025-07-04); IRS Notice 2025-42&quot;
+        as_of: 2025-09
+        tier: 1
+      - source: &quot;Law-firm tax alerts tracking OBBBA credit-cliff dates&quot;
+        as_of: 2026-06
+        tier: 2
+        motivation_note: &quot;Client-advisory summaries; reliable on statutory dates, motivated to signal urgency/expertise.&quot;</code></pre>
+</details>
+<details class="registry-entry">
+  <summary>
+    <span class="registry-id">rate-feedback-loop</span>
+    <span class="registry-meta"><span class="status status-contested">contested</span><span>2026-07-12</span></span>
+  </summary>
+  <pre><code>  - id: rate-feedback-loop
+    definition: &gt;
+      The endogenous regulatory loop: data-center-driven retail rate increases -&gt;
+      ratepayer backlash -&gt; PUC large-load tariffs and cost-allocation rules -&gt;
+      changed data center siting economics. Modeled as a lagged endogenous
+      variable with dose-response estimated from OH/GA/PJM-state dockets — the
+      one political channel modeled endogenously rather than as scenario.
+    value:
+      us_residential_price_change:            # unchanged context
+        yoy_2025: &quot;~+5% (EIA)&quot;
+        yoy_early_2026: &quot;~+7 to +10% (EIA EPM)&quot;
+        note: &quot;Replaces the prior &#x27;+11.5% in 2025&#x27; figure, which was a Maine 5-yr CAGR, not a US 2025 YoY number.&quot;
+      dose_response_anchors:                  # CORRECTED: IMM dollar counterfactuals
+        - &quot;PJM capacity price $28.92 (2024/25) -&gt; $269.92 (2025/26) -&gt; $329.17 cap (2026/27) -&gt; $333.44 cap (2027/28)/MW-day.&quot;
+        - &quot;IMM counterfactual re-runs: DC-attributable RPM revenue ~$9.3B (25/26), $7.27B/+82.1% (26/27), $6.5B of $16.4B (27/28, on +5,250 MW peak ~97% DC); 3-auction total $21.3B of $47.2B. The &#x27;63% of the increase&#x27; figure is unverified secondary coverage -- do not use.&quot;
+        - &quot;AEP Ohio DCT approved 2025-07-09; Dominion GS-5 approved 2025-11; GA PSC large-load rule 2025-01-23; 24 states approved (EEI 2026-06).&quot;
+      dose_response_estimate:                  # NEW (M7, 2026-07-07)
+        rate_pct_per_incremental_gw_national: {low: 0.02, central: 0.10, high: 0.22}
+        rate_pct_per_gw_pjm_concentrated: {low: 0.30, central: 0.70, high: 1.20}
+        rate_frac_saturation_cap: 0.25   # political-economy cap: PJM collar + 24-state tariff census
+        channel_scope: &gt;
+          Electrification-suppression leg ONLY. The siting-suppression leg is carried
+          by phantom-load-haircut / demand-risk-allocation; including it here
+          double-counts (this is what zero-centred the old placeholder).
+        emissions_band_mt_per_yr_2035:
+          # p05..p95 envelope ACROSS demand scenarios (reference / external quoting);
+          # central = consensus median. The skeleton NO LONGER consumes this flat
+          # envelope: sampling it uniformly inside every scenario double-counted the
+          # scenario dispersion (channel mean +7.7 Mt/yr vs module central +2.4 --
+          # proposals/2026-07-12-rate-feedback-audit.md, approved 2026-07-12).
+          low: -2.3
+          central: 2.4
+          high: 17.7
+          # Declared interior mass (methods/uncertainty-propagation.md, revisit
+          # trigger 1): mode = central, sampled triangular(low, central, high).
+          sampling_shape: triangular
+          # Per-scenario p05/central/p95 from M7 outputs/dose_response.json
+          # (emissions_mt_net_2035; as-of 2026-07-07). The skeleton consumes the
+          # band matching the scenario it is drawing.
+          by_scenario:
+            consensus:             {low: -1.23, central: 2.41, high: 12.69}
+            efficiency-tempered:   {low: -1.87, central: 0.38, high: 5.68}
+            jevons-high:           {low: -0.57, central: 4.53, high: 17.69}
+            demand-disappointment: {low: -2.29, central: -0.60, high: 2.37}
+          low_end_note: &gt;
+            The 2026-07-12 audit found the fixed-cost-spreading mechanism (large
+            flat loads LOWERING average residential rates while spare capacity
+            lasts; EPRI 2026 causal estimate ~-3.5% residential per data-center
+            capacity doubling, 2015-2024) unrepresented on the low side; a low end
+            of roughly -4 to -6 Mt/yr is defensible and the sign is genuinely
+            two-sided and time-varying. Widening approved in principle 2026-07-12;
+            quantification assigned to M7 v2 before any band change.
+        suppressed_twh_2035_consensus: {p05: 2.0, p50: 9.3, p95: 28.9}
+        method_tag: &quot;consequential; LRMER central (Cambium Mid-case 2030-2035 window); combustion CO2&quot;
+      regulatory_lag_months:                   # NEW (M7): the endogenous-loop timing
+        signal_to_filing: [5, 14]
+        filing_to_order: [1.5, 14]
+        full_arc: [9, 28]
+        central_full_arc: 18
+        trigger_nature: &gt;
+          ANTICIPATORY: 5 of 6 documented arcs (AEP Ohio 28 mo; Georgia 10 mo; PJM/FERC
+          collar 9 mo; Indiana I&amp;M filing-&gt;order 4 mo; Wisconsin 13 mo; Pennsylvania
+          framework 2026-04) were triggered by prospective load-forecast shock /
+          stranded-cost risk, not realized rate increases; Georgia&#x27;s dollar evidence
+          postdates its order by ~11 months. Realized-price triggers (PJM collar) are
+          the FASTEST arc.
+    status: contested   # UP from placeholder: estimated with Tier-1 dose anchors, but
+                        # the slope blend, exposure base, and offset band are
+                        # first-pass; regional concentration not yet modeled. The
+                        # 2026-07-12 audit adds: the NATIONAL causal claim is
+                        # unresolved-to-contradicted outside PJM (see provenance).
+    resolved_by: m7-price-feedback
+    consumers: [m7, m9, skeleton]
+    last_validated: 2026-07-12
+    provenance:
+      - source: &quot;M7 outputs/dose_response.json per-scenario emissions_mt_net_2035 percentiles (source of by_scenario bands)&quot;
+        as_of: 2026-07-07
+        tier: 1
+        motivation_note: &quot;Internal module built from Tier-1 IMM/EIA anchors + Tier-1 elasticity literature.&quot;
+      - source: &quot;2026-07-12 adversarial audit (proposals/2026-07-12-rate-feedback-audit.md): EPRI causal study, DC capacity doubling -&gt; ~-3.5% residential 2015-2024 (Tier 2, industry-funded, motivated toward benign framing); E3 state-level null correlation r~-0.05 (Tier 2, Data Center Coalition-funded, motivated); LBNL/Brattle 2019-2025 rate decomposition attributing most of +33% residential to capex/fuel/storms (Tier 1)&quot;
+        as_of: 2026-07
+        tier: 2
+        motivation_note: &quot;Mixed-tier census; each component flagged inline. Net reading: national causation unresolved; harm concentrated in PJM capacity market.&quot;
+      - source: &quot;Monitoring Analytics PJM IMM 25/26 Part G Revised (2025-06) / 26/27 Part A (2025-10) / RM26-4 comment (2025-11)&quot;
+        as_of: 2026-06
+        tier: 1
+      - source: &quot;PJM Base Residual Auction reports (capacity price)&quot;
+        as_of: 2025-10
+        tier: 1
+      - source: &quot;DC OPC / Synapse residential rate-impact analysis (+$10/mo, +9% DC residential)&quot;
+        as_of: 2026-03
+        tier: 2
+        motivation_note: &quot;Consumer advocate; transparent method; motivated to show ratepayer harm.&quot;
+      - source: &quot;EEI large-load tariff census (24 states approved)&quot;
+        as_of: 2026-06
+        tier: 2
+        motivation_note: &quot;Utility trade association; motivated to show ratepayer protection.&quot;
+      - source: &quot;GA PSC media advisory 2025-01-23; PUCO 24-508-EL-ATA&quot;
+        as_of: 2026-06
+        tier: 1</code></pre>
+</details>
+<details class="registry-entry">
+  <summary>
+    <span class="registry-id">electrification-price-elasticity</span>
+    <span class="registry-meta"><span class="status status-contested">contested</span><span>2026-07-07</span></span>
+  </summary>
+  <pre><code>  - id: electrification-price-elasticity
+    definition: &gt;
+      Sensitivity of demand-side transition (heat pumps, EV charging economics,
+      industrial electrification) to retail electricity price — the channel by
+      which data-center-driven rate increases suppress the broader transition.
+    value:
+      initial_elasticity: -0.3                 # CONFIRMED as blended near-term FLOW central
+      range: [-0.5, -0.1]                      # kept for the blended chain
+      by_technology:                           # NEW (M7): use when exposure is split
+        heat_pump: {central: -0.5, range: [-1.0, -0.2], note: &quot;Davis NBER 31344 long-run STOCK ~-1.4; flow lower; upper tail matters at long horizons&quot;}
+        ev: {central: -0.08, range: [-0.16, -0.02], note: &quot;Bushnell et al. adoption effect small; JEEM mileage -0.082/-0.156&quot;}
+        industrial: {central: -0.2, range: [-0.4, -0.05], note: &quot;no Tier-1 estimate; EIA cross-price +0.04 anchors low end; band is judgment&quot;}
+      operative_variable: &quot;electricity-to-competing-fuel price RATIO (not price level)&quot;
+      stock_vs_flow_note: &gt;
+        Long-run stock elasticities (heat pumps ~-1.4) exceed near-term flow
+        elasticities; the blended -0.3 is a FLOW value for ~2035 horizons. Blended-
+        chain results overstate suppression ~1.7x vs the technology split because
+        EVs dominate exposure but have the smallest elasticity (M7).
+    status: contested   # UP from placeholder: Tier-1 anchored per technology, but the
+                        # heat-pump flow/stock conversion and the industrial band are
+                        # unmeasured; Davis coefficient pending direct PDF verification.
+    resolved_by: m7-price-feedback
+    consumers: [m7, skeleton]
+    last_validated: 2026-07-07
+    provenance:
+      - source: &quot;Economic Determinants of Heat Pump Adoption (NBER WP 31344 / Davis 2024)&quot;
+        as_of: 2024-01
+        tier: 1
+      - source: &quot;Bushnell/Muehlegger/Rapson EV adoption elasticity (NBER WP 29842)&quot;
+        as_of: 2021-01
+        tier: 1
+      - source: &quot;JEEM 2023 BEV mileage elasticity (-0.082 OLS / -0.156 IV)&quot;
+        as_of: 2023-01
+        tier: 1
+      - source: &quot;EIA, Price Elasticity for Energy Use in Buildings in the US&quot;
+        as_of: 2021-01
+        tier: 1</code></pre>
+</details>
+<details class="registry-entry">
+  <summary>
+    <span class="registry-id">transmission-binding-regions</span>
+    <span class="registry-meta"><span class="status status-contested">contested</span><span>2026-07-07</span></span>
+  </summary>
+  <pre><code>  - id: transmission-binding-regions
+    definition: &gt;
+      Regions where transmission/interconnection processing, not generation
+      adequacy, is the binding constraint — where marginal AI load causes
+      congestion, curtailment of existing renewables, worsened capture rates,
+      and behind-the-meter gas rather than new generation.
+    value:
+      # Evidence-backed classification (M5, 2026-07-07). Indicators: interconnection
+      # queue-processing time (LBNL panel), 2024 congestion-cost trend (ISO SOMs),
+      # renewable-GENERATION curtailment + its transmission-vs-economic split, and
+      # wind/solar capture rates (LBNL). Congestion $ is fuel-price-confounded and is
+      # the WEAKEST indicator; curtailment + queue-processing time are the cleaner ones.
+      suspected: [PJM, Southeast]                 # retained; Southeast reframed below (M5)
+      counterexample: &quot;ERCOT (connect-and-manage)&quot;
+      transmission_bound:
+        PJM:
+          drivers: &quot;congestion +64% (2024); slow queue (~5.8 yr COD, backlog age 3.8 yr); Dominion/DOM Virginia constraints; BTM/merchant gas in Appalachia&quot;
+          confidence: high
+        CAISO:
+          drivers: &quot;slowest US interconnection (~7.9 yr COD); curtailment 92% LOCAL transmission; severe solar capture (but capture is oversupply-driven). NB congestion COST fell -30% in 2024 - not the binding indicator here&quot;
+          confidence: high
+        SPP:
+          drivers: &quot;congestion +29%; wind curtailment ~8x since 2020 (transmission bottlenecks); lowest US wind value factor (0.4)&quot;
+          confidence: medium-high
+      mixed_prospective:
+        MISO:
+          drivers: &quot;congestion flat in 2024 but 350 GW/1900-project queue and IMM WARNS wind-congestion will rise as SPP/PJM wind grows and dispatchable units retire; wind VF 0.6, congestion-dominated&quot;
+          confidence: medium
+      generation_bound_counterexample:
+        ERCOT:
+          drivers: &quot;connect-and-manage: fastest ISO interconnection (~3.8 yr); congestion FELL 17% in 2024 (storage-managed, rebounding 2025); wires constraints surface as CURTAILMENT/redispatch of already-interconnected resources, not interconnection denial. Marginal load met by fast new-gen interconnection.&quot;
+          confidence: high
+      reframed:
+        Southeast:
+          note: &gt;
+            The original &#x27;suspected transmission-bound&#x27; label is PARTLY RIGHT but via a
+            DIFFERENT MECHANISM. As a vertically-integrated non-ISO region it has no
+            LMP-based congestion signal and low renewable penetration, so M5&#x27;s
+            congestion/curtailment/capture indicators are STRUCTURALLY BLIND to it
+            (generation-queue processing is even relatively fast, ~4.5 yr). Its bind is
+            regulated transmission BUILDOUT LAG + utility-owned NEW GAS build
+            (Georgia Power IRP; Meta-Entergy Hyperion) - an M4 market-structure story,
+            not an M5 congestion-of-existing-renewables story. Reclassify as
+            &#x27;transmission/build-constrained via regulated planning, indicators N/A;
+            route the dirtier-pathway (new regulated gas) through M4.&#x27;
+          confidence: medium
+      indicator_caveats:
+        congestion_cost: &quot;fuel-price-confounded; not uniformly rising (fell in ERCOT/CAISO 2024); weakest indicator&quot;
+        dc_attribution: &quot;NO market monitor attributes 2024 congestion to data centers - DC linkage is inferential; keep contested&quot;
+        capture_channel: &quot;wind (not solar) is the transmission-congestion vehicle; solar value decline is mostly temporal cannibalization&quot;
+    status: contested   # UNCHANGED: DC-attribution is inferential; keep as scenario input
+    resolved_by: m5-transmission-channel
+    consumers: [m4, m5, skeleton]
+    last_validated: 2026-07-07
+    provenance:
+      - source: &quot;LBNL Queued Up 2026 Ed. interconnection queue-processing panel (M5 computation)&quot;
+        as_of: 2026-07-07
+        tier: 1
+      - source: &quot;ISO market-monitor SOM reports, 2024 congestion cost (PJM/SPP/MISO/ERCOT/CAISO); data/raw/iso-market-monitor-congestion/2026-07-07/&quot;
+        as_of: 2026-06
+        tier: 1
+      - source: &quot;Renewable-generation curtailment (CAISO/ERCOT/SPP/MISO); data/raw/renewable-curtailment/2026-07-07/&quot;
+        as_of: 2026-06
+        tier: 1
+      - source: &quot;LBNL wind/solar capture-rate (value factor) decomposition; data/raw/lbnl-capture-rates/2026-07-07/&quot;
+        as_of: 2026-06
+        tier: 1
+      - source: &quot;BTM-gas census; data/raw/btm-gas-census/2026-07-07/&quot;
+        as_of: 2026-07-07
+        tier: 2
+        motivation_note: &quot;Trade-press / sponsor compilations of BTM projects; motivated to signal gas-buildout momentum.&quot;</code></pre>
+</details>
+<details class="registry-entry">
+  <summary>
+    <span class="registry-id">btm-bridge-permanence</span>
+    <span class="registry-meta"><span class="status status-contested">contested</span><span>2026-07-07</span></span>
+  </summary>
+  <pre><code>  - id: btm-bridge-permanence
+    definition: &gt;
+      Whether behind-the-meter &quot;bridge&quot; gas installed to bypass interconnection
+      queues actually retires when grid connection arrives. Historical precedent
+      from temporary peakers suggests bridges become permanent. Also the
+      worst-measured emissions category in the space — often invisible in
+      utility inventories.
+    value:
+      # Decomposed by M5 (2026-07-07): the single permanence probability conflated two
+      # very different things. Emissions exposure = announced_GW x build_conversion x
+      # permanence_given_built. (The skeleton consumes permanence_given_built_range,
+      # treating its btm-capacity band as built/operating GW.)
+      announced_btm_gas_gw: 90        # Cleanview &quot;Bypassing the Grid&quot;; SINGLE SOURCE, Tier 2, diversify
+      operating_btm_gas_gw: 2         # ~2.2% of announced; xAI ~1.5 GW is the bulk
+      build_conversion_range: [0.10, 0.35]         # announced -&gt; built+operating; LOW &amp; uncertain (turbine shortage, sunsets, ~60% announcement-only)
+      permanence_given_built_range: [0.75, 0.95]   # RAISED from the blended 0.5-0.85: zero verified retirements; convert-to-backup design pattern
+      geographic_concentration: &quot;operating BTM in ERCOT/TX + TVA/mid-South (speed + cheap Permian gas, NOT only queue-bypass); PJM/Appalachia mostly announced&quot;
+      one_genuine_sunset: &quot;xAI Memphis air permit expires 2027-01-01; MS trailer units permitted as explicitly temporary (both under legal challenge, not voluntary)&quot;
+      corrections:
+        drop_97gw: &quot;the prior &#x27;~97 GW announced&#x27; is JLL TOTAL DC capacity growth (all sources), NOT on-site gas - removed.&quot;
+      open_gap: &quot;still needs (a) a 2nd independent BTM aggregate beyond Cleanview; (b) EIA-860 peaker-cohort survival base rate to measure permanence-given-built.&quot;
+    status: contested   # UNCHANGED
+    resolved_by: m5-transmission-channel
+    consumers: [m2, m5, m8, skeleton]
+    last_validated: 2026-07-07
+    provenance:
+      - source: &quot;M5 BTM-gas census (data/raw/btm-gas-census/2026-07-07/): xAI Colossus/Southaven, Crusoe/Stargate Abilene, VoltaGrid/Vantage, Misae, Chevron, ExxonMobil, Frontier/Shippingport; lifecycle-staged&quot;
+        as_of: 2026-07-07
+        tier: 2
+        motivation_note: &quot;Sponsor PR / trade-press census; motivated to signal scale; every row lifecycle-staged and tiered.&quot;
+      - source: &quot;Cleanview, Bypassing the Grid (~90 GW announced / ~2 GW operating BTM gas)&quot;
+        as_of: 2026-06
+        tier: 2
+        motivation_note: &quot;Single-source aggregate; motivated toward a gas-buildout narrative; diversify before anchoring.&quot;
+      - source: &quot;TCEQ / Shelby County / MDEQ air-permit records (xAI Memphis permit sunset 2027-01-01)&quot;
+        as_of: 2026-06
+        tier: 1</code></pre>
+</details>
+<details class="registry-entry">
+  <summary>
+    <span class="registry-id">demand-risk-allocation</span>
+    <span class="registry-meta"><span class="status status-contested">contested</span><span>2026-07-07</span></span>
+  </summary>
+  <pre><code>  - id: demand-risk-allocation
+    definition: &gt;
+      Which party bears demand risk under prevailing interconnection/tariff
+      structures (obligation-to-serve, take-or-pay large-load tariffs with exit
+      fees, e.g. AEP Ohio ~85% minimum-take). Determines both what gets built
+      and how much phantom load survives.
+    value:
+      modal_take_or_pay_tariff:                 # organized-market mode summary
+        minimum_take: [0.80, 0.85]
+        term_years: [12, 15]
+        exit_fee: &quot;~2-3 years of minimum charges&quot;
+        threshold_MW: [25, 100]
+      by_region:                                 # resolved from placeholder (M4, 2026-07-07)
+        PJM:
+          risk_bearer: &quot;customer (take-or-pay) + socialized capacity price&quot;
+          mechanism: &quot;take-or-pay large-load tariff&quot;
+          minimum_take: 0.85           # AEP Ohio 85%; Dominion GS-5 85% T&amp;D / 60% generation
+          term_years: 14               # Dominion GS-5 14; AEP Ohio ~12
+          threshold_MW: 25
+          collateral: &quot;~$1.5M/MW (Dominion GS-5, Tier-2); AEP Ohio min-charge security&quot;
+          realized_effect: &quot;AEP Ohio speculative 30 GW -&gt; 13 GW -&gt; 11.1 GW committed&quot;
+        ERCOT:
+          risk_bearer: &quot;merchant developer / retailer (energy-only, no obligation-to-serve)&quot;
+          mechanism: &quot;SB6 curtailment + interconnection financial security (NOT take-or-pay)&quot;
+          minimum_take: null
+          threshold_MW: 75
+          collateral: &quot;~$50k/MW interconnection security (PUCT DRAFT rule; ~20% refundable at COD)&quot;
+          realized_effect: &quot;zero fossil retirement slips; solar+storage = ~all 2025 additions&quot;
+        Southeast:
+          risk_bearer: &quot;ratepayer base (obligation-to-serve; IRP rate-base capex)&quot;
+          mechanism: &quot;IRP self-build + minimum-bill large-load tariff&quot;
+          minimum_take: null           # Georgia Power per-contract % non-public; Duke NC PROPOSED 0.75
+          term_years: 15
+          threshold_MW: 100
+          collateral: &quot;min billing demand + 2-yr exit notice + ~2 yr min-bill; $/MW non-public&quot;
+          realized_effect: &quot;GA 2025 IRP + Dec-2025: ~9.4 GW new gas + coal delays vs ~0.35 GW clean&quot;
+        MountainWest:
+          risk_bearer: &quot;ratepayer base (obligation-to-serve)&quot;
+          mechanism: &quot;IRP self-build; emerging large-load tariffs (Xcel-CO, NV Energy)&quot;
+          minimum_take: [0.75, 0.85]   # emerging; less standardized
+          term_years: 12
+          threshold_MW: 100
+      coverage: &quot;~23 states with approved large-load tariffs (EEI, 2026-05); obligation-to-serve governs elsewhere.&quot;
+      structure_verdict: &gt;
+        Demand-risk allocation is the channel where market structure MOST clearly and
+        endowment-independently bites: take-or-pay (PJM) and merchant-risk+collateral
+        (ERCOT) both push speculative load toward realness and off the ratepayer;
+        obligation-to-serve + IRP (Southeast/Mountain West) socializes it and builds
+        ahead of even ~50%-speculative load (GA PSC Staff), the most emissions-
+        consequential path.
+    status: contested   # UP from placeholder: per-region terms documented, but the
+                        # load-side phantom-deflation effect is inferred from the
+                        # generation queue + the AEP Ohio episode, not yet measured on a
+                        # multi-region large-LOAD funnel; Southeast take-or-pay % non-public.
+    resolved_by: m4-market-structure-panel
+    consumers: [m1, m4, m7, skeleton]
+    last_validated: 2026-07-07
+    provenance:
+      - source: &quot;GA PSC Dockets 56002/56298/56310/44280; VA SCC PUR-2025-00058; PUCO AEP Ohio DCT 24-508-EL-ATA; TX SB6 89R (data/raw/market-structure-tariffs/2026-07-07/)&quot;
+        as_of: 2026-07-07
+        tier: 1
+      - source: &quot;PUCT draft interconnection financial-security rule (~$50k/MW) via law-firm alerts&quot;
+        as_of: 2026-06
+        tier: 2
+        motivation_note: &quot;Client-advisory summaries of a draft rule; reliable on terms, motivated to signal urgency/expertise.&quot;
+      - source: &quot;PUCO (AEP Ohio DCT), VA SCC (Dominion GS-5), GA PSC, IURC tariff orders&quot;
+        as_of: 2025-11
+        tier: 1
+      - source: &quot;Law-firm / trade summaries of large-load tariff terms; EEI large-load tariff census&quot;
+        as_of: 2026-05
+        tier: 2
+        motivation_note: &quot;Client-advisory / DC-industry summaries; reliable on tariff terms, motivated to advise clients.&quot;</code></pre>
+</details>
+<details class="registry-entry">
+  <summary>
+    <span class="registry-id">leakage-intensity</span>
+    <span class="registry-meta"><span class="status status-contested">contested</span><span>2026-07-07</span></span>
+  </summary>
+  <pre><code>  - id: leakage-intensity
+    definition: &gt;
+      Emissions consequence per unit of compute displaced abroad when US
+      constraints push capacity to other grids (Gulf states, SE Asia, etc.);
+      carbon-leakage methodology borrowed from industrial-policy literature.
+      Signal: hyperscaler international capex announcements.
+    value:
+      framing: &gt;
+        Mt/yr = (US-substitutable intl GW energized) x (attribution share:
+        US-displacement vs sovereign/market-seeking) x load factor x 8.76 x
+        (destination MARGINAL intensity - US long-run marginal counterfactual)/1000.
+        The attribution share is the dominant, possibly irreducible, uncertainty;
+        the US counterfactual is the marginal-emissions-factor LRMER central band
+        (method tag: long-run Mid-case), NOT average grid intensity.
+      gulf_carbon_multiplier: [1.5, 1.8]   # RETAINED (holds for Saudi/Qatar/Kuwait); WRONG for the UAE (see by_country); superseded by by_country_avg_intensity_ratio_to_us
+      us_counterfactual_gCO2_per_kWh: [370, 390]
+      addressable_intl_gw_2030: [2.0, 8.0]      # US-substitutable pool energized by 2030; census staged, announced-stage phantom prior + Tier-1 chip-export cap applied
+      attribution_share_us_displacement: [0.10, 0.50]   # explicit band; no identification; do not resolve by assertion
+      destination_marginal_gco2_per_kwh: [450, 750]     # inferred from responding fuel; no published marginal EFs (logged gap)
+      utilization_load_factor: [0.60, 0.85]
+      leakage_band_mt_per_yr: [0.0, 15.0]       # computed corners [0.2, 15.0]; floor set to 0 because clean-destination displacement (Stargate Norway, ~28 g hydro) can zero or negate the term. SKELETON consumes this band.
+      central_mt_per_yr: 3.4
+      by_country_avg_intensity_ratio_to_us:     # Ember 2024 (OWID), avg gCO2/kWh / US 384 - REPLACES gulf_carbon_multiplier [1.5, 1.8]
+        UAE: 1.22        # Barakah nuclear; seeded Gulf multiplier WRONG here
+        Saudi_Arabia: 1.80
+        Qatar: 1.51
+        Kuwait: 1.65
+        Malaysia: 1.57
+        Singapore: 1.29
+        India: 1.74      # market-seeking; excluded from addressable pool
+        Norway: 0.07     # negative-leakage destination
+      chip_export_gate_note: &gt;
+        Tier-1 near-term cap: Commerce (2025-11-20) approved ~35k GB300 each for
+        G42/HUMAIN (~50-100 MW-scale IT per grantee) vs 11+ GW Gulf ambitions.
+        License expansions are the leading indicator that would raise the
+        addressable-pool band; watch BIS approvals, not groundbreakings.
+      key_unknown: &gt;
+        UNCHANGED in kind: destination MARGINAL facility intensity (no published
+        marginal EFs for Gulf/SE-Asia grids) - now bounded by responding-fuel
+        inference; and the attribution share, which is the wider of the two.
+    status: contested   # UP from placeholder: destination-intensity and pool-size halves
+                        # are evidence-bounded; the attribution share [0.10, 0.50] has NO
+                        # identification strategy (leans irreducible, carried as a band).
+    resolved_by: m8-leakage-supply-chain
+    consumers: [m8, skeleton]
+    last_validated: 2026-07-07
+    provenance:
+      - source: &quot;Ember 2024 via OWID grapher (destination-grid average carbon intensity)&quot;
+        as_of: 2024-12
+        tier: 1
+      - source: &quot;US Commerce chip-export approvals for G42/HUMAIN (~35k GB300 each), 2025-11-20&quot;
+        as_of: 2025-11
+        tier: 1
+      - source: &quot;G42/Nscale/HUMAIN sponsor announcements + DCD/JLL Johor compilations&quot;
+        as_of: 2026-02
+        tier: 2
+        motivation_note: &quot;Sponsors signal scale/momentum; JLL sells DC advisory.&quot;
+      - source: &quot;S&amp;P Global, Hyperscalers continue global data center expansion&quot;
+        as_of: 2026-02
+        tier: 2
+        motivation_note: &quot;Market-data vendor; sells to the industry it covers.&quot;</code></pre>
+</details>
+<details class="registry-entry">
+  <summary>
+    <span class="registry-id">embodied-emissions-share</span>
+    <span class="registry-meta"><span class="status status-contested">contested</span><span>2026-07-07</span></span>
+  </summary>
+  <pre><code>  - id: embodied-emissions-share
+    definition: &gt;
+      Scope-3 / embodied emissions of chips and construction per GW of data
+      center buildout, largely offshore; plus supply-chain coupling of the US
+      clean-energy response to Chinese solar/battery/turbine manufacturing and
+      its trade-policy exposure.
+    value:
+      embodied_share_of_lifecycle: 0.15        # CONFIRMED central (chip-only, typical US grid)
+      range: [0.10, 0.30]                      # WIDENED top from 0.25: the range is a GRID-CLEANLINESS AXIS (location-based ~10% -&gt; market-based/CFE ~25%, Google TPU LCA Tier 1), and folding construction in pushes the clean-power corner above 25%; NOT measurement error around a constant
+      share_axis_note: &gt;
+        The share is mechanically INVERSE to operational intensity. Chip-only Tier-1
+        brackets: 10% (location-based) to 25% (market-based CFE) per the TPU LCA;
+        3-13% by grid cleanliness per the A100 LCA. Full-facility (60-yr iMasons
+        horizon, Tier 2 consortium): 38-69% - horizon-inconsistent with this project&#x27;s
+        2025-2035 window; recorded, not adopted.
+      per_gw_quantification:                   # NEW (was open_gap); module M8 2026-07-07
+        chip_embodied_mt_per_gw_it_per_generation: [0.75, 1.5]   # 4-6 yr refresh
+        construction_embodied_mt_per_gw_it_one_time: [0.4, 1.0]  # 15-25 yr life, excl. IT
+        annualized_mt_per_gw_it_per_yr: [0.14, 0.44]
+        us_buildout_band_mt_per_yr: [2.8, 22.1]   # x 20-50 GW-IT incremental by 2030; SKELETON consumes this band
+      trend: &gt;
+        UNCHANGED and now evidence-backed both ways: share rises as operational
+        emissions fall via clean procurement AND per-wafer fab emissions rise with
+        node advances (imec ~2.5x 28nm-&gt;2nm); per-compute embodied falls (B200
+        -24%/FLOP vs H100). Fab-grid decarbonization (TSMC RE100-2040, ~14% renewable
+        2024) is too slow to bend this before 2030.
+      open_gap: &gt;
+        NARROWED but not closed: China solar/battery/turbine embodied per GW of the
+        CLEAN buildout still unquantified (needs a BOS LCA - remains open); imec
+        publishes no absolute per-node gCO2/cm2 (last open fab mass/energy balance is
+        32nm); no absolute B200/GB200 per-chip embodied published.
+    status: contested   # UP from placeholder: Tier-1 chip anchors, but per-GW
+                        # conversions are Tier-2-heavy with inconsistent boundaries and
+                        # the share is a grid-cleanliness axis, not a constant.
+    resolved_by: m8-leakage-supply-chain
+    consumers: [m8, skeleton]
+    last_validated: 2026-07-07
+    provenance:
+      - source: &quot;Google TPU LCA (arXiv 2502.01671; embodied ~10% location-based to ~25% market-based)&quot;
+        as_of: 2025-02
+        tier: 1
+      - source: &quot;A100 GPU LCA (arXiv 2509.00093; 127.6 kgCO2e/GPU; 3-13% by grid cleanliness)&quot;
+        as_of: 2025-09
+        tier: 1
+      - source: &quot;NVIDIA HGX H100 PCF (~1,312 kgCO2e per 8-GPU baseboard)&quot;
+        as_of: 2025-06
+        tier: 2
+        motivation_note: &quot;Vendor LCA; motivated to present favorable hardware footprint.&quot;
+      - source: &quot;imec.netzero per-node wafer-emissions trend; Taiwan MOEA grid factor 0.474 kgCO2e/kWh (2024)&quot;
+        as_of: 2025-06
+        tier: 1
+      - source: &quot;iMasons / Schneider / hyperscaler CSR reports (full-facility share; market-based accounting)&quot;
+        as_of: 2026-01
+        tier: 2
+        motivation_note: &quot;Consortium/vendor; market-based accounting inflates apparent embodied share.&quot;</code></pre>
+</details>
+<details class="registry-entry">
+  <summary>
+    <span class="registry-id">crowding-direction</span>
+    <span class="registry-meta"><span class="status status-contested">contested</span><span>2026-07-06</span></span>
+  </summary>
+  <pre><code>  - id: crowding-direction
+    definition: &gt;
+      Whether hyperscaler procurement crowds out other clean-energy offtakers
+      and scarce inputs (transformers, HVDC cable, EPC labor) or expands the
+      industrial base via scale economies and learning curves. Tracer:
+      transformer lead times. Context: data centers ~43% of all clean PPAs
+      signed in 2024.
+    value:
+      dc_share_of_clean_ppas: {2024: 0.43, 2025_global: 0.49, 2025_americas: 0.72}
+      near_term_direction: &quot;crowding-out (PPA share + transformer/switchgear scarcity)&quot;
+      long_run_offset: &quot;possible scale/learning expansion; split out as sibling
+        learning-feedback (deployment-&gt;learning-curve envelope) -- see that entry.&quot;
+      tracer: &quot;large power transformer lead times ~128 weeks / 3-5 yr (2025-2026).&quot;
+    status: contested
+    resolved_by: m3-procurement-impact
+    consumers: [m3, m4, skeleton]
+    last_validated: 2026-07-06
+    provenance:
+      - source: &quot;BNEF corporate clean-energy PPA data (DC ~43% 2024 -&gt; ~49% global / ~72% Americas 2025)&quot;
+        as_of: 2025-12
+        tier: 2
+        motivation_note: &quot;Sells energy-transition research; motivated toward a clean-growth narrative.&quot;
+      - source: &quot;Wood Mackenzie transformer/switchgear scarcity survey (via PowerMag / pv-magazine)&quot;
+        as_of: 2026-01
+        tier: 2
+        motivation_note: &quot;Consultancy sells grid-supply-chain intelligence; shortage narrative supports product.&quot;</code></pre>
+</details>
+<details class="registry-entry">
+  <summary>
+    <span class="registry-id">equipment-lead-times</span>
+    <span class="registry-meta"><span class="status status-contested">contested</span><span>2026-07-06</span></span>
+  </summary>
+  <pre><code>  - id: equipment-lead-times
+    definition: &gt;
+      Order-to-delivery lead times for grid-connection long-lead equipment (months):
+      large power transformers (LPT), generator step-up transformers (GSU), HV
+      switchgear, HVDC cable. Gates how fast new load or generation physically
+      connects; tracer for crowding-direction. Carry equipment class.
+    value:
+      unit: months
+      large_power_transformer_LPT: {central: 30, range: [24, 60]}   # ~128 wk; Wood Mac Q2 2025
+      generator_step_up_GSU: {central: 33, range: [30, 52]}          # ~144 wk; most stressed
+      hv_switchgear: {central: 10}                                    # ~44 wk
+      distribution_transformer: &quot;easing vs 2023-24 peak (only clearly improving class)&quot;
+      prepandemic_baseline_LPT: [7, 14]
+      trend: worsening_to_plateau_high     # relief weighted to 2027-2028
+      dissent: &gt;
+        Broker (Bolt Electrical) claims 12-14 months for standard substation units
+        post-engineering; attributes shortage to procurement, not physical capacity.
+    status: contested
+    consumers: [m1, m3, m4, m5, skeleton]
+    last_validated: 2026-07-06
+    provenance:
+      - source: &quot;Wood Mackenzie Q2 2025 transformer survey (via PowerMag / pv-magazine USA)&quot;
+        as_of: 2025-06
+        tier: 2
+        motivation_note: &quot;Consultancy sells grid-supply-chain intelligence; shortage narrative supports product.&quot;
+      - source: &quot;NIAC, Addressing the Critical Shortage of Power Transformers&quot;
+        as_of: 2024-06
+        tier: 1
+      - source: &quot;DOE, Large Power Transformer Resilience Report to Congress&quot;
+        as_of: 2024-07
+        tier: 1</code></pre>
+</details>
+<details class="registry-entry">
+  <summary>
+    <span class="registry-id">second-order-behavioral-envelope</span>
+    <span class="registry-meta"><span class="status status-irreducible">irreducible</span><span>2026-07-12</span></span>
+  </summary>
+  <pre><code>  - id: second-order-behavioral-envelope
+    definition: &gt;
+      Travel substitution, AI-driven efficiency gains elsewhere in the economy,
+      and rebound effects. Bounded best/worst-case envelope ONLY — never a point
+      estimate — and firewalled from grid-level results. (Rebound literature:
+      savings frequently eaten by rebound; error bars an order of magnitude
+      wider than grid channels.)
+    value:
+      treatment: bounded-envelope-only
+      external_disclosure_required: &gt;
+        Every external communication of this project&#x27;s headline MUST state that
+        economy-wide AI-enabled efficiency -- the IEA&#x27;s CONDITIONAL ~5%-of-2035-
+        energy-related-emissions figure (IEA, Energy and AI, 2025; as-of 2025) --
+        is EXCLUDED by scope (decisions/scope-boundaries.md), because attributing
+        economy-wide AI application benefits back to the US buildout is unbounded.
+    status: irreducible
+    consumers: [skeleton]
+    last_validated: 2026-07-12</code></pre>
+</details>
+<details class="registry-entry">
+  <summary>
+    <span class="registry-id">retirement-optionality</span>
+    <span class="registry-meta"><span class="status status-proposed">proposed</span><span>2026-07-12</span></span>
+  </summary>
+  <pre><code>  - id: retirement-optionality
+    definition: &gt;
+      Second-order refund on the retirement-delay channel (retirement-delay-dispatch):
+      a life-extended coal unit held AVAILABLE BUT ECONOMICALLY DISPATCHED alongside
+      newly built clean + storage becomes cheaper and easier to retire once the
+      reliability/resource-adequacy gap that justified its delay is filled. A fraction
+      of the delay-attributable emissions is therefore RECOVERED by an accelerated
+      post-2030 retirement, partially refunding the channel in the tail years.
+      Fraction only; never adds emissions.
+    value:
+      recovered_fraction_of_tail_emissions: {central: 0.20, band: [0.0, 0.5]}
+      band_rationale: &gt;
+        0.0 = delays simply persist (rolling DOE 202(c) renewals; litigation; the
+        policy regime never relents) -- no refund. 0.5 = half the post-2030 tail-year
+        delay emissions clawed back by an earlier-than-otherwise retirement once clean
+        replacement arrives. Central 0.20 sits LOW: the refund bites only if (a) the
+        clean replacement physically energizes and (b) the DOE-orders regime relents --
+        both uncertain -- while the direct evidence that the units are already marginal
+        keeps it non-zero.
+      evidence_from_m2: &gt;
+        Delayed cohort&#x27;s measured capacity factor already DECLINING (13 units, 2024
+        median 0.40 -&gt; 2025 median 0.30; 9 of 13 lower in 2025; as-of 2026-05 860M
+        vintage). 7 of 13 units (2,958 MW) are DOE-ordered, held &quot;available but
+        economically dispatched&quot; and idle much of the year -- low-cost to retire once
+        the reliability rationale lapses.
+      mt_arithmetic: &gt;
+        Applied to M2&#x27;s net consequential channel (~8.7 Mt over the observed 1-24 mo
+        slip windows; loosely ~4 Mt/yr net if DOE orders keep renewing). Post-2030 tail
+        (horizon to 2035, ~5 yr x ~4 Mt/yr ~= ~20 Mt net, order-of-magnitude):
+        recovered_fraction [0.0, 0.5] =&gt; 0 to ~10 Mt cumulative refunded, central
+        (~0.20) ~= ~4 Mt (~0.8 Mt/yr). Shrinks an already-small channel; cannot flip a
+        sign.
+    status: proposed
+    consumers: [skeleton]
+    what_would_settle_it: &gt;
+      Hourly EPA CEMS on the DOE-ordered units to measure post-order dispatch directly,
+      plus tracking of whether renewed 202(c) orders lapse on schedule and whether the
+      named clean/storage replacement energizes near the delayed unit.
+    provenance:
+      - source: &quot;M2 retirement-delay-emissions FINDINGS + retirement-delay-dispatch registry value (declining measured CF; DOE available-but-economically-dispatched)&quot;
+        as_of: 2026-07-06
+        tier: 1
+        motivation_note: &quot;Internal module built from Tier-1 EIA-923/860M + DOE 202(c) order texts.&quot;
+    last_validated: 2026-07-12</code></pre>
+</details>
+<details class="registry-entry">
+  <summary>
+    <span class="registry-id">learning-feedback</span>
+    <span class="registry-meta"><span class="status status-contested">contested</span><span>2026-07-12</span></span>
+  </summary>
+  <pre><code>  - id: learning-feedback
+    definition: &gt;
+      Deployment -&gt; learning feedback (Wright&#x27;s law): clean capacity built today to
+      serve US AI load advances the global solar/battery experience curve, lowering
+      future clean cost and ENLARGING 2035 clean deployment -- an accelerating channel
+      DISTINCT from crowding-direction&#x27;s near-term crowding-out. Sibling to, not part
+      of, crowding-direction (different mechanism, opposite sign, longer timescale;
+      crowding-direction.long_run_offset points here). Bounded ENVELOPE only: the
+      GW-built -&gt; curve-position -&gt; 2035-deployment mapping is heroic.
+    value:
+      learning_rates_per_doubling:
+        solar_modules: 0.20
+        batteries_liion: [0.18, 0.24]
+      us_dc_share_of_a_global_doubling: &quot;~3-6% (tens of GW US-AI clean vs ~1 TW cumulative global solar; a doubling needs ~1 TW more)&quot;
+      mt_sensitivity_on_2035_offset: {band_Mt_per_yr: [0.0, 8.0], center: low}
+      envelope_arithmetic: &gt;
+        20% learning rate =&gt; one global doubling = ~20% cost decline. US-AI-attributable
+        build ~= few % of a doubling =&gt; ~1-4% US-attributable cost nudge =&gt; marginally
+        larger 2035 US clean deployment. On M3&#x27;s offset channel (~25-38 Mt CO2/yr,
+        as-of 2026-07) that deepens the offset ~0-20% =&gt; +0 to ~8 Mt/yr, center LOW.
+        Lower bound 0 because the curve advance is a GLOBAL public good -- most leaks to
+        rest-of-world deployment, not attributable to the US buildout.
+    status: contested
+    consumers: [skeleton]
+    what_would_settle_it: &gt;
+      A deployment-conditional cost model (Way et al 2022 method) run with vs without
+      the US-AI clean-demand pulse, plus an attribution rule for how much global curve
+      advance to credit to the US buildout -- neither exists here; hence an envelope.
+    provenance:
+      - source: &quot;Way, Ives, Mealy &amp; Farmer, Empirically grounded technology forecasts and the energy transition, Joule 6(9):2057-2082 (2022), DOI 10.1016/j.joule.2022.08.009&quot;
+        as_of: 2022-09
+        tier: 1
+      - source: &quot;Ziegler &amp; Trancik, Re-examining rates of lithium-ion battery technology improvement and cost decline, Energy &amp; Environmental Science 14(4):1635-1651 (2021), DOI 10.1039/D0EE02681F&quot;
+        as_of: 2021-01
+        tier: 1
+      - source: &quot;IRENA solar-PV learning-rate series (~20-22%/doubling, 1979-2012), documented via Our World in Data learning-curve page&quot;
+        as_of: 2024-01
+        tier: 1
+        motivation_note: &quot;IRENA is an intergovernmental agency; OWID aggregates primary series -- low motivation.&quot;
+      - source: &quot;BNEF corporate-PPA share feeding the US-share estimate&quot;
+        as_of: 2025-12
+        tier: 2
+        motivation_note: &quot;Tier 2: sells energy-transition research; motivated toward a clean-growth narrative. Used only to scale the US share, not the learning rate.&quot;
+    last_validated: 2026-07-12</code></pre>
+</details>
+<details class="registry-entry">
+  <summary>
+    <span class="registry-id">sampling-independence</span>
+    <span class="registry-meta"><span class="status status-contested">contested</span><span>2026-07-15</span></span>
+  </summary>
+  <pre><code>  - id: sampling-independence
+    definition: &gt;
+      STRUCTURAL. The synthesis model&#x27;s residual inputs are sampled
+      independently within a state of the world. Before 2026-07-15 this held
+      unconditionally across all inputs, which allowed internally inconsistent
+      input combinations (e.g. a demand collapse with full procurement
+      delivery, full construction, and full on-site gas) to contribute
+      probability mass, and made &quot;share of draws positive&quot; read as a
+      probability when it was an artifact of the sampling structure.
+    value:
+      scope_before_2026_07_15: all inputs, unconditional
+      scope_after_adoption: &gt;
+        Residual inputs only, conditional on a state-of-world scenario;
+        cross-input dependence must be a documented world response function
+        or an approved residual correlation group, never discovered by
+        fitting.
+    status: contested
+    consumers: [skeleton, explorer]
+    what_would_settle_it: &gt;
+      World response functions, at approved evidence strength, absorbing the
+      dependence the evidence actually supports -- at which point the residual
+      independence claim becomes narrow enough to defend per world.
+    note: &gt;
+      Registered by proposals/2026-07-15-interdependence-adoption.md (approved
+      2026-07-15) so the model&#x27;s structure faces the same review as its
+      parameter values. See decisions/state-of-world-synthesis.md.
+    last_validated: 2026-07-15</code></pre>
+</details>
+<details class="registry-entry">
+  <summary>
+    <span class="registry-id">national-aggregation</span>
+    <span class="registry-meta"><span class="status status-contested">contested</span><span>2026-07-15</span></span>
+  </summary>
+  <pre><code>  - id: national-aggregation
+    definition: &gt;
+      STRUCTURAL. The synthesis operates on a single national blend: one
+      marginal-emission-rate trend (unweighted mean of five ISO regions), one
+      national speculative-load structure, no regional co-movement. Regional
+      coherence -- fast demand growth, constrained transmission, and gas
+      buildout co-occurring within a region -- cannot be expressed.
+    value:
+      current: national blend; five-ISO unweighted mean for the marginal rate
+      registry_structure_not_consumed: &gt;
+        Per-region market-structure blocks (M4), transmission classification
+        (M5), leakage-by-country (M8), regional speculative-load multipliers
+        (M1) -- all present in this registry, none consumed by the skeleton.
+    status: contested
+    consumers: [skeleton, explorer]
+    what_would_settle_it: &gt;
+      Regional resolution in the world layer: world definitions region-aware
+      where their mechanisms are (grid investment and cost allocation
+      explicitly so), with the marginal emission factor -- the largest single
+      swing in the current tornado -- regionally conditioned.
+    note: &gt;
+      Registered by proposals/2026-07-15-interdependence-adoption.md (approved
+      2026-07-15). Regional resolution is the main evidenced path to narrowing
+      the marginal-factor swing short of the capacity-expansion model.
+    last_validated: 2026-07-15</code></pre>
+</details>
+<details class="registry-entry">
+  <summary>
+    <span class="registry-id">fixed-procurement-anchor</span>
+    <span class="registry-meta"><span class="status status-contested">contested</span><span>2026-07-15</span></span>
+  </summary>
+  <pre><code>  - id: fixed-procurement-anchor
+    definition: &gt;
+      STRUCTURAL. The clean-procurement offset hangs off a fixed contracted
+      capacity anchor (&gt;80 GW) that does not respond to the demand future: a
+      demand-collapse draw still delivers every contracted project. The same
+      fixedness applies to the embodied-emissions band and the
+      behind-the-meter gas capacity band.
+    value:
+      current: &gt;
+        Fixed anchor x capacity factor x additionality, invariant across
+        demand scenarios; embodied and behind-the-meter bands likewise flat
+        across demand futures.
+      required_replacement: &gt;
+        World-conditional response (clean capacity contracted per unit of firm
+        realized load; lifecycle-stage conversion to operation; cancellation
+        or renegotiation under a capital correction), per the interdependence
+        plan&#x27;s procurement section, with projects already under construction
+        as the floor.
+    status: contested
+    consumers: [skeleton, explorer]
+    what_would_settle_it: &gt;
+      The demand-coupled procurement, embodied, and on-site-gas response
+      functions landing with module evidence (stage 3 of the adoption
+      sequence) -- this entry then graduates or is retired.
+    note: &gt;
+      Registered by proposals/2026-07-15-interdependence-adoption.md (approved
+      2026-07-15). The most visible internal inconsistency in the current
+      model and the first implementation target after the plumbing lands.
+    last_validated: 2026-07-15
 
-<section aria-labelledby="s-answer">
-  <h2 id="s-answer">The answer first</h2>
-  <p>Of the nine channels this project prices, none is more political than the electric bill. Data-center demand can raise retail electricity rates; pricier electricity slows the switch away from fossil fuels — fewer heat pumps installed, fewer electric cars charged, fewer gas furnaces retired — and every switch that does not happen keeps its old fuel burning. Our analysis prices that suppression at a central +2.4 million tonnes of CO₂ per year by 2035 under the consensus demand future, inside a 5th-to-95th-percentile band of −2.3 to +17.7.</p>
-  <p>Set against the ledger this project keeps, 2.4 million tonnes a year is a small entry: about one sixth of one percent of what US power plants emitted in 2024 (<a href="https://www.eia.gov/environment/emissions/carbon/">1,427 million tonnes, per the Energy Information Administration</a>), or roughly half a million gasoline cars kept on the road for a year (<a href="https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle">at the EPA's 4.6 tonnes per car</a>). The channel earns a full brief anyway, because the band is wide, the top end is not small, and the sentence underneath it — "data centers are raising your electric bill" — is the most repeated and least settled claim in this debate. What the estimate shows is a real but second-order drag on the transition; what it does not show is a national bill crisis.</p>
-  <p>Three things would move it: the next capacity auction in PJM, the thirteen-state grid operator where the effect is actually measurable; the fate of <a href="https://insidelines.pjm.com/ferc-approves-capacity-auction-price-collar-to-next-two-capacity-auctions/">the federal price cap on that market</a>, due for a decision around mid-2026; and whether any second regional market tightens the way PJM did.</p>
-</section>
+# Machine-readable representation of the approved first state-of-world scenario set.
+# Translation of proposals/2026-07-15-world-definitions.md (approved 2026-07-15) for
+# appending to assumptions/registry.yaml as a top-level key alongside `assumptions:`
+# (the loader reads raw[&quot;assumptions&quot;], so the extra top-level key is safe).
+# Drafted for orchestrator review; NOT yet in the gated file.
 
-<section aria-labelledby="s-how">
-  <h2 id="s-how">How the channel works</h2>
-  <div class="chain" role="img" aria-label="Causal chain: data-center load, to retail rate increase, to electrification forgone, to emissions kept alive">
-    <div class="node"><b>Data-center load</b><span>incremental gigawatts, by demand future</span></div>
-    <div class="arrow" aria-hidden="true">→</div>
-    <div class="node"><b>Retail rates rise</b><span>0.02–0.22% per national gigawatt, capped by political response</span></div>
-    <div class="arrow" aria-hidden="true">→</div>
-    <div class="node"><b>Electrification forgone</b><span>price elasticity × the load exposed by 2035</span></div>
-    <div class="arrow" aria-hidden="true">→</div>
-    <div class="node"><b>Emissions kept alive</b><span>the fossil end-use runs on, net of the grid power it skipped</span></div>
-  </div>
-  <p>The dose is anchored on the strongest evidence in the project: <a href="https://www.utilitydive.com/news/data-centers-pjm-capacity-auction/808951/">the PJM market monitor's counterfactual auction re-runs</a>, which attribute $9.3 billion of one year's capacity-market cost to data-center load. The slope from there to the national average bill is deliberately a band, not a point — PJM passes capacity costs through, Texas's energy-only design mostly does not, and regulated utilities pass them through slowly. The loop also caps itself: regulators respond to load forecasts before bills actually rise (in five of the six documented regulatory arcs, protection arrived one to two and a half years after the load surge, ahead of realized rates), and <a href="https://www.eei.org/-/media/Project/EEI/Documents/Issues%20and%20Policy/List%20of%20Large%20Customer%20Projects%20and%20Tariffs">twenty-four states have already adopted tariffs</a> that pin new costs on the data centers themselves. Suppressed electrification is then priced as emissions using a long-run marginal emission rate — the emissions of the generators that a decade of anticipated demand calls into existence.</p>
-</section>
+worlds:
+  schema_note: &gt;
+    First approved state-of-world scenario set: five named, internally consistent
+    futures (&quot;worlds&quot;), one cross-cutting stress overlay, and fifteen mechanism
+    cards recording every driver-to-parameter relationship a world invokes. This
+    block is human-gated superstructure per decisions/state-of-world-synthesis.md:
+    world definitions, driver settings, and mechanism cards change only through an
+    approved proposal, while the parameter values each world consumes keep updating
+    through the ordinary evidence path. Results are reported per world (a range and
+    a sign each, plus discriminating observables); no pooled probability across
+    worlds is published as a headline. Mechanism-card response ranges marked
+    stress-only (no evidence for the size of the effect; included as a what-if
+    range only) MUST NOT move a published central estimate: they appear as labeled
+    stresses with wide ranges until an owning module supplies a response estimate.
+    Evidence-status tally: 1 measured, 5 calibrated, 9 stress-only.
+    PRINCIPLE (added 2026-07-15, approved with the backlash demand-conditioning
+    fix): a scenario&#x27;s defining premise is a conditioning choice that may set
+    that scenario&#x27;s central - demand-path selections are scenario definitions,
+    like the demand futures&#x27; own multipliers; the evidence-grading rule governs
+    driver-to-consequence responses only. It must never strip a scenario of its
+    own premise.
+  provenance:
+    proposal: proposals/2026-07-15-world-definitions.md
+    approved: 2026-07-15
+    decision: decisions/state-of-world-synthesis.md
+    plan: synthesis/INTERDEPENDENCE_PLAN.md
+    independent_verification: &gt;
+      Adversarial pass 2026-07-15: 0 blocking, 5 material, 2 minor findings, all
+      amendments folded in (or rebutted with receipts) before approval; see the
+      proposal&#x27;s &quot;Independent verification (2026-07-15)&quot; section.
 
-<section aria-labelledby="s-evidence">
-  <h2 id="s-evidence">What the evidence says, and what it refuses to say</h2>
-  <p>The realized harm is regional and specific. In PJM, the capacity price rose roughly tenfold in two years, the market monitor's counterfactuals attribute most of the surge to data-center load, and <a href="https://opc-dc.gov/wp-content/uploads/2025/05/PJM-Wholesale-Price-Increase-5222025-Revised-1.pdf">about ten dollars a month of Washington, DC's standard-offer bill increase</a> traces to it. Outside PJM the national record points the other way: <a href="https://emp.lbl.gov/news/new-berkeley-lab-report-summarizes-trends-retail-electricity-prices-and-price-drivers">Lawrence Berkeley National Laboratory's decomposition of 2019–2025 rate increases</a> finds distribution and transmission spending, fuel, and storm recovery dominant, with load growth not a major national driver through 2024, and <a href="https://www.ethree.com/electricity-rate-drivers-data-center-role-2026/">independent 2026 analyses find essentially no correlation</a> between data-center concentration and state rates — <a href="https://www.epri.com/research/products/000000003002034696">one causal study</a> estimates that spreading fixed grid costs over new data-center demand left average residential prices about 6% lower over 2019–2024 than they would otherwise have been. Both of those latter studies were industry-funded, and we treat them as motivated; the Berkeley decomposition is not, and it agrees.</p>
-  <p>The honest reading, and the one the estimate encodes: this channel is forward-looking and regionally concentrated — real in PJM now, plausible elsewhere as spare capacity runs out, and genuinely two-sided at the low end, since a large flat load that pays its way can push everyone else's rates down. Only a demand bust turns the central estimate negative (see chart).</p>
+  cross_cutting_stress:
+    trade-restricted-infrastructure:
+      name: Trade-Restricted Infrastructure
+      applies_on_top_of:
+        - reference-case
+        - boom-grid-keeps-up
+        - boom-grid-falls-behind
+        - anti-ai-backlash
+        - market-correction
+      summary: &gt;
+        Kept as a cross-cutting stress, not a sixth world (proposal section 2.6),
+        because trade restriction pushes channels in OPPOSITE directions and a
+        standalone world would net them into one misleading number: it lengthens
+        solar/battery/transformer/turbine delivery and starves the US clean
+        response (delaying); it raises embodied intensity as fabs advance nodes and
+        supply chains reshuffle (delaying); but the same geopolitics tightens the
+        chip-export gate, which reduces leakage feasibility (an offsetting,
+        accelerating-leaning effect on the cross-border total). M8 calls the
+        full-escalation case &quot;ambiguous by structure&quot;. Expressed as an overlay
+        (drivers held, trade driver moved to &quot;restricted&quot;) reported against the
+        same world without it. Worked examples in the proposal: applied to
+        Boom, Grid Falls Behind it deepens the delay; applied to Anti-AI Backlash
+        it can partly self-cancel (less clean delivery, but also less leakage).
+      cards:
+        - trade-to-equipment-lead-times
+        - trade-to-embodied-intensity
+        - trade-to-chip-export-leakage-pool
 
-  <figure>
-    <div class="fig-title">Only a demand bust turns this channel negative</div>
-    <div class="fig-sub">Net emissions from suppressed electrification at 2035, in Mt CO₂ per year — 5th–95th percentile band and central estimate, by demand future</div>
-    <div class="fig-scroll">
-    <svg class="range-svg" viewBox="0 0 680 240" role="img" aria-label="Range chart of the rate-feedback channel by demand future. Runaway demand: minus 0.6 to plus 17.7, central plus 4.5. Consensus: minus 1.2 to plus 12.7, central plus 2.4. Efficiency catches up: minus 1.9 to plus 5.7, central plus 0.4. The bust: minus 2.3 to plus 2.4, central minus 0.6.">
-      <!-- x scale: v in [-4,19] -> x = 170 + (v+4)/23*480 -->
-      <text class="pole accel" x="240" y="18" text-anchor="end">← accelerates the transition</text>
-      <text class="pole delay" x="286" y="18">delays →</text>
-      <line class="grid" x1="358.3" y1="30" x2="358.3" y2="196"/>
-      <line class="grid" x1="462.6" y1="30" x2="462.6" y2="196"/>
-      <line class="grid" x1="566.9" y1="30" x2="566.9" y2="196"/>
-      <line class="zero" x1="253.9" y1="26" x2="253.9" y2="200"/>
-      <text class="val" x="253.9" y="214" text-anchor="middle">0</text>
-      <text class="val" x="358.3" y="214" text-anchor="middle">+5</text>
-      <text class="val" x="462.6" y="214" text-anchor="middle">+10</text>
-      <text class="val" x="566.9" y="214" text-anchor="middle">+15</text>
-      <text class="val" x="672" y="214" text-anchor="end">Mt CO₂/yr</text>
+  definitions:
 
-      <g class="row"><title>Runaway demand: −0.6 to +17.7, central +4.5 Mt CO₂/yr</title>
-        <text class="rowlab" x="158" y="53" text-anchor="end">Runaway demand</text>
-        <line class="band" x1="242.0" y1="48" x2="623.1" y2="48"/>
-        <circle class="dot-emit" cx="348.5" cy="48" r="6"/>
-        <text class="cval" x="348.5" y="34" text-anchor="middle">+4.5</text>
-        <text class="val" x="234" y="52" text-anchor="end">−0.6</text>
-        <text class="val" x="631" y="52">+17.7</text>
-      </g>
-      <g class="row"><title>Consensus: −1.2 to +12.7, central +2.4 Mt CO₂/yr</title>
-        <text class="rowlab" x="158" y="95" text-anchor="end">Consensus</text>
-        <line class="band" x1="228.2" y1="90" x2="518.7" y2="90"/>
-        <circle class="dot-emit" cx="304.2" cy="90" r="6"/>
-        <text class="cval" x="304.2" y="76" text-anchor="middle">+2.4</text>
-        <text class="val" x="220" y="94" text-anchor="end">−1.2</text>
-        <text class="val" x="527" y="94">+12.7</text>
-      </g>
-      <g class="row"><title>Efficiency catches up: −1.9 to +5.7, central +0.4 Mt CO₂/yr</title>
-        <text class="rowlab" x="158" y="137" text-anchor="end">Efficiency catches up</text>
-        <line class="band" x1="214.9" y1="132" x2="372.4" y2="132"/>
-        <circle class="dot-emit" cx="261.8" cy="132" r="6"/>
-        <text class="cval" x="261.8" y="118" text-anchor="middle">+0.4</text>
-        <text class="val" x="206.9" y="136" text-anchor="end">−1.9</text>
-        <text class="val" x="380.4" y="136">+5.7</text>
-      </g>
-      <g class="row"><title>The bust: −2.3 to +2.4, central −0.6 Mt CO₂/yr</title>
-        <text class="rowlab" x="158" y="179" text-anchor="end">The bust</text>
-        <line class="band" x1="206.1" y1="174" x2="303.4" y2="174"/>
-        <circle class="dot-abate" cx="241.4" cy="174" r="6"/>
-        <text class="cval" x="234" y="160" text-anchor="middle">−0.6</text>
-        <text class="val" x="198.1" y="178" text-anchor="end">−2.3</text>
-        <text class="val" x="311.4" y="178">+2.4</text>
-      </g>
-    </svg>
-    </div>
-    <div class="fig-src">Source: module M7 dose-response, anchored on <a href="https://www.utilitydive.com/news/data-centers-pjm-capacity-auction/808951/">the PJM market monitor's counterfactual auction re-runs</a> · as of 7 Jul 2026</div>
-  </figure>
-</section>
+    reference-case:
+      name: Reference Case
+      gloss: &gt;
+        The near future looks like the recent past; no driver breaks from its
+        current central value.
+      story: &gt;
+        AI investment keeps growing at roughly its current pace on today&#x27;s
+        financing mix; grids expand and allocate costs as they do now (take-or-pay
+        tariffs spreading in organized markets, build-ahead continuing in the
+        vertically-integrated Southeast); clean projects and transmission arrive on
+        today&#x27;s timelines; trade runs under current rules; public acceptance stays
+        roughly where it is (friction in a few states, acceptance in most). Not a
+        forecast that nothing changes: the world in which no single condition
+        breaks decisively from its current central value. Exists to anchor the
+        others - it reproduces the current published model exactly, so every
+        difference another world shows is attributable to a named driver moving.
+      driver_settings:
+        ai_demand_financing: &gt;
+          reference (four-scenario residual demand axis; consensus anchor 649 TWh
+          2030, consumption forecast, consumed undiscounted and net of
+          behind-the-meter-served TWh, per run 9)
+        grid_investment_cost_allocation: reference
+        clean_delivery: reference
+        trade_geopolitics: reference
+        public_acceptance: reference
+      expected_emissions_sign: &gt;
+        positive (adds emissions) - reproduces run 9&#x27;s weighted delaying result:
+        probability-weighted cumulative 2025-2035 about +655 Mt CO2 (as-of
+        2026-07-15)
+      transition_lean: delaying
+      sign_confidence_note: &gt;
+        The current published result; solid on direction, not on magnitude (M0
+        falsification conclusion 1 &quot;STANDS solidly&quot;; IEA Energy and AI 2025,
+        Tier 1, independently agrees data-centre emissions rise; the marginal
+        emission factor is the single largest tornado swing).
+      cards_invoked: []
+      cards_invoked_note: &gt;
+        No cards active: every world-response delta in every card is set to zero
+        by construction.
+      discriminating_observables:
+        - &gt;
+          M9&#x27;s six-indicator panel stays quiet - no core indicator crosses its
+          activation threshold (capex still accelerating; GPU-backed credit narrow
+          ~+90 bps; no second depreciation shortening; signed contracted-GW not
+          declining)
+        - &gt;
+          EIA/LBNL realized consumption tracks the LBNL 2025 Update reference
+          trajectory toward ~649 TWh by 2030 (Tier 1)
+        - &gt;
+          Utility self-discounts hold near firm tiers (Dominion realized ~16.6 GW
+          approximately equals its firm book)
+      evidence_backed_vs_asserted: &gt;
+        Entirely evidence-backed by construction: the current model&#x27;s central
+        behavior, pinned to registry values.
+      calibration_note: &gt;
+        The attributability anchor. All world-response deltas held at zero, so the
+        model runs untouched on its current inputs and reproduces run 9 by
+        construction - reproduction rests on this zero-delta construction, not on
+        any enumerated pin list. All 33 model inputs are held at their run-9
+        values; the authoritative inventory is
+        synthesis/inputs_spec/inputs_spec_2026-07-15.yaml (33 inputs with origins,
+        resolvers, consumers, and reference-cell values, committed with run 9).
+        Expected reproduction: probability-weighted cumulative 2025-2035 emissions
+        ~ +655 Mt CO2 [153, 1128], verdict tally delaying 0.73 / accelerating
+        0.27, share-positive 0.979 (run 9, as-of 2026-07-15); binding numbers come
+        from the first post-approval skeleton run. Until the world layer is
+        implemented, a run of this world alone is labeled per
+        methods/uncertainty-propagation.md (current label &quot;reference-continuity
+        world only&quot;; becomes &quot;Reference Case world only&quot; with this rename).
 
-<section aria-labelledby="s-assumptions">
-  <h2 id="s-assumptions">The two assumptions this rides on</h2>
-  <p>Every number above flows from two registry entries. Both are marked contested — estimated with real anchors, but with named gaps a reviewer could reasonably attack. This section is the review surface: the bands below are what an approval endorses and what a contest changes.</p>
+    boom-grid-keeps-up:
+      name: Boom, Grid Keeps Up
+      gloss: &gt;
+        AI demand comes in high and the grid buildout keeps pace, with data
+        centers paying their incremental costs.
+      story: &gt;
+        AI demand comes in high and is met well. A large, steady, creditworthy
+        buyer signs firm commitments (take-or-pay tariffs, executed service
+        agreements), pays a substantial share of incremental generation and
+        network cost, and - because the load is anchored and financeable -
+        transmission and clean supply get built alongside it rather than years
+        behind it. In the best version, the anchor load improves the economics of
+        long-lead transmission that also unlocks queued renewables, and the
+        incremental clean is genuinely additional. The world in which the buildout
+        could, on the transition indicators, help more than it hurts.
+      driver_settings:
+        ai_demand_financing: high (consensus-to-jevons-high end)
+        grid_investment_cost_allocation: &gt;
+          coordinated + customer-cost-responsible (take-or-pay firm regimes
+          dominate; cost causation assigns incremental cost to the customer)
+        clean_delivery: &gt;
+          fast (transmission and clean energize with the load; long-run marginal
+          factor bends toward the induced clean)
+        trade_geopolitics: reference
+        public_acceptance: high (firm tariffs adopted, low siting friction)
+      expected_emissions_sign: &gt;
+        positive, but the smallest per-TWh of the set; the one world where the
+        sign is genuinely contestable
+      transition_lean: mixed -&gt; accelerating
+      sign_confidence_note: &gt;
+        Least settled; the &quot;benefits other customers / accelerates&quot; leg is largely
+        asserted, not evidenced. The transition verdict can be
+        mixed-to-accelerating even while cumulative dE stays positive.
+      cards_invoked:
+        - demand-to-realized-load
+        - demand-to-embodied-emissions
+        - cost-allocation-to-retail-rate-electrification
+        - delivery-to-clean-lifecycle-conversion
+        - delivery-to-marginal-emission-factor
+        - cost-allocation-to-speculative-load-to-steel
+      discriminating_observables:
+        - &gt;
+          First 2027 capex guidance &gt;= 2026 actuals and credit spreads narrowing
+          (M9 panel, durability-supporting)
+        - &gt;
+          Transmission and clean commercial-operation dates actually landing with
+          the load (M5 queue-processing time improving from ~5.8 yr PJM / ~7.9 yr
+          CAISO medians, Tier 1)
+        - &gt;
+          Take-or-pay uptake rising WITHOUT refusals/waiver dockets (M9 tariff
+          indicator below threshold)
+        - PJM price collar holding and rate pass-through capping (M7, Tier 1)
+        - &gt;
+          Utility self-discounts converging upward toward their contracted books
+          (the opposite of Dominion&#x27;s 47-vs-16.6 GW gap)
+      evidence_backed_vs_asserted: &gt;
+        Evidence-backed: fast delivery makes the marginal factor cleaner (Cambium
+        LRMER regional trajectories, Tier 1); firm take-or-pay commitments deflate
+        speculative load (AEP Ohio 30-&gt;13-&gt;11.1 GW, M4/M1, Tier 1); DC-anchored
+        transmission is a real, under-credited accelerating channel (M0
+        falsification conclusion 2; Tier-1 NBER WP 31946 + Tier-2 industry outlet,
+        the latter motivated). ASSERTED (flagged): that the large buyer &quot;finances
+        infrastructure that benefits other customers&quot; / lowers their rates - EPRI
+        ~-3.5% residential per data-center capacity doubling (2015-2024) is Tier-2
+        industry-funded, motivated toward a benign framing, unquantified on the
+        low side (M7 v2 owed); M7&#x27;s national causal claim
+        &quot;unresolved-to-contradicted outside PJM&quot;; the carrying leg of card
+        cost-allocation-to-retail-rate-electrification is stress-only and cannot
+        move a central. The &quot;improves asset utilization&quot; leg is likewise weak: the
+        modal adopted large-load instrument is the firm, non-curtailable
+        take-or-pay tariff (M6), so flexibility gains are a capacity/rate story,
+        not an emissions one.
 
-  <article class="acard">
-    <div class="acard-head"><h3>The rate-feedback loop</h3><span class="aid mono">rate-feedback-loop</span><span class="chip contested">contested</span></div>
-    <p class="plain">How much a gigawatt of new data-center demand raises retail rates, and how much electrification that suppresses.</p>
-    <dl>
-      <dt>2035 band (consensus)</dt><dd class="num">−1.2 to +12.7 Mt/yr, central +2.4 — sampled per demand future, weighted toward the central</dd>
-      <dt>Rate slope</dt><dd class="num">0.02–0.22% of the national average rate per national GW; 0.30–1.20% inside PJM</dd>
-      <dt>Saturation</dt><dd>pass-through capped near 25% cumulative by the documented political response</dd>
-      <dt>Scope</dt><dd>electrification suppression only; the effect of rates on data-center siting is carried by the speculative-load discount, so it is excluded here to avoid double counting</dd>
-      <dt>Last validated</dt><dd>12 July 2026</dd>
-      <dt>Consumed by</dt><dd>this module, demand durability (M9), and the synthesis</dd>
-    </dl>
-    <div class="settle"><b>What would settle it:</b> regional resolution instead of a national blend; the PJM 2028/29 auction and the price-cap decision; and quantifying the low end, where a well-allocated flat load lowers everyone else's rates — approved in principle, assigned to this module's second pass.</div>
-    <ul class="srcs">
-      <li><span class="tier">Tier 1</span><a href="https://www.utilitydive.com/news/data-centers-pjm-capacity-auction/808951/">PJM Independent Market Monitor counterfactual auction re-runs, filed at FERC</a> — the dose anchor ($9.3bn, 2025/26)</li>
-      <li><span class="tier">Tier 1</span><a href="https://emp.lbl.gov/news/new-berkeley-lab-report-summarizes-trends-retail-electricity-prices-and-price-drivers">Lawrence Berkeley National Laboratory retail-price decomposition, 2019–2025</a> — the national counterweight</li>
-      <li><span class="tier motivated">Tier 2 · motivated</span><a href="https://www.epri.com/research/products/000000003002034696">EPRI causal study</a> (residential prices ~6% lower than the no-data-center counterfactual, 2019–2024) — industry research organization</li>
-      <li><span class="tier motivated">Tier 2 · motivated</span><a href="https://www.ethree.com/electricity-rate-drivers-data-center-role-2026/">E3 state cross-section</a> (no correlation, r ≈ −0.05) — funded by the Data Center Coalition</li>
-    </ul>
-  </article>
+    boom-grid-falls-behind:
+      name: Boom, Grid Falls Behind
+      gloss: &gt;
+        AI demand comes in high but transmission and clean supply arrive years
+        late, so dirtier power serves the growth.
+      story: &gt;
+        AI demand comes in high, but the grid cannot keep up. Transmission and
+        clean generation arrive years behind the load; interconnection queues stay
+        slow; congestion rises and already-built wind and solar get curtailed;
+        utilities lean on the existing (gassier) fleet and on on-site gas trucked
+        in for speed; fossil retirements are deferred to hold the system together;
+        other customers get incomplete cost protection. The buildout&#x27;s dirtiest
+        coherent path: the same high demand as in Boom, Grid Keeps Up, met by the
+        wrong supply because the wires and clean projects are not there in time.
+      driver_settings:
+        ai_demand_financing: high
+        grid_investment_cost_allocation: &gt;
+          constrained + socialized (obligation-to-serve build-ahead, incomplete
+          cost protection for other customers)
+        clean_delivery: &gt;
+          slow (transmission/interconnection lag, equipment-lead-time binding)
+        trade_geopolitics: &gt;
+          reference (or overlay the trade-restricted-infrastructure stress, which
+          deepens this world)
+        public_acceptance: central
+      expected_emissions_sign: positive, and the largest of the set
+      transition_lean: delaying (strongly)
+      sign_confidence_note: &gt;
+        Best-supported delaying world; dirtier-marginal + on-site gas + retirement
+        pressure all point one way (M5 PJM congestion +64% in 2024, CAISO
+        92%-transmission curtailment, Tier 1; M4 Georgia ~9.4 GW new gas +
+        multi-GW coal delay against ~90%-data-center load growth, Tier 1).
+      cards_invoked:
+        - demand-to-realized-load
+        - cost-allocation-to-speculative-load-to-steel
+        - cost-allocation-to-retail-rate-electrification
+        - adequacy-gap-to-retirement-delay
+        - delivery-to-marginal-emission-factor
+        - grid-constraint-to-btm-gas
+      discriminating_observables:
+        - &gt;
+          High realized consumption (EIA actuals tracking the upper LBNL band)
+          occurring TOGETHER WITH rising congestion cost, rising renewable
+          curtailment, degrading wind capture rates (M5 indicators, Tier 1)
+        - &gt;
+          Climbing operating behind-the-meter gas GW (M5 census; currently ~2 GW
+          operating of ~90 GW announced)
+        - &gt;
+          Accelerating retirement slips with renewed DOE 202(c) orders
+          (retirement-delay-dispatch; policy-regime)
+        - &gt;
+          Equipment lead times staying high (large power transformer ~30 mo
+          central; equipment-lead-times, Tier 2/Tier 1)
+      evidence_backed_vs_asserted: &gt;
+        Evidence-backed: the dirtier-pathway result in transmission-bound regions
+        (M5, region-specific mechanisms, Tier 1); obligation-to-serve -&gt;
+        rate-based gas (M4, Tier-1 GA PSC dockets); on-site gas concentration and
+        the ~90 GW announced / ~2 GW operating build-conversion gap (M5; Cleanview
+        Tier 2 - single-source, motivated toward a gas-buildout narrative;
+        diversify before anchoring). ASSERTED / weakly attributed (flagged):
+        &quot;greater retirement pressure&quot; from data-center demand specifically - M2
+        found the slipping coal cohort driven by DOE 202(c) orders and
+        IRP/reliability tightening, DC a sole driver in ZERO of 13 units and a
+        co-driver in one plant (South Oak Creek; registry codes 2 units for that
+        plant - open item for M2); retirement pressure routes through
+        policy-regime far more than through demand, and card
+        adequacy-gap-to-retirement-delay is stress-only on the driver response.
 
-  <article class="acard">
-    <div class="acard-head"><h3>Electrification price elasticity</h3><span class="aid mono">electrification-price-elasticity</span><span class="chip contested">contested</span></div>
-    <p class="plain">How sharply heat-pump, electric-vehicle, and industrial electrification respond when electricity gets pricier relative to the fuel it replaces.</p>
-    <dl>
-      <dt>Blended value</dt><dd class="num">−0.3 (range −0.5 to −0.1) — a near-term flow value for 2035 horizons</dd>
-      <dt>Heat pumps</dt><dd class="num">−0.5 (−1.0 to −0.2); the long-run stock relationship runs to ~−1.4</dd>
-      <dt>Electric vehicles</dt><dd class="num">−0.08 (−0.16 to −0.02) — the largest exposure, the smallest response</dd>
-      <dt>Industrial</dt><dd class="num">−0.2 (−0.4 to −0.05); no Tier-1 estimate, band is judgment</dd>
-      <dt>Operative variable</dt><dd>the electricity-to-competing-fuel price ratio, not the price level</dd>
-      <dt>Last validated</dt><dd>7 July 2026</dd>
-    </dl>
-    <div class="settle"><b>Known artifact:</b> applying the single blended value to all exposed load overstates suppression about 1.7-fold versus the technology split, because electric vehicles dominate the exposure but respond least. The split exists in the registry; the chain consumes the blend pending review.</div>
-    <ul class="srcs">
-      <li><span class="tier">Tier 1</span><a href="https://www.nber.org/papers/w31344">Davis, Economic determinants of heat pump adoption (NBER WP 31344)</a></li>
-      <li><span class="tier">Tier 1</span><a href="https://www.nber.org/papers/w29842">Bushnell, Muehlegger &amp; Rapson, EV adoption elasticity (NBER WP 29842)</a>; JEEM 2023 mileage elasticity</li>
-      <li><span class="tier">Tier 1</span>EIA, Price elasticity for energy use in buildings in the United States</li>
-    </ul>
-  </article>
-</section>
+    anti-ai-backlash:
+      name: Anti-AI Backlash
+      gloss: &gt;
+        Public and regulatory resistance restricts siting and tariffs, lowering
+        domestic buildout and possibly pushing some compute abroad.
+      story: &gt;
+        Public and regulatory resistance to data centers hardens. More states
+        impose strict large-load tariffs, siting moratoria, and permitting
+        constraints; some projects are refused or priced out; domestic conversion
+        of the request pile falls. Two things then happen at once, pulling in
+        opposite directions: domestic realized load - and its domestic emissions -
+        come in lower, while some displaced compute relocates to foreign grids
+        where it may run on dirtier power. The net effect depends almost entirely
+        on how much displaced compute is genuinely relocated rather than simply
+        not built, and on how dirty the destination grid is - both of which the
+        evidence cannot yet pin down.
+      driver_settings:
+        ai_demand_financing: &gt;
+          lower-domestic (realized domestic CONSUMPTION path below reference -
+          achieved by selecting a lower consumption scenario, NOT by
+          re-discounting an anchor)
+        grid_investment_cost_allocation: &gt;
+          restrictive (strict tariffs, exit fees, permitting friction)
+      demand_path_selection:
+        basis: &gt;
+          APPROVED 2026-07-15, Option A of
+          proposals/2026-07-15-backlash-demand-and-intensity-metric.md. The
+          scenario&#x27;s defining premise (restricted siting lowers realized
+          domestic consumption) is a conditioning choice and sets this
+          scenario&#x27;s central; it is NOT an evidence-graded response. Level
+          reasoning: milder than the bust (0.55 central - there demand itself
+          disappears) because blocked load partly relocates to permissive
+          regions; below the efficiency path (0.80 central - there load is
+          lower because compute got cheaper, not blocked). Falsifiers:
+          moratoria/restrictive-tariff coverage of planned capacity; realized
+          load in restrictive vs permissive states diverging from forecasts.
+        load_multiplier_2030:
+          central: 0.75
+          range: [0.55, 0.92]
+        saturation_multiplier_2030_2035: &gt;
+          reference (consensus range applied to the suppressed 2030 base -
+          restrictions set the LEVEL, not the post-2030 growth shape; minimal-
+          assumption choice recorded at application, open to revision)
+        clean_delivery: reference
+        trade_geopolitics: reference
+        public_acceptance: low (backlash)
+      expected_emissions_sign: &gt;
+        ambiguous / genuinely two-sided (lower domestic load, higher leakage
+        fraction); the leakage floor is zero because a clean-destination
+        relocation (Stargate Norway, ~28 gCO2/kWh hydro) can zero or negate the
+        term (leakage-intensity, M8, Tier 1)
+      transition_lean: mixed
+      sign_confidence_note: &gt;
+        Dominated by an UNIDENTIFIED leakage-attribution share; direction not
+        resolvable on current evidence.
+      cards_invoked:
+        - acceptance-to-leakage-attribution
+        - acceptance-to-realized-demand
+        - acceptance-to-btm-permitting
+      cards_invoked_note: &gt;
+        Plus grid-constraint-to-btm-gas if the grid is also constrained;
+        trade-to-chip-export-leakage-pool supplies the addressable pool that
+        acceptance-to-leakage-attribution multiplies. Trade cards
+        (trade-to-equipment-lead-times, trade-to-embodied-intensity) are NOT
+        invoked - this world holds the trade driver at reference; they belong to
+        the trade-restricted overlay.
+      discriminating_observables:
+        - &gt;
+          PUC waiver/exit-fee dockets and tariff refusals at scale (M9
+          tariff-take-or-pay indicator activation)
+        - Siting moratoria and permitting denials
+        - &gt;
+          BIS chip-export license expansions (M8&#x27;s named leading indicator for the
+          leakage pool - &quot;watch BIS approvals, not groundbreakings&quot;)
+        - &gt;
+          Hyperscaler international capex disclosures separating US-substitutable
+          from sovereign demand
+        - Domestic queue-withdrawal acceleration (M1/M9)
+      evidence_backed_vs_asserted: &gt;
+        Evidence-backed: strict tariffs and siting friction reduce domestic
+        conversion (AEP Ohio collapse under take-or-pay; Georgia Power 14.3 GW
+        single-quarter exit, M1/M4, Tier 1); the chip-export gate physically caps
+        near-term foreign deployment regardless of attribution (Commerce licensed
+        only ~35k GB300-class chips each to G42/HUMAIN vs 11+ GW Gulf ambition,
+        M8, Tier 1). ASSERTED (flagged): that backlash &quot;raises leakage&quot; - the
+        attribution share is carried as [0.10, 0.50] with NO identification
+        strategy (M8, leaning irreducible); the mechanism is documented but its
+        magnitude, and even its dominance over the domestic-load reduction, are
+        not; the carrying card acceptance-to-leakage-attribution is stress-only.
+        Also weak: &quot;less domestic on-site gas&quot; - M5 finds on-site gas driven by
+        speed-to-power and cheap Permian gas in ERCOT/TX, not primarily by siting
+        acceptance.
 
-<section aria-labelledby="s-decision">
-  <h2 id="s-decision">The decision on record</h2>
-  <p>This channel carries the project's most recent audit, and the exchange is worth reading in full because it is the collaboration working as designed: a one-paragraph challenge from the review seat became a commissioned refutation attempt, two confirmed defects, and a recorded correction — in three days.</p>
+    market-correction:
+      name: Market Correction
+      gloss: &gt;
+        The AI capital cycle turns; demand, construction, and some clean contracts
+        unwind together.
+      story: &gt;
+        The AI capital cycle turns. Capex guidance is cut, financing tightens,
+        some GPU-backed debt fails to refinance, and realized demand comes in well
+        below the recent trajectory. Fewer facilities get built; construction and
+        chip deployment fall, taking embodied emissions down. Some clean contracts
+        are renegotiated or repudiated as offtakers weaken - but not all: projects
+        already under construction get finished and strand-and-stay, and
+        take-or-pay tariffs convert cancelled load into billed minimums
+        (protecting utility revenue, not consumed electricity). The paradox the
+        model keeps rediscovering: even in a bust, emissions can still rise,
+        because the clean-procurement offset shrinks faster than the load does -
+        unless the not-yet-built contracted clean survives, in which case the sign
+        moves back toward zero. Note the naming distinction: &quot;the bust&quot; remains
+        the external name of the demand-disappointment demand PATH; Market
+        Correction is the world that contains that path plus its financing and
+        contract consequences.
+      driver_settings:
+        ai_demand_financing: &gt;
+          low (demand-disappointment / &quot;the bust&quot; consumption correction path,
+          multiplier 0.40-0.72 on the consensus anchor, whose derivation ALREADY
+          embeds non-materialization - never discounted again)
+        grid_investment_cost_allocation: &gt;
+          reference-to-stranded (build-ahead capex risks stranding)
+        clean_delivery: cancellation-exposed
+        trade_geopolitics: reference
+        public_acceptance: reference
+      expected_emissions_sign: &gt;
+        near zero, positive-central; the most fragile sign in the set
+      transition_lean: mixed (accelerating-state but emitting)
+      sign_confidence_note: &gt;
+        Flipped sign across historical runs (-220 -&gt; +187 -&gt; +210) as the measured
+        offset moved; robust only for the ~10 GW physically committed clean slice.
+        Positive for the sunk ~10 GW slice; sign can move toward zero/negative if
+        the ~13 GW at-risk forward-contracted clean attenuates.
+      cards_invoked:
+        - demand-to-realized-load
+        - demand-to-procurement-volume
+        - demand-to-embodied-emissions
+      cards_invoked_note: &gt;
+        No leakage card: this world holds trade at reference and is a pure
+        demand/capital collapse - a capital collapse is not foreign relocation, so
+        trade-to-chip-export-leakage-pool and acceptance-to-leakage-attribution
+        are not invoked.
+      discriminating_observables:
+        - &gt;
+          &gt;=2 majors cut capex guidance &gt;=15% in consecutive quarters, or first
+          2027 guidance &lt;= 2026 actuals (M9 panel)
+        - &gt;
+          A second hyperscaler shortens GPU depreciation, or any major to &lt;=4 yr
+        - &gt;
+          Neocloud credit spreads &gt;+300 bps, or a pulled/failed refi on the
+          2026-27 wall, or a default/collateral seizure
+        - Signed (contracted+) GW DECLINES across deals-ledger refreshes
+        - ERCOT SB6 Batch-Zero attrition spike (~2027-06)
+        - Take-or-pay exit-fee/waiver events in PUC dockets
+      discriminating_observables_note: &gt;
+        The M9 leading-indicator panel&#x27;s activation set; all Tier-1/Tier-2 as
+        tagged in demand-trajectory.leading_indicator_panel.
+      evidence_backed_vs_asserted: &gt;
+        Evidence-backed: construction, chip deployment, and embodied emissions
+        fall with a demand/capital collapse (accounting identity on constructed
+        GW, M8); the ~10 GW physically-committed clean strands-and-stays (2001
+        dark-fiber analog, 85% of laid fiber dark through 2005, M0); take-or-pay
+        protects utility REVENUE, not consumed TWh (M9 re-derivation
+        clarification, 2026-07-15). ASSERTED / fragile (flagged): that the full
+        ~23 GW / ~67.5 TWh/yr clean floor survives - the ~13 GW forward-contracted
+        slice is bust-vulnerable (offtaker distress -&gt; repudiation/renegotiation;
+        telecom forward contracts repudiated in bankruptcy, M0); carry it as
+        at-risk-in-bust, not a hard floor. The demand-to-procurement-volume card
+        is stress-only on the upward response; only the committed-vs-contracted
+        floor is calibrated. The plan&#x27;s &quot;residue of stranded grid investment&quot; is
+        qualitatively supported (obligation-to-serve build-ahead, M4) but its
+        emissions consequence is NOT quantified anywhere.
 
-  <div class="decision">
-    <div class="decision-head">
-      <span class="t">Decision record · 12 July 2026</span>
-      <span class="chip approved">Approved and applied</span>
-    </div>
-    <div class="decision-body">
-      <blockquote>"What is the evidence for retail rate increases at a national level due to data centers? My understanding is that is quite unsolved despite clickbaiting news coverage."<br><span class="attr">— the challenge, from the review seat, 12 July 2026</span></blockquote>
-      <p>The audit set out to refute the module's treatment and largely vindicated the challenge. The underlying science was honest — the module itself had already flagged the effect as regionally concentrated — but two defects stood between it and what readers saw. The synthesis was sampling this channel's full across-futures range inside every individual future, which double-counted the uncertainty and tripled the channel's contribution to the headline. And the public essay attributed a $21-a-month Washington, DC bill increase entirely to data centers, when only about $10 of it traces to the capacity surge they roughly half drove.</p>
-      <p>The approved fix gives each demand future its own band, weights draws toward the central estimate, and corrects the essay's wording — with the correction disclosed as a correction. A defensible widening of the accelerating tail (bills falling as fixed costs spread) was approved in principle, with quantification required before any band changes.</p>
-    </div>
-    <div class="effects">
-      <div class="effect"><div class="k">Channel mean</div><div class="v num"><span class="from">+7.7</span><span class="arr">→</span>+2.4 Mt/yr</div></div>
-      <div class="effect"><div class="k">Headline, 2025–2035</div><div class="v num"><span class="from">+449</span><span class="arr">→</span>+412 Mt</div></div>
-      <div class="effect"><div class="k">Uncertainty rank</div><div class="v num"><span class="from">#3</span><span class="arr">→</span>#5 of 12</div></div>
-    </div>
-  </div>
-</section>
+  mechanism_cards:
 
-<section aria-labelledby="s-respond">
-  <h2 id="s-respond">Respond</h2>
-  <p>Responses land in the project inbox and become dated proposals — the evidence, the exact change, and nothing applied until the decision is recorded on this page. Approving takes one line. Contesting takes two: the value you would use, and why.</p>
-  <div class="respond">
-    <a href="mailto:matt.boegner@gmail.com?subject=%5Breview%5D%20M7%20price%20feedback%20%E2%80%94%20approve&body=I%27ve%20read%20the%20M7%20brief.%20Approved%20as%20it%20stands.">
-      <b>Approve as it stands</b>
-      <span>Endorse the current bands and scope for this channel.</span>
-      <span class="go">Send the one-liner →</span>
-    </a>
-    <a href="mailto:matt.boegner@gmail.com?subject=%5Breview%5D%20rate-feedback-loop%20%E2%80%94%20contest&body=Assumption%3A%20the%20rate-feedback%20loop%20(rate-feedback-loop)%0A%0AWhat%20I%27d%20contest%20(band%2C%20central%2C%20or%20scope)%3A%0A%0AThe%20evidence%20or%20reasoning%3A%0A">
-      <b>Contest an assumption</b>
-      <span>Name the band or scope you disagree with; it becomes a proposal.</span>
-      <span class="go">Open a pre-filled note →</span>
-    </a>
-    <a href="mailto:matt.boegner@gmail.com?subject=%5Breview%5D%20M7%20%E2%80%94%20source%20or%20figure%20flag&body=Page%3A%20M7%20analysis%20brief%0A%0AThe%20figure%20or%20source%20in%20question%3A%0A%0AWhat%20looks%20wrong%3A%0A">
-      <b>Flag a source or figure</b>
-      <span>Point at a citation, a date, or a number that looks off.</span>
-      <span class="go">Flag it →</span>
-    </a>
-  </div>
-</section>
+    demand-to-realized-load:
+      section: &quot;4.1&quot;
+      driver: ai_demand_financing
+      affected_parameter:
+        registry_ids: [demand-trajectory]
+        model_params: [scenario_mult, consensus_2030_twh, baseline_2024_twh]
+        units: TWh/yr (realized facility-basis electricity consumption)
+        denominator_basis: &gt;
+          consumption_forecast, consumed undiscounted (the speculative-load
+          discount must never be applied to it)
+      mechanism: &gt;
+        Financing conditions and AI demand realization select which
+        consumption-forecast scenario the world runs; looser financing / stronger
+        demand select a higher anchor, tighter financing / weaker demand a lower
+        one.
+      sign: higher demand -&gt; higher load
+      lag: contemporaneous to ~2-year build lag
+      region_or_market: national (the anchors are national consumption forecasts)
+      response_low_central_high:
+        low: &gt;
+          demand-disappointment path (x0.40-0.72 on the consensus anchor, ~357 TWh
+          central 2030)
+        central: consensus 649 TWh (2030)
+        high: jevons-high 843 TWh (2030)
+        note: &gt;
+          Monotone selection among the four approved scenario distributions; NO
+          re-discounting of any anchor.
+      evidence_status: calibrated
+      evidence_status_note: &gt;
+        The scenario SET is irreducible and its anchors are measured consumption
+        forecasts; the mapping from financing/demand conditions to which scenario
+        is the calibrated part (M9 panel), not a coefficient.
+      owner_module: m9-demand-durability
+      double_counting_tags:
+        - &gt;
+          Feeds demand-to-procurement-volume, demand-to-embodied-emissions, and
+          grid-constraint-to-btm-gas (all downstream of realized/firm load) - do
+          not let those cards also re-scale load.
+      falsifier: &gt;
+        EIA/LBNL realized annual consumption tracking a different scenario rung
+        than the world selects (e.g. actuals at the LBNL reference while the world
+        runs the bust) for two vintages.
+      supporting_evidence:
+        - claim: &gt;
+            M9 durability ledger and leading-indicator panel (capex ~$725B 2026,
+            +77%; revenue ~$267B run-rate)
+          tier: Tier 2 compilation of Tier-1 filings; motivated both ways
+        - claim: LBNL 2025 Update band 521-843 TWh (2030)
+          tier: Tier 1
+        - claim: EIA Dec-2025 downgrade
+          tier: Tier 1
+      contradicting_evidence:
+        - claim: &gt;
+            EIA&#x27;s downgrade and utility self-discounts pull toward lower
+            realization
+          tier: Tier 1
+        - claim: NVIDIA &gt;=$1T booked backlog pulls higher
+          tier: Tier 1, maximally motivated
+        - claim: The record is genuinely two-sided (M9)
+          tier: module finding
 
+    demand-to-procurement-volume:
+      section: &quot;4.2&quot;
+      driver: ai_demand_financing
+      affected_parameter:
+        registry_ids:
+          - ppa-additionality-shares
+          - contracted-clean-capacity-factor
+          - fixed-procurement-anchor
+        model_params: [additionality_share, clean_cf, contracted_clean_gw]
+        units: TWh/yr (additional clean generation delivered)
+        denominator_basis: &gt;
+          contracted-or-better lifecycle stages (announced excluded)
+      mechanism: &gt;
+        Clean capacity contracted per unit of firm realized load, converted to
+        operation by lifecycle stage, with cancellation/renegotiation under a
+        capital correction; projects already under construction are the floor.
+      sign: &gt;
+        more firm load -&gt; more contracted clean; a bust -&gt; cancellation of the
+        not-yet-built slice
+      lag: multi-year
+      region_or_market: &gt;
+        national; contract firmness (take-or-pay vs loose) conditions the floor
+      response_low_central_high:
+        low: &gt;
+          bust - floor at the ~10 GW physically committed slice only
+          (under-construction + energized); ~13 GW forward-contracted AT-RISK
+          (offtaker repudiation)
+        central: &gt;
+          reference - the current ~67.5 TWh/yr additional-class floor at the
+          &gt;80 GW anchor x CF 0.31 x energy-basis additionality
+        high: &gt;
+          more contracted clean per unit load (magnitude UNESTIMATED)
+      evidence_status: stress-only
+      evidence_status_note: &gt;
+        Stress-only on the UPWARD response - M3 measured the level (what is
+        contracted today), not the response (how contracted clean scales with
+        realized load). The downside floor (committed vs at-risk by lifecycle
+        stage) is calibrated.
+      stress_only_rule: &gt;
+        This card&#x27;s upward response cannot move a published central; it is a
+        labeled stress with a wide range until a module supplies a
+        contracting-per-unit-load response estimate.
+      owner_module: m3-procurement-impact
+      double_counting_tags:
+        - &gt;
+          Shares the demand coupling with demand-to-realized-load (do not re-scale
+          load).
+        - &gt;
+          The bust cancellation must not also be counted as leakage
+          (acceptance-to-leakage-attribution) - a capital collapse is not foreign
+          relocation (plan; M8).
+      falsifier: &gt;
+        A demand collapse in which contracted clean delivery is observed to hold
+        flat (no cancellation of forward PPAs) would falsify the at-risk
+        treatment; conversely, cancellation of under-construction projects would
+        falsify the ~10 GW hard floor.
+      supporting_evidence:
+        - claim: &gt;
+            M3 deals ledger (46 deals, 27.9 GW headline, energy-basis
+            additionality)
+          tier: &gt;
+            Tier-2-dominant, motivated (hyperscaler/developer PR); Tier-1 nuclear
+            anchors
+        - claim: &gt;
+            M0 committed-vs-contracted floor split (2001 telecom precedent)
+          tier: Tier-1-ish (Richmond Fed)
+      contradicting_evidence:
+        - claim: The ~13 GW forward slice is bust-vulnerable (M0)
+          tier: module finding
+        - claim: &gt;
+            Reallocation-of-existing nuclear (35% of contracted energy) causes
+            ~zero additional clean (M3)
+          tier: module finding
+
+    demand-to-embodied-emissions:
+      section: &quot;4.3&quot;
+      driver: ai_demand_financing
+      affected_parameter:
+        registry_ids: [embodied-emissions-share]
+        model_params: [embodied_band]
+        units: Mt CO2/yr (embodied / Scope-3 emissions of chips + construction)
+        denominator_basis: constructed IT capacity (GW-IT)
+      mechanism: &gt;
+        Embodied tonnes = constructed IT/building GW x technology-specific per-GW
+        intensity x replacement cadence. Construction responds to the demand
+        future; a demand/capital collapse reduces construction and chip deployment
+        rather than leaving a flat national band.
+      sign: &gt;
+        more constructed GW -&gt; more embodied (front-loaded at build); less in a
+        bust
+      lag: front-loaded at build time
+      region_or_market: national; largely offshore supply chain
+      response_low_central_high:
+        low: ~2.8 Mt/yr
+        central: ~10.2 Mt/yr
+        high: ~22.1 Mt/yr
+        note: &gt;
+          Scaling with ~20-50 GW-IT incremental by 2030 (0.14-0.44 Mt/yr per
+          GW-IT).
+      evidence_status: measured
+      evidence_status_note: &gt;
+        The one card resting on an accounting identity with Tier-1-measured
+        intensities; judgment sits in the inputs (boundary, cadence), not in the
+        sign. The construction-vs-demand coupling is near-definitional.
+      owner_module: m8-leakage-supply-chain
+      double_counting_tags:
+        - &gt;
+          The trade driver also moves embodied intensity
+          (trade-to-embodied-intensity) - do not double-apply the intensity shift;
+          this card moves VOLUME.
+      falsifier: &gt;
+        A published absolute per-node (or per-Blackwell) embodied figure that
+        falls outside the [2.8, 22.1] Mt/yr band at the modeled GW-IT; or a bust
+        in which construction/chip deployment does NOT fall with demand.
+      supporting_evidence:
+        - claim: Google TPU LCA (~10-25% embodied share)
+          tier: Tier 1
+        - claim: A100 GPU LCA
+          tier: Tier 1
+        - claim: imec node-advance wafer-emissions trend
+          tier: Tier 1
+      contradicting_evidence:
+        - claim: &gt;
+            Boundary inconsistency - chip-only ~10-25% vs full-facility ~30-69%
+            over a 60-yr horizon
+          tier: &gt;
+            iMasons Tier-2 consortium, motivated (market-based accounting inflates
+            the share)
+        - claim: Per-compute embodied FALLS even as per-wafer RISES
+          tier: Tier 1 (LCA / node data)
+
+    cost-allocation-to-speculative-load-to-steel:
+      section: &quot;4.4&quot;
+      driver: grid_investment_cost_allocation
+      affected_parameter:
+        registry_ids: [demand-risk-allocation, phantom-load-haircut]
+        model_params: []
+        units: GW (realized built capacity and rate-based gas)
+        denominator_basis: &gt;
+          requested/announced large-load GW reaching steel-in-the-ground
+      mechanism: &gt;
+        Who bears demand risk determines how much speculative load becomes built
+        generation. Take-or-pay (organized markets) and merchant-risk+collateral
+        (ERCOT) push load toward realness and off the ratepayer;
+        obligation-to-serve + IRP (Southeast/Mountain West) socializes it and
+        builds AHEAD of even ~50%-speculative load - the dirtiest conversion.
+      sign: &gt;
+        socialized/obligation-to-serve -&gt; more rate-based gas built ahead;
+        customer-cost-responsible -&gt; less speculative steel
+      lag: ~1-3 yr IRP-to-steel
+      region_or_market: &gt;
+        explicitly region- and market-structure-specific (PJM, ERCOT, Southeast,
+        Mountain West blocks in the registry)
+      response_low_central_high:
+        low: &gt;
+          ERCOT merchant+collateral (least steel; zero fossil retirement slips)
+        central: mixed national blend
+        high: &gt;
+          Southeast obligation-to-serve (Georgia ~9.4 GW new gas + coal-delay
+          against ~90%-DC load growth)
+      evidence_status: calibrated
+      evidence_status_note: &gt;
+        One measured episode (AEP Ohio) plus documented region structures; the
+        emissions consequence is region-specific and confounded with endowment,
+        so calibrated, not measured.
+      owner_module: m4-market-structure-panel
+      double_counting_tags:
+        - &gt;
+          The speculative-load discount (phantom-load-haircut) carries the same
+          demand-risk deflation on the pipeline side - this card must act on the
+          REQUEST PILE / built capacity, never as a second discount on a
+          consumption forecast.
+        - &gt;
+          The rate consequence is carried by
+          cost-allocation-to-retail-rate-electrification.
+      falsifier: &gt;
+        An obligation-to-serve region declining to build ahead of speculative
+        load, or an organized market socializing demand risk to ratepayers at
+        scale.
+      supporting_evidence:
+        - claim: &gt;
+            AEP Ohio 30-&gt;13-&gt;11.1 GW under take-or-pay (a clean measured natural
+            experiment)
+          tier: Tier 1
+        - claim: GA PSC dockets
+          tier: Tier 1
+        - claim: M4 panel
+          tier: module finding
+      contradicting_evidence:
+        - claim: &gt;
+            Structure is confounded with resource endowment (Texas clean,
+            Southeast cheap-gas/weak-wind) - M4&#x27;s own falsification, high weight
+          tier: module finding
+        - claim: &gt;
+            The capacity-vs-energy-only axis does NOT discriminate (PJM ~= ERCOT
+            ~89% clean queue)
+          tier: Tier 1 (queue data)
+
+    cost-allocation-to-retail-rate-electrification:
+      section: &quot;4.5&quot;
+      driver: grid_investment_cost_allocation
+      affected_parameter:
+        registry_ids: [rate-feedback-loop, electrification-price-elasticity]
+        model_params: [rate_feedback_band, elasticity]
+        units: Mt CO2/yr at 2035 (suppressed electrification and its emissions)
+        denominator_basis: &gt;
+          non-DC billing base; % rate change per incremental DC GW
+      mechanism: &gt;
+        The non-DC revenue-requirement change (incremental generation, capacity,
+        network, financing costs, MINUS direct DC payments, fixed-cost spreading,
+        and avoided costs) divided by the non-DC billing base sets the rate
+        change; rate change x elasticity x exposed electrification base sets
+        suppressed TWh. The sign is NOT structurally fixed: a firm
+        high-load-factor customer paying its incremental costs can LOWER other
+        customers&#x27; rates.
+      sign: two-sided; central positive (emissions-raising) in the consensus
+      lag: regulatory arc 9-28 months (central ~18), anticipatory
+      region_or_market: &gt;
+        concentrated in PJM&#x27;s capacity market today; national blend is a first
+        pass
+      response_low_central_high:
+        low: consensus -1.23 Mt/yr (2035)
+        central: consensus +2.41 Mt/yr (2035)
+        high: consensus +12.69 Mt/yr (2035)
+        note: &gt;
+          jevons-high up to +17.7; demand-disappointment -0.6 central.
+          Fixed-cost-spreading low end (EPRI ~-3.5% residential per DC-capacity
+          doubling) suggests -4 to -6 Mt/yr is defensible but is NOT yet
+          quantified.
+      evidence_status: calibrated
+      evidence_status_note: &gt;
+        Calibrated for the emissions-raising suppression leg (M7 Tier-1 dose
+        anchors). The rate-LOWERING leg the Boom, Grid Keeps Up world relies on is
+        stress-only: the fixed-cost-spreading low end is unquantified and the
+        regional cost-causation bridge the plan requires does not exist.
+      stress_only_rule: &gt;
+        Applies to the rate-lowering leg only: it cannot move a published central
+        until M7 v2 quantifies the low-end widening.
+      owner_module: m7-price-feedback
+      double_counting_tags:
+        - &gt;
+          The siting-suppression leg is carried by phantom-load-haircut /
+          demand-risk-allocation (cost-allocation-to-speculative-load-to-steel),
+          EXCLUDED here to avoid the double-count that zero-centred the old
+          placeholder; M7 v2 owes a re-derivation of this scope now that the
+          channel-level discount is gone (open, per the 2026-07-14 anchor-basis
+          audit).
+      falsifier: &gt;
+        A firm high-load-factor DC customer paying incremental costs and
+        demonstrably lowering average residential rates (the plan&#x27;s required test
+        case), or a second capacity market tightening the way PJM did.
+      supporting_evidence:
+        - claim: &gt;
+            PJM IMM counterfactual auction re-runs (DC-attributable RPM revenue
+            ~$9.3B 25/26, ~$6.5B of $16.4B 27/28) - the strongest anchors in the
+            project
+          tier: Tier 1
+        - claim: Elasticity literature (Davis heat-pump; Bushnell EV)
+          tier: Tier 1
+      contradicting_evidence:
+        - claim: &gt;
+            LBNL/Brattle decomposition attributes most of 2019-2025 residential
+            increases to capex/fuel/storms, not load growth - the national causal
+            claim is &quot;unresolved-to-contradicted outside PJM&quot;
+          tier: Tier 1
+        - claim: EPRI -3.5% and E3 null correlation
+          tier: &gt;
+            Tier 2, industry/coalition-funded, motivated toward benign framing
+
+    adequacy-gap-to-retirement-delay:
+      section: &quot;4.6&quot;
+      driver: [grid_investment_cost_allocation, clean_delivery]
+      driver_note: &gt;
+        The grid/clean-delivery ADEQUACY GAP, plus policy orders and firm realized
+        load - not a fixed national quantity that moves only with DOE attribution.
+      affected_parameter:
+        registry_ids: [retirement-delay-dispatch]
+        model_params:
+          - retire_cf
+          - dc_attribution
+          - coal_intensity
+          - retire_planned_gw
+          - retire_actual_gw
+        units: Mt CO2, net consequential (delayed fossil generation emissions)
+        denominator_basis: &gt;
+          delayed capacity (GW) x measured capacity factor x slip window
+      mechanism: &gt;
+        Retirement delays condition on the regional adequacy gap, transmission
+        delivery, replacement-resource completion, policy orders, and firm
+        realized load. The delay-to-emissions step uses measured unit capacity
+        factors, never nameplate.
+      sign: &gt;
+        larger adequacy gap / slower clean delivery -&gt; more/longer delay
+        (emissions-raising)
+      lag: multi-year
+      region_or_market: &gt;
+        regional adequacy gap; obligation-to-serve/RMR regions retain, ERCOT does
+        not
+      response_low_central_high:
+        low: measured CF 0.11
+        central: measured CF 0.33
+        high: measured CF 0.60
+        note: &gt;
+          Net consequential ~11.8 Mt over observed 1-24-mo slip windows, growing
+          with renewed DOE orders. The AMOUNT of delay attributable to the
+          grid/demand driver is unestimated.
+      evidence_status: stress-only
+      evidence_status_note: &gt;
+        Stress-only on the DRIVER RESPONSE (how much delay per unit adequacy gap
+        or DC load) - that attribution is unestablished. The dispatch conversion
+        (delay GW -&gt; tonnes via measured CF) is measured but is a downstream
+        registry value, not a driver-response. Open item for M2 (not resolved
+        here): module prose counts one co-driver plant (South Oak Creek) while
+        the registry codes units: 2 (&quot;South Oak Creek 7-8&quot;) - a plant-vs-unit
+        inconsistency to reconcile.
+      stress_only_rule: &gt;
+        The driver-&gt;delay response cannot move a published central; it is a
+        labeled stress routed through the policy-regime
+        orders-continue/orders-lapse branch until CEMS + attribution work lands.
+      owner_module: m2-retirement-emissions
+      double_counting_tags:
+        - &gt;
+          The retirement-optionality second-order refund (post-2030 clawback)
+          applies to this channel&#x27;s tail - do not double-count the refund.
+      falsifier: &gt;
+        Hourly EPA CEMS on DOE-ordered units showing post-order dispatch far from
+        the modeled CF; or an IRP that names data-center load (not
+        policy/reliability) as the decisive retirement-delay driver.
+      supporting_evidence:
+        - claim: M2 measured CFs from EIA-923
+          tier: Tier 1
+        - claim: DOE 202(c) order texts
+          tier: Tier 1
+        - claim: The delay-&gt;emissions dispatch conversion is measured
+          tier: module finding
+      contradicting_evidence:
+        - claim: &gt;
+            M2 found ZERO of 13 slipped units name data-center demand as the sole
+            driver (one co-driver plant, South Oak Creek); 7 of 13 are DOE-order
+            driven. Retirement pressure routes through policy-regime, not the
+            demand/grid driver.
+          tier: Tier 1 (order texts, IRPs)
+
+    delivery-to-clean-lifecycle-conversion:
+      section: &quot;4.7&quot;
+      driver: clean_delivery
+      affected_parameter:
+        registry_ids: [ppa-additionality-shares, equipment-lead-times]
+        model_params: [additionality_share]
+        units: additional clean TWh/yr delivered by year
+        denominator_basis: contracted-or-better clean capacity (GW) -&gt; energized
+      mechanism: &gt;
+        Delivery conditions (interconnection timing, equipment availability,
+        technology-specific lags) set how fast contracted clean reaches
+        operation; fast delivery lands clean with the load, slow delivery leaves
+        it years behind.
+      sign: faster delivery -&gt; more clean sooner (accelerating)
+      lag: &gt;
+        technology-lag scale (solar/storage fast, transformers 24-60 mo, gas
+        5-6 yr)
+      region_or_market: &gt;
+        ERCOT connect-and-manage fastest (~3.8 yr); PJM ~5.8 yr; CAISO slowest
+        (~7.9 yr)
+      response_low_central_high:
+        low: &gt;
+          slow (transformer/interconnection binding; clean slips past the
+          horizon)
+        central: reference lifecycle-stage conversion
+        high: fast (clean energizes with the load)
+      evidence_status: calibrated
+      evidence_status_note: &gt;
+        Lifecycle-stage conversion and lead-time levels are documented; the
+        world-&gt;delivery-speed mapping is a documented-case calibration, not a
+        measured response coefficient.
+      owner_module: m3-procurement-impact (conversion) / m5-transmission (timing)
+      double_counting_tags:
+        - &gt;
+          Trade restriction also lengthens delivery
+          (trade-to-equipment-lead-times) - apply the lead-time extension once.
+      falsifier: &gt;
+        Commercial-operation records showing contracted clean energizing on a
+        schedule the world&#x27;s delivery setting contradicts.
+      supporting_evidence:
+        - claim: M3 lifecycle-stage shares
+          tier: Tier-2-dominant ledger, motivated; Tier-1 anchors for nuclear
+        - claim: M5 queue-processing medians from LBNL
+          tier: Tier 1
+        - claim: equipment-lead-times
+          tier: &gt;
+            Wood Mac Tier 2, motivated toward a shortage narrative; NIAC/DOE
+            Tier 1
+        - claim: gas-turbine-constraint (settled)
+          tier: Tier 2 OEM comms against their own interest
+      contradicting_evidence:
+        - claim: &gt;
+            A broker (Bolt Electrical) claims 12-14-mo transformer lead times,
+            attributing the shortage to procurement not physical capacity
+          tier: Tier 2
+
+    delivery-to-marginal-emission-factor:
+      section: &quot;4.8&quot;
+      driver: [clean_delivery, grid_investment_cost_allocation]
+      driver_note: &gt;
+        Clean-delivery and grid conditions set the regional supply response; a
+        world must NOT pick a favorable factor because its narrative is favorable
+        - the factor follows from the supply response.
+      affected_parameter:
+        registry_ids: [marginal-emissions-factor]
+        model_params: [mef]
+        units: kg CO2/MWh (tonnes = value/1000); long-run marginal for new load
+        denominator_basis: &gt;
+          MWh of incremental load served; LRMER combustion, end-use
+      mechanism: &gt;
+        The regional supply response the world represents (clean + transmission
+        delivery, retirement availability, policy) sets which regional LRMER
+        trajectory the increment is served on.
+      sign: &gt;
+        cleaner delivery -&gt; lower long-run marginal (can fall BELOW today&#x27;s
+        average by 2030-2035 in several regions); dirtier/slower -&gt; higher
+      lag: decade-scale
+      region_or_market: &gt;
+        regional (Cambium LRMER by ISO, e.g. ERCOT 2030 151 -&gt; 2035 53; SPP 2030
+        416; PJM 2030 216 kg/MWh); the current model uses a national five-ISO mean
+      response_low_central_high:
+        low: &gt;
+          clean-weighted region mix (toward the ERCOT/CAISO low trajectories)
+        central: five-ISO mean central band [135, 360] kg CO2/MWh
+        high: fossil-weighted mix (toward SPP/gas-only 400-600 kg CO2/MWh)
+      evidence_status: stress-only
+      evidence_status_note: &gt;
+        Stress-only for the WORLD-&gt;REGION-MIX response: the regional LRMER levels
+        are Tier-1 measured, but the model is a national blend
+        (national-aggregation, structural/contested) and cannot yet express
+        regional co-movement, so any world-conditional shift of the region
+        weighting is judgment.
+      stress_only_rule: &gt;
+        The region-mix shift cannot move a published central until regional
+        resolution lands in the world layer (the main evidenced path to narrowing
+        the project&#x27;s largest tornado swing).
+      owner_module: synthesis / m5-transmission (regional); m2/m3 consume it
+      double_counting_tags:
+        - &gt;
+          The retirement (adequacy-gap-to-retirement-delay) and clean-delivery
+          (delivery-to-clean-lifecycle-conversion) cards already move the supply
+          response that SETS this factor - do not also hand-adjust the factor for
+          the same effect.
+      falsifier: &gt;
+        Realized regional marginal factors (measured dispatch) diverging from the
+        Cambium LRMER trajectory the world&#x27;s supply response implies.
+      supporting_evidence:
+        - claim: Cambium 2024 LRMER Mid-case (OEDI)
+          tier: Tier 1
+        - claim: Gagnon &amp; O&#x27;Shaughnessy LRMER-vs-SRMER authority
+          tier: Tier 1
+      contradicting_evidence:
+        - claim: &gt;
+            SRMER not obtained (short-run slot still filled by WattTime MOER);
+            method choice (LRMER vs MOER) is potentially sign-flipping and must
+            carry the tag
+          tier: Tier 2, motivated (sells marginal-emissions data)
+
+    grid-constraint-to-btm-gas:
+      section: &quot;4.9&quot;
+      driver: clean_delivery
+      driver_note: &gt;
+        Grid-delivery constraint plus firm load seeking service BEFORE grid
+        connection (firm-load level fed by demand-to-realized-load).
+      affected_parameter:
+        registry_ids: [btm-bridge-permanence]
+        model_params: [btm_gas_gw, btm_permanence, btm_gas_cf, btm_gas_intensity]
+        units: GW operating -&gt; TWh/yr -&gt; Mt CO2/yr (on-site bridge gas)
+        denominator_basis: announced BTM gas GW
+      mechanism: &gt;
+        On-site gas scales with firm load seeking service before grid connection,
+        regional interconnection delay, gas-equipment availability, permitting,
+        tariff alternatives, and the probability of continued operation after
+        interconnection. Rises where domestic demand stays high but grid delivery
+        is constrained; declines with less constructed capacity.
+      sign: &gt;
+        more constrained grid + more firm load -&gt; more on-site gas
+        (emissions-raising)
+      lag: near-term (fast-connect); permanence high once built
+      region_or_market: &gt;
+        concentrates in ERCOT/TX and TVA/mid-South (speed-to-power + cheap
+        Permian gas), NOT primarily slow-queue PJM
+      response_low_central_high:
+        low: announced 90 GW x build-conversion 0.10
+        central: central x permanence-given-built 0.75-0.95
+        high: build-conversion 0.35
+        note: &gt;
+          Netted from grid-served load to avoid the BTM double-charge (per the
+          anchor-basis audit). The run-9 model consumes operating btm_gas_gw
+          [1.0, 8.0] GW (interim) rather than the announced-pool decomposition
+          (see proposal section 3).
+      evidence_status: stress-only
+      evidence_status_note: &gt;
+        Stress-only on the response - build-conversion and permanence-given-built
+        LEVELS are documented (M5), but the firm-load-and-delay -&gt; BTM-GW
+        RESPONSE is judgment, and the geographic driver undercuts a pure
+        grid-constraint reading.
+      stress_only_rule: &gt;
+        Cannot move a published central; labeled stress until a second
+        independent BTM aggregate and an EIA-860 peaker-survival base rate exist.
+      owner_module: m5-transmission-channel
+      double_counting_tags:
+        - &gt;
+          Shares btm-bridge-permanence with the acceptance-side permitting card
+          (acceptance-to-btm-permitting); this card moves the FIRM-LOAD-DRIVEN
+          BUILD.
+        - &gt;
+          The BTM-served TWh are netted from the direct-load channel (do not
+          charge both a grid marginal rate and an on-site gas intensity -
+          anchor-basis audit).
+      falsifier: &gt;
+        A verified case of BTM data-center gas retiring after grid connection
+        (none found to date), or build-conversion realizing far above the
+        0.10-0.35 band.
+      supporting_evidence:
+        - claim: M5 BTM census (every row lifecycle-staged)
+          tier: &gt;
+            Tier 2, sponsor/trade-press, motivated toward a gas-buildout
+            narrative
+        - claim: Cleanview ~90 GW announced / ~2 GW operating
+          tier: Tier 2, single-source, motivated; diversify before anchoring
+        - claim: xAI Memphis permit sunset 2027-01-01
+          tier: Tier 1
+      contradicting_evidence:
+        - claim: ~98% of announced BTM is still on paper
+          tier: Tier 2 (census)
+        - claim: Turbine shortage caps buildout this decade
+          tier: Tier 2 (settled, OEM against interest)
+        - claim: &gt;
+            The driver in ERCOT is speed/cheap-gas, NOT queue-bypass - so the
+            &quot;constrained grid -&gt; BTM&quot; response is partly confounded
+          tier: module finding (M5)
+
+    trade-to-equipment-lead-times:
+      section: &quot;4.10&quot;
+      driver: trade_geopolitics
+      affected_parameter:
+        registry_ids: [equipment-lead-times, gas-turbine-constraint]
+        model_params: []
+        model_params_note: &gt;
+          Not read by model.parameter_ranges(); registry-declared skeleton
+          consumers the run-9 model does not actually consume. Carries the
+          trade-restricted overlay, not a reference pin.
+        units: months (order-to-delivery) -&gt; delivered clean TWh/yr slowdown
+        denominator_basis: order-to-delivery months per equipment class
+      mechanism: &gt;
+        Trade restriction lengthens or raises the cost of solar, battery,
+        transformer, turbine, and cable delivery, delaying the clean and network
+        build that serves the increment (act through delivery times, not a
+        generic adjustment).
+      sign: &gt;
+        restriction -&gt; longer lead times -&gt; slower clean/network -&gt; dirtier
+        near-term marginal (delaying)
+      lag: months-to-years
+      region_or_market: &gt;
+        national supply chain; couples to delivery-to-clean-lifecycle-conversion
+        and delivery-to-marginal-emission-factor regionally
+      response_low_central_high:
+        low: current lead times (LPT 24-30 mo, gas 5-6 yr)
+        central: worsening-to-plateau-high
+        high: severe restriction pushing clean past the 2030 horizon
+      evidence_status: stress-only
+      evidence_status_note: &gt;
+        Lead-time LEVELS are documented, but the trade-restriction -&gt; lead-time
+        RESPONSE is a judged conditional range, not a measured elasticity.
+      stress_only_rule: &gt;
+        Cannot move a published central; labeled stress overlay.
+      owner_module: &gt;
+        m8-leakage-supply-chain (trade coupling) / m5 (delivery consequence)
+      double_counting_tags:
+        - &gt;
+          The delivery slowdown is the same effect as
+          delivery-to-clean-lifecycle-conversion&#x27;s slow setting - apply once.
+        - &gt;
+          The embodied-intensity effect of trade is separate
+          (trade-to-embodied-intensity).
+      falsifier: &gt;
+        Clean/network commercial-operation dates holding steady through a
+        documented trade-restriction shock.
+      supporting_evidence:
+        - claim: Wood Mac transformer survey
+          tier: Tier 2, motivated (shortage narrative sells product)
+        - claim: NIAC/DOE LPT reports
+          tier: Tier 1
+        - claim: gas-turbine-constraint (settled)
+          tier: Tier 2 (OEM against interest)
+      contradicting_evidence:
+        - claim: Distribution transformers already easing
+          tier: Tier 1/Tier 2 (mixed)
+        - claim: Broker dissent (procurement not physical capacity)
+          tier: Tier 2
+
+    trade-to-embodied-intensity:
+      section: &quot;4.11&quot;
+      driver: trade_geopolitics
+      affected_parameter:
+        registry_ids: [embodied-emissions-share]
+        model_params: [embodied_band]
+        units: Mt CO2/yr per GW-IT (embodied intensity)
+        denominator_basis: constructed IT capacity (GW-IT)
+      mechanism: &gt;
+        Trade policy and supply-chain reshuffling change where and how chips and
+        clean equipment are made, moving embodied intensity (node advances raise
+        per-wafer emissions; fab-grid decarbonization is too slow to offset
+        before 2030).
+      sign: restriction/node-advance -&gt; higher embodied intensity (delaying)
+      lag: build-time
+      region_or_market: &gt;
+        largely offshore (Taiwan grid factor 0.474 kgCO2e/kWh, 2024)
+      response_low_central_high:
+        low: location-based ~10% share
+        central: ~15%
+        high: market-based CFE or full-facility boundary ~25-30%+
+        note: &gt;
+          This low-&gt;high span is a grid-cleanliness / accounting-boundary axis,
+          not a measured trade-restriction response - the registry&#x27;s
+          embodied-emissions-share.share_axis_note states the [0.10, 0.30] range
+          &quot;is a GRID-CLEANLINESS AXIS ... NOT measurement error around a
+          constant&quot;. The endpoints are accounting-boundary choices (location- vs
+          market-based; chip-only vs full-facility), independent of the trade
+          driver.
+      evidence_status: stress-only
+      evidence_status_note: &gt;
+        The node-advance and grid-factor LEVELS are Tier-1 anchored, but the
+        share span is an accounting-boundary axis, not a measurement band, and
+        the trade-restriction -&gt; intensity RESPONSE is judgment with no measured
+        or documented-case support (a level plus a judged movement is
+        stress-only). Relabeled from calibrated per the 2026-07-15 verification
+        pass (finding F5).
+      stress_only_rule: &gt;
+        Cannot move a published central; labeled stress overlay with a wide range
+        until M8 supplies a measured trade-&gt;intensity response.
+      owner_module: m8-leakage-supply-chain
+      double_counting_tags:
+        - &gt;
+          Shares embodied-emissions-share with the demand-driven construction
+          volume (demand-to-embodied-emissions) - this card moves INTENSITY, that
+          card moves VOLUME; apply each once.
+      falsifier: &gt;
+        An absolute per-node fab emissions series showing intensity flat or
+        falling under trade restriction.
+      supporting_evidence:
+        - claim: imec node-advance trend + Taiwan MOEA grid factor (as-of 2024)
+          tier: Tier 1
+        - claim: Google TPU / A100 LCAs
+          tier: Tier 1
+      contradicting_evidence:
+        - claim: Per-compute embodied falls (B200 -24%/FLOP vs H100)
+          tier: Tier 1/Tier 2
+        - claim: China clean-equipment embodied per GW is unquantified (open gap)
+          tier: gap, no source
+        - claim: &gt;
+            No measured, or even documented-case, trade-restriction -&gt; intensity
+            response exists - the movement under the trade driver is judgment
+            mapped onto a boundary axis
+          tier: verification finding
+
+    trade-to-chip-export-leakage-pool:
+      section: &quot;4.12&quot;
+      driver: trade_geopolitics
+      affected_parameter:
+        registry_ids: [leakage-intensity]
+        registry_field: addressable pool
+        model_params: [leakage_band]
+        units: GW -&gt; Mt CO2/yr (US-substitutable foreign compute that can energize)
+        denominator_basis: US-substitutable international GW energized by year
+      mechanism: &gt;
+        Chip-export licensing physically caps how much displaced compute can
+        actually deploy abroad, independent of the attribution question - the
+        binding near-term leakage gate.
+      sign: &gt;
+        tighter export controls -&gt; smaller addressable pool -&gt; less leakage
+        feasible (an offsetting, accelerating-leaning effect on the cross-border
+        total); license expansions raise it
+      lag: policy-paced
+      region_or_market: Gulf, SE Asia; destination-grid intensity by country
+      response_low_central_high:
+        low: addressable pool 2.0 GW by 2030
+        central: central
+        high: 8.0 GW by 2030
+        note: Gated by BIS approvals.
+      evidence_status: calibrated
+      evidence_status_note: &gt;
+        The chip gate is a Tier-1 measured ceiling; the pool response to it is a
+        documented conditional range. The ATTRIBUTION SHARE (how much of the pool
+        is US-displacement) is a separate, stress-only card
+        (acceptance-to-leakage-attribution).
+      owner_module: m8-leakage-supply-chain
+      double_counting_tags:
+        - &gt;
+          The attribution share (acceptance-to-leakage-attribution) multiplies
+          this pool - do not let a backlash world raise both the pool and the
+          attribution for the same displacement event.
+      falsifier: &gt;
+        BIS license expansions energizing foreign compute far above the
+        addressable band, or export controls tightening with no effect on foreign
+        buildout.
+      supporting_evidence:
+        - claim: &gt;
+            Commerce chip-export approvals (~35k GB300-class chips each to
+            G42/HUMAIN) - a hard, measured ceiling versus 11+ GW Gulf ambition
+          tier: Tier 1
+      contradicting_evidence:
+        - claim: &gt;
+            Gulf programs are heavily sovereign-AI-motivated (would exist anyway)
+          tier: module finding (M8)
+        - claim: No observed US-&gt;foreign substitution to date (M8)
+          tier: module finding
+
+    acceptance-to-leakage-attribution:
+      section: &quot;4.13&quot;
+      driver: public_acceptance
+      affected_parameter:
+        registry_ids: [leakage-intensity]
+        registry_field: attribution share
+        model_params: [leakage_band]
+        units: &gt;
+          dimensionless (fraction of foreign buildout that is US-displacement
+          rather than sovereign/market-seeking) -&gt; Mt CO2/yr
+        denominator_basis: US-substitutable international GW energized
+      mechanism: &gt;
+        Domestic backlash and siting restriction displace domestic compute; some
+        relocates abroad rather than not being built. Backlash can reduce
+        domestic load WHILE raising the leakage fraction - but only if the
+        displaced compute is genuinely relocated, not destroyed.
+      sign: &gt;
+        more backlash -&gt; higher attribution share -&gt; more leakage (if destination
+        is dirtier); the floor is ZERO (clean-destination relocation can negate
+        it)
+      lag: siting/permitting timescale
+      region_or_market: &gt;
+        destination-grid dependent (UAE 1.22x US intensity vs Saudi 1.80x;
+        Norway 0.07x)
+      response_low_central_high:
+        low: attribution share 0.10
+        central: null
+        central_note: no central asserted
+        high: attribution share 0.50
+        note: &quot;Leakage band [0.0, 15.0] Mt/yr, central 3.4.&quot;
+      evidence_status: stress-only
+      evidence_status_note: &gt;
+        The attribution share has NO identification strategy, leans irreducible,
+        and is carried as a wide band by design. This is the mechanism behind the
+        plan&#x27;s &quot;backlash -&gt; more leakage&quot; consequence, which the proposal&#x27;s
+        verdict flags as ASSERTED.
+      stress_only_rule: &gt;
+        Cannot move a published central; it is a labeled stress with a wide
+        range.
+      owner_module: m8-leakage-supply-chain
+      double_counting_tags:
+        - &gt;
+          Multiplies the trade-to-chip-export-leakage-pool addressable pool
+          (apply once).
+        - &gt;
+          The bust&#x27;s demand cancellation (demand-to-procurement-volume) must not
+          be counted here as relocation.
+      falsifier: &gt;
+        A natural experiment (e.g. a siting moratorium) followed by measured
+        US-attributable foreign energization, which would begin to identify the
+        share.
+      supporting_evidence:
+        - claim: Destination intensities, Ember (as-of 2024)
+          tier: Tier 1
+        - claim: &gt;
+            The mechanism is documented in the carbon-leakage/industrial-policy
+            literature
+          tier: peer-reviewed literature
+      contradicting_evidence:
+        - claim: &gt;
+            NO observational identification exists for the attribution share (M8)
+          tier: module finding
+        - claim: &gt;
+            US buildout continues at full pace with no observed substitution
+          tier: module finding
+        - claim: &gt;
+            A capital collapse must NOT be treated as foreign relocation (plan)
+          tier: plan rule
+
+    acceptance-to-realized-demand:
+      section: &quot;4.14&quot;
+      driver: public_acceptance
+      affected_parameter:
+        registry_ids:
+          - demand-trajectory
+          - demand-risk-allocation
+          - phantom-load-haircut
+        registry_field: &gt;
+          demand-trajectory (domestic realized consumption) via
+          demand-risk-allocation / phantom-load-haircut (pipeline side only)
+        model_params: [scenario_mult]
+        units: TWh/yr (domestic realized consumption)
+        denominator_basis: &gt;
+          consumption_forecast for the realized-load endpoint; requested pipeline
+          for the siting intermediates
+      mechanism: &gt;
+        Acceptance sets domestic siting/permitting and tariff cost
+        responsibility, which change how much of the request pile converts to
+        realized domestic load. Backlash lowers realized domestic CONSUMPTION -
+        expressed by selecting a lower consumption scenario or scaling a
+        consumption path, NEVER by re-discounting a consumption-forecast anchor.
+      sign: &gt;
+        more backlash -&gt; lower domestic realized load (fewer domestic emissions)
+      lag: permitting/tariff arc, months-to-years
+      region_or_market: &gt;
+        state tariff/permitting regimes (~23 states with large-load tariffs)
+      response_low_central_high:
+        low: strict-backlash consumption path (below reference)
+        central: reference
+        high: high-acceptance (full conversion of the firm pipeline)
+      evidence_status: stress-only
+      evidence_status_note: &gt;
+        The acceptance -&gt; realized-consumption RESPONSE is a judged scenario
+        shift; the modules measure pipeline-side conversion (a level), not a
+        consumption response to acceptance.
+      stress_only_rule: &gt;
+        Cannot move a published central; labeled stress expressed as a scenario
+        selection, never an anchor discount.
+      owner_module: m4-market-structure-panel / m1-queue-conversion
+      double_counting_tags:
+        - &gt;
+          Must not re-apply the speculative-load discount to the anchor (binding
+          constraint, proposal section 1).
+        - &gt;
+          The demand level is otherwise carried by demand-to-realized-load - this
+          card only shifts which consumption path acceptance selects.
+      falsifier: &gt;
+        Siting moratoria with no measurable effect on realized domestic
+        consumption, or the request pile converting fully despite hardening
+        backlash.
+      supporting_evidence:
+        - claim: AEP Ohio take-or-pay collapse
+          tier: Tier 1
+        - claim: Georgia Power 14.3 GW single-quarter exit
+          tier: Tier 1
+        - claim: ~23-state large-load tariff census (EEI)
+          tier: Tier 2, motivated (utility trade association)
+      contradicting_evidence:
+        - claim: The ERCOT request pile kept growing through SB6
+          tier: Tier 1 (ERCOT data)
+        - claim: &gt;
+            The consumption forecasts already sit at the firm rung, so acceptance
+            may move the PIPELINE more than the FORECAST (anchor-basis audit)
+          tier: project audit finding
+
+    acceptance-to-btm-permitting:
+      section: &quot;4.15&quot;
+      driver: public_acceptance
+      affected_parameter:
+        registry_ids: [btm-bridge-permanence]
+        registry_field: permitting/permanence
+        model_params: [btm_permanence]
+        units: GW -&gt; Mt CO2/yr (on-site gas permitted and its persistence)
+        denominator_basis: announced BTM gas GW
+      mechanism: &gt;
+        Acceptance sets whether on-site gas is permitted and whether temporary
+        permits are enforced as sunsets; backlash can block or sunset BTM gas,
+        acceptance lets it persist as permanent site backup.
+      sign: &gt;
+        more backlash -&gt; less/enforced-temporary BTM gas (emissions-reducing at
+        the margin)
+      lag: permitting timescale
+      region_or_market: &gt;
+        state/local air-permit regimes (TCEQ, MDEQ, Shelby County)
+      response_low_central_high:
+        low: &gt;
+          enforced sunsets (permanence toward 0.75 and build-conversion capped)
+        central: reference
+        high: &gt;
+          permissive (permanence toward 0.95, convert-to-backup)
+      evidence_status: stress-only
+      evidence_status_note: &gt;
+        Permanence and build-conversion LEVELS are documented, but the acceptance
+        -&gt; BTM-permitting RESPONSE is judgment.
+      stress_only_rule: &gt;
+        Cannot move a published central; labeled stress.
+      owner_module: m5-transmission-channel
+      double_counting_tags:
+        - &gt;
+          Shares btm-bridge-permanence with the grid-constraint BTM card
+          (grid-constraint-to-btm-gas) - this card moves PERMITTING/PERMANENCE,
+          that card moves the FIRM-LOAD-DRIVEN BUILD; apply each once, and net
+          BTM-served TWh from the grid channel exactly once.
+      falsifier: &gt;
+        An enforced BTM sunset actually retiring on-site gas (would raise the
+        acceptance response above stress), or a backlash regime failing to block
+        any BTM permit.
+      supporting_evidence:
+        - claim: xAI Memphis permit sunset 2027-01-01 (under legal challenge)
+          tier: Tier 1
+        - claim: MS temporary-unit permits (under legal challenge)
+          tier: Tier 1
+      contradicting_evidence:
+        - claim: No verified voluntary BTM retirement
+          tier: module finding (M5)
+        - claim: The convert-to-permanent-backup design pattern dominates
+          tier: module finding (M5)
+        - claim: &gt;
+            BTM siting is driven by speed/cheap-gas more than acceptance (M5)
+          tier: module finding</code></pre>
+</details></div>
+  <p class="empty-state" id="registryEmpty" hidden>No assumptions match this search.</p>
 </main>
-
-<footer class="seq">
-  <div class="seq-row"><span class="stub " title="Brief not yet written"><span class="lab">← Previous brief</span>6 · Load flexibility</span><span class="stub next" title="Brief not yet written"><span class="lab">Next brief →</span>8 · Leakage and embodied carbon</span></div>
-  <div class="seq-idx">
-    <a href="/">All briefs</a> · <a href="https://demo.mattboegner.com/explorer/">The explorer</a>
-  </div>
-</footer>
+<script>
+(() => {
+  const input = document.querySelector('#registrySearch');
+  const entries = [...document.querySelectorAll('.registry-entry')];
+  const count = document.querySelector('#registryCount');
+  const empty = document.querySelector('#registryEmpty');
+  const button = document.querySelector('#expandRegistry');
+  const render = () => {
+    const query = input.value.trim().toLowerCase();
+    let shown = 0;
+    entries.forEach(entry => {
+      const match = !query || entry.textContent.toLowerCase().includes(query);
+      entry.hidden = !match;
+      if (match) { shown += 1; if (query) entry.open = true; }
+    });
+    count.textContent = `${shown} ${shown === 1 ? 'assumption' : 'assumptions'}`;
+    empty.hidden = shown !== 0;
+  };
+  input.addEventListener('input', render);
+  button.addEventListener('click', () => {
+    const visible = entries.filter(entry => !entry.hidden);
+    const expand = visible.some(entry => !entry.open);
+    visible.forEach(entry => entry.open = expand);
+    button.textContent = expand ? 'Collapse all' : 'Expand all';
+  });
+})();
+</script>

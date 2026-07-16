@@ -1,6 +1,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Price feedback — analysis review</title>
+<title>Factor coverage</title>
 <style>
 
 @font-face {
@@ -376,203 +376,39 @@ figure { margin: 1.6rem 0 1.4rem; }
 }
 
 </style>
-<div class="review-bar">
-  <div class="review-bar-inner">
-    <span class="where">Analysis review · brief 7 of 9</span>
-    <nav aria-label="brief sequence"><span class="stub " title="Brief not yet written">← 6 · load flexibility</span><a href="/">All briefs</a><span class="stub " title="Brief not yet written">8 · leakage and embodied carbon →</span></nav>
+<div class="site-bar"><nav aria-label="Site"><a href="/">Analysis review</a><a href="/assumptions/">Assumptions</a><a href="/factors/" aria-current="page">Factor coverage</a><a href="/explorer/">Explorer</a></nav></div>
+<header class="register-head factor-head">
+  <div class="rubric">Research register</div>
+  <h1>Factor coverage</h1>
+  <p class="dek">Published directly from <code>FACTOR_COVERAGE.md</code>.</p>
+  <div class="register-tools">
+    <label class="search"><span>Search factors</span><input id="factorSearch" type="search" placeholder="Factor, impact, status…" autocomplete="off"></label>
+    <span class="result-count" id="factorCount">All factors</span>
   </div>
-</div>
-<header class="masthead">
-  <div class="rubric">AI and the grid<span class="sep">·</span>module M7<span class="sep">·</span>price feedback</div>
-  <h1>Higher bills slow electrification. So far, the bills are a regional story.</h1>
-  <p class="dek">How data-center demand reaches retail electricity rates, what that does to heat pumps and electric cars, and the correction this channel just absorbed</p>
-  <div class="byline">Figures as of 7 July 2026 · one decision recorded 12 July 2026 · first pass complete, adversarially audited</div>
 </header>
-
-<div class="state-strip" role="list" aria-label="review state">
-  <span class="chip" role="listitem">2 assumptions consumed</span>
-  <span class="chip contested" role="listitem">both contested</span>
-  <span class="chip approved" role="listitem">decision of 12 Jul 2026 — approved</span>
-  <span class="chip" role="listitem">0 awaiting your review</span>
-</div>
-
-<main class="brief">
-
-<section aria-labelledby="s-answer">
-  <h2 id="s-answer">The answer first</h2>
-  <p>Of the nine channels this project prices, none is more political than the electric bill. Data-center demand can raise retail electricity rates; pricier electricity slows the switch away from fossil fuels — fewer heat pumps installed, fewer electric cars charged, fewer gas furnaces retired — and every switch that does not happen keeps its old fuel burning. Our analysis prices that suppression at a central +2.4 million tonnes of CO₂ per year by 2035 under the consensus demand future, inside a 5th-to-95th-percentile band of −2.3 to +17.7.</p>
-  <p>Set against the ledger this project keeps, 2.4 million tonnes a year is a small entry: about one sixth of one percent of what US power plants emitted in 2024 (<a href="https://www.eia.gov/environment/emissions/carbon/">1,427 million tonnes, per the Energy Information Administration</a>), or roughly half a million gasoline cars kept on the road for a year (<a href="https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle">at the EPA's 4.6 tonnes per car</a>). The channel earns a full brief anyway, because the band is wide, the top end is not small, and the sentence underneath it — "data centers are raising your electric bill" — is the most repeated and least settled claim in this debate. What the estimate shows is a real but second-order drag on the transition; what it does not show is a national bill crisis.</p>
-  <p>Three things would move it: the next capacity auction in PJM, the thirteen-state grid operator where the effect is actually measurable; the fate of <a href="https://insidelines.pjm.com/ferc-approves-capacity-auction-price-collar-to-next-two-capacity-auctions/">the federal price cap on that market</a>, due for a decision around mid-2026; and whether any second regional market tightens the way PJM did.</p>
-</section>
-
-<section aria-labelledby="s-how">
-  <h2 id="s-how">How the channel works</h2>
-  <div class="chain" role="img" aria-label="Causal chain: data-center load, to retail rate increase, to electrification forgone, to emissions kept alive">
-    <div class="node"><b>Data-center load</b><span>incremental gigawatts, by demand future</span></div>
-    <div class="arrow" aria-hidden="true">→</div>
-    <div class="node"><b>Retail rates rise</b><span>0.02–0.22% per national gigawatt, capped by political response</span></div>
-    <div class="arrow" aria-hidden="true">→</div>
-    <div class="node"><b>Electrification forgone</b><span>price elasticity × the load exposed by 2035</span></div>
-    <div class="arrow" aria-hidden="true">→</div>
-    <div class="node"><b>Emissions kept alive</b><span>the fossil end-use runs on, net of the grid power it skipped</span></div>
-  </div>
-  <p>The dose is anchored on the strongest evidence in the project: <a href="https://www.utilitydive.com/news/data-centers-pjm-capacity-auction/808951/">the PJM market monitor's counterfactual auction re-runs</a>, which attribute $9.3 billion of one year's capacity-market cost to data-center load. The slope from there to the national average bill is deliberately a band, not a point — PJM passes capacity costs through, Texas's energy-only design mostly does not, and regulated utilities pass them through slowly. The loop also caps itself: regulators respond to load forecasts before bills actually rise (in five of the six documented regulatory arcs, protection arrived one to two and a half years after the load surge, ahead of realized rates), and <a href="https://www.eei.org/-/media/Project/EEI/Documents/Issues%20and%20Policy/List%20of%20Large%20Customer%20Projects%20and%20Tariffs">twenty-four states have already adopted tariffs</a> that pin new costs on the data centers themselves. Suppressed electrification is then priced as emissions using a long-run marginal emission rate — the emissions of the generators that a decade of anticipated demand calls into existence.</p>
-</section>
-
-<section aria-labelledby="s-evidence">
-  <h2 id="s-evidence">What the evidence says, and what it refuses to say</h2>
-  <p>The realized harm is regional and specific. In PJM, the capacity price rose roughly tenfold in two years, the market monitor's counterfactuals attribute most of the surge to data-center load, and <a href="https://opc-dc.gov/wp-content/uploads/2025/05/PJM-Wholesale-Price-Increase-5222025-Revised-1.pdf">about ten dollars a month of Washington, DC's standard-offer bill increase</a> traces to it. Outside PJM the national record points the other way: <a href="https://emp.lbl.gov/news/new-berkeley-lab-report-summarizes-trends-retail-electricity-prices-and-price-drivers">Lawrence Berkeley National Laboratory's decomposition of 2019–2025 rate increases</a> finds distribution and transmission spending, fuel, and storm recovery dominant, with load growth not a major national driver through 2024, and <a href="https://www.ethree.com/electricity-rate-drivers-data-center-role-2026/">independent 2026 analyses find essentially no correlation</a> between data-center concentration and state rates — <a href="https://www.epri.com/research/products/000000003002034696">one causal study</a> estimates that spreading fixed grid costs over new data-center demand left average residential prices about 6% lower over 2019–2024 than they would otherwise have been. Both of those latter studies were industry-funded, and we treat them as motivated; the Berkeley decomposition is not, and it agrees.</p>
-  <p>The honest reading, and the one the estimate encodes: this channel is forward-looking and regionally concentrated — real in PJM now, plausible elsewhere as spare capacity runs out, and genuinely two-sided at the low end, since a large flat load that pays its way can push everyone else's rates down. Only a demand bust turns the central estimate negative (see chart).</p>
-
-  <figure>
-    <div class="fig-title">Only a demand bust turns this channel negative</div>
-    <div class="fig-sub">Net emissions from suppressed electrification at 2035, in Mt CO₂ per year — 5th–95th percentile band and central estimate, by demand future</div>
-    <div class="fig-scroll">
-    <svg class="range-svg" viewBox="0 0 680 240" role="img" aria-label="Range chart of the rate-feedback channel by demand future. Runaway demand: minus 0.6 to plus 17.7, central plus 4.5. Consensus: minus 1.2 to plus 12.7, central plus 2.4. Efficiency catches up: minus 1.9 to plus 5.7, central plus 0.4. The bust: minus 2.3 to plus 2.4, central minus 0.6.">
-      <!-- x scale: v in [-4,19] -> x = 170 + (v+4)/23*480 -->
-      <text class="pole accel" x="240" y="18" text-anchor="end">← accelerates the transition</text>
-      <text class="pole delay" x="286" y="18">delays →</text>
-      <line class="grid" x1="358.3" y1="30" x2="358.3" y2="196"/>
-      <line class="grid" x1="462.6" y1="30" x2="462.6" y2="196"/>
-      <line class="grid" x1="566.9" y1="30" x2="566.9" y2="196"/>
-      <line class="zero" x1="253.9" y1="26" x2="253.9" y2="200"/>
-      <text class="val" x="253.9" y="214" text-anchor="middle">0</text>
-      <text class="val" x="358.3" y="214" text-anchor="middle">+5</text>
-      <text class="val" x="462.6" y="214" text-anchor="middle">+10</text>
-      <text class="val" x="566.9" y="214" text-anchor="middle">+15</text>
-      <text class="val" x="672" y="214" text-anchor="end">Mt CO₂/yr</text>
-
-      <g class="row"><title>Runaway demand: −0.6 to +17.7, central +4.5 Mt CO₂/yr</title>
-        <text class="rowlab" x="158" y="53" text-anchor="end">Runaway demand</text>
-        <line class="band" x1="242.0" y1="48" x2="623.1" y2="48"/>
-        <circle class="dot-emit" cx="348.5" cy="48" r="6"/>
-        <text class="cval" x="348.5" y="34" text-anchor="middle">+4.5</text>
-        <text class="val" x="234" y="52" text-anchor="end">−0.6</text>
-        <text class="val" x="631" y="52">+17.7</text>
-      </g>
-      <g class="row"><title>Consensus: −1.2 to +12.7, central +2.4 Mt CO₂/yr</title>
-        <text class="rowlab" x="158" y="95" text-anchor="end">Consensus</text>
-        <line class="band" x1="228.2" y1="90" x2="518.7" y2="90"/>
-        <circle class="dot-emit" cx="304.2" cy="90" r="6"/>
-        <text class="cval" x="304.2" y="76" text-anchor="middle">+2.4</text>
-        <text class="val" x="220" y="94" text-anchor="end">−1.2</text>
-        <text class="val" x="527" y="94">+12.7</text>
-      </g>
-      <g class="row"><title>Efficiency catches up: −1.9 to +5.7, central +0.4 Mt CO₂/yr</title>
-        <text class="rowlab" x="158" y="137" text-anchor="end">Efficiency catches up</text>
-        <line class="band" x1="214.9" y1="132" x2="372.4" y2="132"/>
-        <circle class="dot-emit" cx="261.8" cy="132" r="6"/>
-        <text class="cval" x="261.8" y="118" text-anchor="middle">+0.4</text>
-        <text class="val" x="206.9" y="136" text-anchor="end">−1.9</text>
-        <text class="val" x="380.4" y="136">+5.7</text>
-      </g>
-      <g class="row"><title>The bust: −2.3 to +2.4, central −0.6 Mt CO₂/yr</title>
-        <text class="rowlab" x="158" y="179" text-anchor="end">The bust</text>
-        <line class="band" x1="206.1" y1="174" x2="303.4" y2="174"/>
-        <circle class="dot-abate" cx="241.4" cy="174" r="6"/>
-        <text class="cval" x="234" y="160" text-anchor="middle">−0.6</text>
-        <text class="val" x="198.1" y="178" text-anchor="end">−2.3</text>
-        <text class="val" x="311.4" y="178">+2.4</text>
-      </g>
-    </svg>
-    </div>
-    <div class="fig-src">Source: module M7 dose-response, anchored on <a href="https://www.utilitydive.com/news/data-centers-pjm-capacity-auction/808951/">the PJM market monitor's counterfactual auction re-runs</a> · as of 7 Jul 2026</div>
-  </figure>
-</section>
-
-<section aria-labelledby="s-assumptions">
-  <h2 id="s-assumptions">The two assumptions this rides on</h2>
-  <p>Every number above flows from two registry entries. Both are marked contested — estimated with real anchors, but with named gaps a reviewer could reasonably attack. This section is the review surface: the bands below are what an approval endorses and what a contest changes.</p>
-
-  <article class="acard">
-    <div class="acard-head"><h3>The rate-feedback loop</h3><span class="aid mono">rate-feedback-loop</span><span class="chip contested">contested</span></div>
-    <p class="plain">How much a gigawatt of new data-center demand raises retail rates, and how much electrification that suppresses.</p>
-    <dl>
-      <dt>2035 band (consensus)</dt><dd class="num">−1.2 to +12.7 Mt/yr, central +2.4 — sampled per demand future, weighted toward the central</dd>
-      <dt>Rate slope</dt><dd class="num">0.02–0.22% of the national average rate per national GW; 0.30–1.20% inside PJM</dd>
-      <dt>Saturation</dt><dd>pass-through capped near 25% cumulative by the documented political response</dd>
-      <dt>Scope</dt><dd>electrification suppression only; the effect of rates on data-center siting is carried by the speculative-load discount, so it is excluded here to avoid double counting</dd>
-      <dt>Last validated</dt><dd>12 July 2026</dd>
-      <dt>Consumed by</dt><dd>this module, demand durability (M9), and the synthesis</dd>
-    </dl>
-    <div class="settle"><b>What would settle it:</b> regional resolution instead of a national blend; the PJM 2028/29 auction and the price-cap decision; and quantifying the low end, where a well-allocated flat load lowers everyone else's rates — approved in principle, assigned to this module's second pass.</div>
-    <ul class="srcs">
-      <li><span class="tier">Tier 1</span><a href="https://www.utilitydive.com/news/data-centers-pjm-capacity-auction/808951/">PJM Independent Market Monitor counterfactual auction re-runs, filed at FERC</a> — the dose anchor ($9.3bn, 2025/26)</li>
-      <li><span class="tier">Tier 1</span><a href="https://emp.lbl.gov/news/new-berkeley-lab-report-summarizes-trends-retail-electricity-prices-and-price-drivers">Lawrence Berkeley National Laboratory retail-price decomposition, 2019–2025</a> — the national counterweight</li>
-      <li><span class="tier motivated">Tier 2 · motivated</span><a href="https://www.epri.com/research/products/000000003002034696">EPRI causal study</a> (residential prices ~6% lower than the no-data-center counterfactual, 2019–2024) — industry research organization</li>
-      <li><span class="tier motivated">Tier 2 · motivated</span><a href="https://www.ethree.com/electricity-rate-drivers-data-center-role-2026/">E3 state cross-section</a> (no correlation, r ≈ −0.05) — funded by the Data Center Coalition</li>
-    </ul>
-  </article>
-
-  <article class="acard">
-    <div class="acard-head"><h3>Electrification price elasticity</h3><span class="aid mono">electrification-price-elasticity</span><span class="chip contested">contested</span></div>
-    <p class="plain">How sharply heat-pump, electric-vehicle, and industrial electrification respond when electricity gets pricier relative to the fuel it replaces.</p>
-    <dl>
-      <dt>Blended value</dt><dd class="num">−0.3 (range −0.5 to −0.1) — a near-term flow value for 2035 horizons</dd>
-      <dt>Heat pumps</dt><dd class="num">−0.5 (−1.0 to −0.2); the long-run stock relationship runs to ~−1.4</dd>
-      <dt>Electric vehicles</dt><dd class="num">−0.08 (−0.16 to −0.02) — the largest exposure, the smallest response</dd>
-      <dt>Industrial</dt><dd class="num">−0.2 (−0.4 to −0.05); no Tier-1 estimate, band is judgment</dd>
-      <dt>Operative variable</dt><dd>the electricity-to-competing-fuel price ratio, not the price level</dd>
-      <dt>Last validated</dt><dd>7 July 2026</dd>
-    </dl>
-    <div class="settle"><b>Known artifact:</b> applying the single blended value to all exposed load overstates suppression about 1.7-fold versus the technology split, because electric vehicles dominate the exposure but respond least. The split exists in the registry; the chain consumes the blend pending review.</div>
-    <ul class="srcs">
-      <li><span class="tier">Tier 1</span><a href="https://www.nber.org/papers/w31344">Davis, Economic determinants of heat pump adoption (NBER WP 31344)</a></li>
-      <li><span class="tier">Tier 1</span><a href="https://www.nber.org/papers/w29842">Bushnell, Muehlegger &amp; Rapson, EV adoption elasticity (NBER WP 29842)</a>; JEEM 2023 mileage elasticity</li>
-      <li><span class="tier">Tier 1</span>EIA, Price elasticity for energy use in buildings in the United States</li>
-    </ul>
-  </article>
-</section>
-
-<section aria-labelledby="s-decision">
-  <h2 id="s-decision">The decision on record</h2>
-  <p>This channel carries the project's most recent audit, and the exchange is worth reading in full because it is the collaboration working as designed: a one-paragraph challenge from the review seat became a commissioned refutation attempt, two confirmed defects, and a recorded correction — in three days.</p>
-
-  <div class="decision">
-    <div class="decision-head">
-      <span class="t">Decision record · 12 July 2026</span>
-      <span class="chip approved">Approved and applied</span>
-    </div>
-    <div class="decision-body">
-      <blockquote>"What is the evidence for retail rate increases at a national level due to data centers? My understanding is that is quite unsolved despite clickbaiting news coverage."<br><span class="attr">— the challenge, from the review seat, 12 July 2026</span></blockquote>
-      <p>The audit set out to refute the module's treatment and largely vindicated the challenge. The underlying science was honest — the module itself had already flagged the effect as regionally concentrated — but two defects stood between it and what readers saw. The synthesis was sampling this channel's full across-futures range inside every individual future, which double-counted the uncertainty and tripled the channel's contribution to the headline. And the public essay attributed a $21-a-month Washington, DC bill increase entirely to data centers, when only about $10 of it traces to the capacity surge they roughly half drove.</p>
-      <p>The approved fix gives each demand future its own band, weights draws toward the central estimate, and corrects the essay's wording — with the correction disclosed as a correction. A defensible widening of the accelerating tail (bills falling as fixed costs spread) was approved in principle, with quantification required before any band changes.</p>
-    </div>
-    <div class="effects">
-      <div class="effect"><div class="k">Channel mean</div><div class="v num"><span class="from">+7.7</span><span class="arr">→</span>+2.4 Mt/yr</div></div>
-      <div class="effect"><div class="k">Headline, 2025–2035</div><div class="v num"><span class="from">+449</span><span class="arr">→</span>+412 Mt</div></div>
-      <div class="effect"><div class="k">Uncertainty rank</div><div class="v num"><span class="from">#3</span><span class="arr">→</span>#5 of 12</div></div>
-    </div>
-  </div>
-</section>
-
-<section aria-labelledby="s-respond">
-  <h2 id="s-respond">Respond</h2>
-  <p>Responses land in the project inbox and become dated proposals — the evidence, the exact change, and nothing applied until the decision is recorded on this page. Approving takes one line. Contesting takes two: the value you would use, and why.</p>
-  <div class="respond">
-    <a href="mailto:matt.boegner@gmail.com?subject=%5Breview%5D%20M7%20price%20feedback%20%E2%80%94%20approve&body=I%27ve%20read%20the%20M7%20brief.%20Approved%20as%20it%20stands.">
-      <b>Approve as it stands</b>
-      <span>Endorse the current bands and scope for this channel.</span>
-      <span class="go">Send the one-liner →</span>
-    </a>
-    <a href="mailto:matt.boegner@gmail.com?subject=%5Breview%5D%20rate-feedback-loop%20%E2%80%94%20contest&body=Assumption%3A%20the%20rate-feedback%20loop%20(rate-feedback-loop)%0A%0AWhat%20I%27d%20contest%20(band%2C%20central%2C%20or%20scope)%3A%0A%0AThe%20evidence%20or%20reasoning%3A%0A">
-      <b>Contest an assumption</b>
-      <span>Name the band or scope you disagree with; it becomes a proposal.</span>
-      <span class="go">Open a pre-filled note →</span>
-    </a>
-    <a href="mailto:matt.boegner@gmail.com?subject=%5Breview%5D%20M7%20%E2%80%94%20source%20or%20figure%20flag&body=Page%3A%20M7%20analysis%20brief%0A%0AThe%20figure%20or%20source%20in%20question%3A%0A%0AWhat%20looks%20wrong%3A%0A">
-      <b>Flag a source or figure</b>
-      <span>Point at a citation, a date, or a number that looks off.</span>
-      <span class="go">Flag it →</span>
-    </a>
-  </div>
-</section>
-
-</main>
-
-<footer class="seq">
-  <div class="seq-row"><span class="stub " title="Brief not yet written"><span class="lab">← Previous brief</span>6 · Load flexibility</span><span class="stub next" title="Brief not yet written"><span class="lab">Next brief →</span>8 · Leakage and embodied carbon</span></div>
-  <div class="seq-idx">
-    <a href="/">All briefs</a> · <a href="https://demo.mattboegner.com/explorer/">The explorer</a>
-  </div>
-</footer>
+<main class="register-page factors-content"><h1>Factor coverage at a glance</h1>
+<p>A compact map of the long tail of factors that bear on the headline question, and where (or whether) each is captured in the formal analysis. Compiled 2026-07-13 from the module set (M1–M9), the assumption registry, and the endorsed second-order proposals (<code>proposals/2026-07-11-second-order-channels.md</code>, <code>proposals/2026-07-12-second-order-magnitudes.md</code>).</p>
+<p>Status key:</p>
+<ul><li><strong>Modeled</strong> — a waterfall channel, tornado bar, or registry assumption in the skeleton.</li><li><strong>Partial</strong> — some aspect captured; the rest is an open question or implicit in an input.</li><li><strong>OoM</strong> — sized order-of-magnitude only; lives in the second-order catch-all (net ≈ +4 Mt/yr central, band −12 to +18 Mt/yr).</li><li><strong>Excluded</strong> — documented out-of-scope decision, disclosed but not modeled.</li><li><strong>Gap</strong> — not captured anywhere in the current analysis.</li></ul>
+<div class="factor-table-wrap"><table class="factor-table"><thead><tr><th>Factor</th><th>What it is</th><th>Likely impact</th><th>Status</th></tr></thead><tbody id="factorRows"><tr><td>Equipment backlogs (turbines, transformers)</td><td>Whether planned gas can be built on time</td><td>Caps gas buildout through ~2029; constrains on-site-gas upside</td><td><strong>Modeled</strong> — <code>gas-turbine-constraint</code>, <code>equipment-lead-times</code></td></tr><tr><td>Speculative queue inflation / overbuild loop</td><td>Announced load that never materializes; utilities plan to it anyway</td><td>Largest single lever (~240 Mt tornado swing)</td><td><strong>Modeled</strong> — speculative-load discount (<code>phantom-load-haircut</code>), M1/M4</td></tr><tr><td>Utilization of built data centers</td><td>Connection capacity ≠ actual load (load factor, idle capacity)</td><td>Flagged &quot;#1 remaining uncertainty&quot;; folded into the haircut prior</td><td><strong>Partial</strong> — inside <code>phantom-load-haircut</code>; census item, sensitivity-now</td></tr><tr><td>On-site / behind-the-meter gas</td><td>Bypassing the queue with gas turbines</td><td>+6 Mt/yr booked; measurement gap +2–5 more, tail to ~15</td><td><strong>Modeled</strong> + OoM undercount flag — <code>btm-bridge-permanence</code>, M5</td></tr><tr><td>Backup diesel gensets during demand response</td><td>&quot;Curtailment&quot; met by diesel, not compute reduction</td><td>&lt;1 Mt/yr CO₂ (EPA 100-hr runtime cap); large for local air quality</td><td><strong>OoM</strong> — sized, immaterial for the climate headline</td></tr><tr><td>Demand-response / flexibility evolution</td><td>Contracted vs technical curtailability, tariff adoption</td><td>Sign-flip would need ~37× the technical ceiling</td><td><strong>Modeled</strong> — <code>load-flexibility-fraction</code>, M6</td></tr><tr><td>Peak coincidence vs annual TWh</td><td>Peaky load needs firm capacity; flat load may help the grid</td><td>Region- and hour-dependent</td><td><strong>Partial</strong> — M6 open question (&quot;asserted, not measured&quot;)</td></tr><tr><td>Capacity accreditation of wind/solar/storage</td><td>Nameplate ≠ dependable capacity at system stress</td><td>Makes clean buildout less gas-replacing than capacity totals imply</td><td><strong>Partial (implicit)</strong> — embedded in the Cambium long-run marginal rates (<code>marginal-emissions-factor</code>), whose ReEDS expansion model enforces resource adequacy; not an explicit lever, and untested on the procurement-offset side</td></tr><tr><td>Market power / generator scarcity incentives</td><td>Generators may profit from scarcity, delay retirements</td><td>Negative for rates and retirements</td><td><strong>Partial</strong> — M4 covers who bears demand risk, not strategic behavior</td></tr><tr><td>Transmission cost allocation</td><td>Whether data centers or ratepayers pay for upgrades</td><td>Distributional; feeds rate effects</td><td><strong>Partial</strong> — via <code>rate-feedback-loop</code> and M4 tariff structures</td></tr><tr><td>Rate feedback on electrification</td><td>Higher rates suppress heat pumps / EVs</td><td>+7.7 Mt/yr (band −2 to +18)</td><td><strong>Modeled</strong> — <code>rate-feedback-loop</code>, M7</td></tr><tr><td>Industrial demand elasticity to rates</td><td>Rates pushing industrial electrification/output offshore</td><td>~+1 Mt/yr; offshoring tail unsized</td><td><strong>OoM</strong></td></tr><tr><td>Crowding out other clean-energy demand</td><td>Data centers competing for projects, labor, interconnection slots</td><td>Contested direction</td><td><strong>Modeled</strong> — <code>crowding-direction</code></td></tr><tr><td>Transmission anchor unlocking queued renewables</td><td>Data-center-anchored wires pull stranded renewables online</td><td>−0 to −12 Mt/yr; biggest <em>uncounted avoider</em></td><td><strong>OoM, flagged</strong> — M5 v1 follow-up queued</td></tr><tr><td>REC timing wedge</td><td>Annual matching ≠ hourly clean; offset overstated</td><td>+4 to +12 Mt/yr; biggest uncounted <em>adder</em></td><td><strong>OoM, flagged</strong> — shrinks the −39 offset</td></tr><tr><td>Coal retirement delays</td><td>Load growth as pretext to keep coal running</td><td>+4 Mt/yr; mostly policy-driven (~1–3 attributable to data centers)</td><td><strong>Modeled</strong> — <code>retirement-delay-dispatch</code>, M2</td></tr><tr><td>Counterfactual location of compute (leakage)</td><td>Constrained US compute built abroad on dirtier grids</td><td>+0.2 to 15 Mt/yr (waterfall shows 7.5, registry central 3.4 — unreconciled)</td><td><strong>Modeled</strong> — <code>leakage-intensity</code>, M8</td></tr><tr><td>Chip/building lifecycle &amp; embodied emissions</td><td>Scope-3 of chips, construction, cooling, replacement cadence</td><td>+12.5 Mt/yr channel</td><td><strong>Modeled</strong> — <code>embodied-emissions-share</code>, M8</td></tr><tr><td>Methane and non-CO₂ upstream emissions</td><td>Gas-heavy paths worse than CO₂-only accounting shows</td><td>Makes gas pathways uniformly worse</td><td><strong>Gap</strong> — model is CO₂-only</td></tr><tr><td>Policy and permitting uncertainty</td><td>Tax credits, mandates, tariffs, interconnection rules</td><td>Can swing either way</td><td><strong>Modeled</strong> — <code>policy-regime</code> toggle</td></tr><tr><td>AI hardware efficiency and rebound</td><td>Cheaper compute induces more use</td><td>Could dominate the demand path</td><td><strong>Partial</strong> — inside the <code>demand-trajectory</code> scenarios; rebound itself firewalled</td></tr><tr><td>AI-induced economic activity</td><td>AI changing habits beyond data-center electricity</td><td>Poorly bounded</td><td><strong>Excluded</strong> — <code>second-order-behavioral-envelope</code>, status irreducible</td></tr><tr><td>New nuclear generation</td><td>Restart of decommissioned plants or deployment of new SMR reactors</td><td>Long lead times but potentially impactful</td><td><strong>GAP</strong> — consider modeling</td></tr><tr><td>AI-enabled decarbonization</td><td>Grid optimization, materials discovery, etc.</td><td>IEA conditional ~5% of 2035 energy emissions</td><td><strong>Excluded</strong> — mandatory disclosure, not modeled</td></tr><tr><td>Financial-cycle / bust risk</td><td>Capex unwind, PPA repudiation (~13 GW paper clean floor)</td><td>Could flip the bust scenario&#x27;s verdict; ~+11 Mt weighted</td><td><strong>Modeled</strong> — M9 scenario weights + flagged verdict lever</td></tr></tbody></table></div><p class="empty-state" id="factorEmpty" hidden>No factors match this search.</p></main>
+<script>
+(() => {
+  const input = document.querySelector('#factorSearch');
+  const rows = [...document.querySelectorAll('#factorRows tr')];
+  const count = document.querySelector('#factorCount');
+  const empty = document.querySelector('#factorEmpty');
+  const render = () => {
+    const query = input.value.trim().toLowerCase();
+    let shown = 0;
+    rows.forEach(row => {
+      const match = !query || row.textContent.toLowerCase().includes(query);
+      row.hidden = !match;
+      if (match) shown += 1;
+    });
+    count.textContent = query ? `${shown} ${shown === 1 ? 'factor' : 'factors'}` : `${rows.length} factors`;
+    empty.hidden = shown !== 0;
+  };
+  input.addEventListener('input', render);
+  render();
+})();
+</script>
