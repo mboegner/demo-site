@@ -509,7 +509,7 @@ figure { margin: 1.6rem 0 1.4rem; }
 .idx .calc #controlList .ctl:nth-child(-n+2) { border-top: 0; }
 @media (max-width: 640px) { .idx .calc #controlList { grid-template-columns: 1fr; } .idx .calc #controlList .ctl:nth-child(2) { border-top: 1px solid var(--hairline); } }
 
-/* scenario-first calculator: scenario selector, story, and what-if switches */
+/* scenario-first calculator: scenario selector and story */
 .idx .calc .scenario-select { display: flex; flex-wrap: wrap; gap: .4rem; }
 .idx .calc .scenario-btn {
   font-size: .78rem; font-weight: 600; padding: .4em .8em; cursor: pointer;
@@ -1455,6 +1455,37 @@ var GridModel = (function () {
     };
   }
 
+  // Annual transition paths for the interactive small multiples. These surface
+  // the same quantities as the four verdict indicators without collapsing them
+  // into a vote. Clean-share baselines are linearly interpolated (and, for
+  // 2025-29, extrapolated) from the model's sampled 2030/2035 anchors. The
+  // electrification model has only a 2035 endpoint, so its path is the explicitly
+  // simple interpolation from zero in 2024 to that sampled endpoint.
+  function transitionPathAtYear(v, crowdingSign, year, electrification2035) {
+    var anchorT = (year - 2030) / 5.0;
+    var baselineShare = v.clean_share_2030 + (v.clean_share_2035 - v.clean_share_2030) * anchorT;
+    var baselineGen = v.baseline_gen_2030 + (v.baseline_gen_2035 - v.baseline_gen_2030) * anchorT;
+    var effLoad = gridServedTwhYear(v, year);
+    var cAdd = additionalCleanTwhAtYear(v, year);
+    var fRet = delayedFossilTwhAtYear(v, year);
+    var extraGen = effLoad + fRet;
+    var cleanShareDelta = ((cAdd - baselineShare * extraGen) / (baselineGen + extraGen)) * 100.0;
+
+    var delayedGw = Math.max(v.retire_planned_gw - v.retire_actual_gw, 0);
+    var fossilGwOnline = delayedGw * v.dc_attribution * profileRetirement(year);
+    var netAdditionalGw =
+      v.contracted_clean_gw * v.additionality_share * (1 + crowdingSign * v.crowding_fraction);
+    var cleanGwBuilt = netAdditionalGw * profileRampFlat(year);
+    var endpointRamp = Math.min(Math.max((year - 2024) / 11.0, 0), 1);
+
+    return {
+      clean_share_delta_pp: cleanShareDelta,
+      fossil_capacity_kept_online_gw: fossilGwOnline,
+      clean_capacity_built_gw: cleanGwBuilt,
+      electrification_delta_twh: electrification2035 * endpointRamp,
+    };
+  }
+
   // Verdict keyed ONLY to the transition-state indicators (majority direction;
   // "mixed" on tie), evaluated on CENTRAL indicator values with deadbands.
   function verdictFromIndicators(ind, deadbands) {
@@ -1548,6 +1579,18 @@ var GridModel = (function () {
     var indArrays = {};
     for (i = 0; i < indKeys.length; i++) indArrays[indKeys[i]] = new Float64Array(n);
     var crowdingSign = P.crowding_sign;
+    var transitionKeys = [
+      "clean_share_delta_pp",
+      "fossil_capacity_kept_online_gw",
+      "clean_capacity_built_gw",
+      "electrification_delta_twh",
+    ];
+    var transitionDraws = {};
+    for (var tk = 0; tk < transitionKeys.length; tk++) {
+      transitionDraws[transitionKeys[tk]] = [];
+      for (var ty = 0; ty < years.length; ty++)
+        transitionDraws[transitionKeys[tk]][ty] = new Float64Array(n);
+    }
 
     // per-draw verdict config (sign + deadband per transition indicator), so a
     // world's verdict is a share of its own draws, not a probability-weighted pool.
@@ -1588,6 +1631,12 @@ var GridModel = (function () {
       cum[i] = sum - 0.5 * (first + last);
       var ind = computeIndicators(v, crowdingSign);
       for (var q = 0; q < indKeys.length; q++) indArrays[indKeys[q]][i] = ind[indKeys[q]];
+      var electrification2035 = ind.electrification_delta_twh_2035;
+      for (var py = 0; py < years.length; py++) {
+        var pathPoint = transitionPathAtYear(v, crowdingSign, years[py], electrification2035);
+        for (var pk = 0; pk < transitionKeys.length; pk++)
+          transitionDraws[transitionKeys[pk]][py][i] = pathPoint[transitionKeys[pk]];
+      }
       // per-draw transition verdict (majority direction; ties -> mixed)
       var acc2 = 0, dly2 = 0;
       for (var vi = 0; vi < vcfg.length; vi++) {
@@ -1619,6 +1668,13 @@ var GridModel = (function () {
     };
     var indicators = {};
     for (i = 0; i < indKeys.length; i++) indicators[indKeys[i]] = summarize(indArrays[indKeys[i]]);
+    var transitionPaths = {};
+    for (var sk = 0; sk < transitionKeys.length; sk++) {
+      var transitionKey = transitionKeys[sk];
+      transitionPaths[transitionKey] = [];
+      for (var sy = 0; sy < years.length; sy++)
+        transitionPaths[transitionKey][sy] = summarize(transitionDraws[transitionKey][sy]);
+    }
 
     return {
       quantiles: sums,
@@ -1635,6 +1691,8 @@ var GridModel = (function () {
       indicatorsCentral: indCentral,
       verdict: verdict,
       verdictShares: { accelerating: vAcc / n, delaying: vDly / n, mixed: vMix / n },
+      transitionPaths: { years: years.slice(), metrics: transitionPaths },
+      transitionDraws: transitionDraws,
       draws: { e_2030: e2030, e_2035: e2035, cumulative_2025_2035: cum },
     };
   }
@@ -1891,6 +1949,18 @@ var GridModel = (function () {
     var channelAccum = {};
     for (var ci = 0; ci < order.length; ci++) channelAccum[order[ci]] = 0;
     var vAcc = 0, vDly = 0, vMix = 0;
+    var transitionKeys = [
+      "clean_share_delta_pp",
+      "fossil_capacity_kept_online_gw",
+      "clean_capacity_built_gw",
+      "electrification_delta_twh",
+    ];
+    var transitionPooled = {};
+    for (var tk = 0; tk < transitionKeys.length; tk++) {
+      transitionPooled[transitionKeys[tk]] = [];
+      for (var ty = 0; ty < P.path_years.length; ty++)
+        transitionPooled[transitionKeys[tk]][ty] = new Float64Array(n * scenarios.length);
+    }
 
     for (var si = 0; si < scenarios.length; si++) {
       var spec = buildSpec(scenarios[si], regime, mefFamily);
@@ -1914,12 +1984,24 @@ var GridModel = (function () {
       vAcc += r.verdictShares.accelerating;
       vDly += r.verdictShares.delaying;
       vMix += r.verdictShares.mixed;
+      for (var pk = 0; pk < transitionKeys.length; pk++) {
+        var pathKey = transitionKeys[pk];
+        for (var py = 0; py < P.path_years.length; py++)
+          transitionPooled[pathKey][py].set(r.transitionDraws[pathKey][py], si * n);
+      }
     }
     var ns = scenarios.length;
     var quantiles = {};
     for (var q = 0; q < elements.length; q++) quantiles[elements[q]] = summarize(pooled[elements[q]]);
     var channels2030 = {};
     for (var ck = 0; ck < order.length; ck++) channels2030[order[ck]] = channelAccum[order[ck]] / ns;
+    var transitionPaths = {};
+    for (var sk = 0; sk < transitionKeys.length; sk++) {
+      var summaryKey = transitionKeys[sk];
+      transitionPaths[summaryKey] = [];
+      for (var sy = 0; sy < P.path_years.length; sy++)
+        transitionPaths[summaryKey][sy] = summarize(transitionPooled[summaryKey][sy]);
+    }
 
     return {
       slug: slug,
@@ -1931,6 +2013,7 @@ var GridModel = (function () {
       sharePositive: quantiles.cumulative_2025_2035.share_positive,
       channels2030: channels2030,
       verdictShares: { accelerating: vAcc / ns, delaying: vDly / ns, mixed: vMix / ns },
+      transitionPaths: { years: P.path_years.slice(), metrics: transitionPaths },
     };
   }
 
@@ -2170,6 +2253,70 @@ if (typeof module !== "undefined") module.exports = GridModel;
     el('text', { x: last[0] + 10, y: last[1] + 4, 'font-size': 13, 'font-weight': 700, fill: css('--ink'), 'font-family': mono() }, svg).textContent = opts.endLabel;
     el('text', { x: x0, y: H - 6, 'font-size': 10.5, fill: css('--ink-3'), 'font-family': mono() }, svg).textContent = '2025';
     el('text', { x: x1, y: H - 6, 'text-anchor': 'end', 'font-size': 10.5, fill: css('--ink-3'), 'font-family': mono() }, svg).textContent = '2035';
+  }
+
+  function transitionTrajectoryChart(mount, years, path, opts) {
+    var W = 360, H = 190, padL = 42, padR = 16, padT = 14, padB = 28;
+    clear(mount);
+    if (!years || !path || !path.length) return;
+
+    var vals = [0];
+    path.forEach(function (d) { vals.push(d.p10, d.p90, d.median); });
+    var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals);
+    var span = Math.max(hi - lo, Math.max(Math.abs(lo), Math.abs(hi)) * .25, .1);
+    lo -= span * .12; hi += span * .12;
+    function x(i) { return padL + i / (years.length - 1) * (W - padL - padR); }
+    function y(v) { return padT + (hi - v) / (hi - lo) * (H - padT - padB); }
+    function valueLabel(v) {
+      var abs = Math.abs(v);
+      var digits = abs >= 20 ? 0 : abs >= 2 ? 1 : 2;
+      return (v > 0 ? '+' : '') + v.toFixed(digits);
+    }
+    function linePath(field, reverse) {
+      var indices = years.map(function (_, i) { return i; });
+      if (reverse) indices.reverse();
+      return indices.map(function (i, pos) {
+        return (pos === 0 ? 'M' : 'L') + x(i) + ',' + y(path[i][field]);
+      }).join('');
+    }
+
+    var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img',
+      'aria-label': opts.aria }, mount);
+    var zeroY = y(0);
+    el('line', { x1: padL, x2: W - padR, y1: zeroY, y2: zeroY,
+      stroke: css('--baseline'), 'stroke-width': 1.2 }, svg);
+    el('path', { d: linePath('p90', false) + linePath('p10', true).replace(/^M/, 'L') + 'Z',
+      fill: opts.color, opacity: .16 }, svg);
+    el('path', { d: linePath('median', false), fill: 'none', stroke: opts.color,
+      'stroke-width': 2.4, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, svg);
+
+    [lo, 0, hi].forEach(function (tick) {
+      if (tick !== 0 && Math.abs(tick) < span * .06) return;
+      el('text', { x: padL - 7, y: y(tick) + 3.5, 'text-anchor': 'end',
+        'font-size': 9.5, fill: css('--ink-3'), 'font-family': mono() }, svg).textContent = valueLabel(tick);
+    });
+    [0, Math.floor((years.length - 1) / 2), years.length - 1].forEach(function (i) {
+      el('text', { x: x(i), y: H - 7, 'text-anchor': i === 0 ? 'start' : i === years.length - 1 ? 'end' : 'middle',
+        'font-size': 10, fill: css('--ink-3'), 'font-family': mono() }, svg).textContent = years[i];
+    });
+
+    var last = path.length - 1;
+    el('circle', { cx: x(last), cy: y(path[last].median), r: 3.7, fill: opts.color,
+      stroke: css('--surface'), 'stroke-width': 1.8 }, svg);
+    var tip = tooltip(mount);
+    var hit = el('rect', { x: padL, y: padT, width: W - padL - padR,
+      height: H - padT - padB, fill: 'transparent' }, svg);
+    hit.addEventListener('mousemove', function (ev) {
+      var rect = svg.getBoundingClientRect();
+      var localX = (ev.clientX - rect.left) / rect.width * W;
+      var idx = Math.max(0, Math.min(years.length - 1,
+        Math.round((localX - padL) / (W - padL - padR) * (years.length - 1))));
+      var d = path[idx];
+      tip.show('<strong>' + years[idx] + '</strong><br><span class="num">' + valueLabel(d.median) +
+        ' ' + opts.unit + '</span><br><span class="num">' + valueLabel(d.p10) + ' to ' +
+        valueLabel(d.p90) + '</span> model range', ev.clientX, ev.clientY);
+    });
+    hit.addEventListener('mouseleave', tip.hide);
   }
 
   /* ---------- new charts ---------- */
@@ -2859,6 +3006,21 @@ if (typeof module !== "undefined") module.exports = GridModel;
   function renderCalcOutputs(res) {
     var q = res.quantiles.cumulative_2025_2035;
     var pub = publishedWorld(state.world);
+    if (res.transitionPaths) {
+      var tp = res.transitionPaths;
+      transitionTrajectoryChart(document.getElementById('calcCleanShare'), tp.years,
+        tp.metrics.clean_share_delta_pp, { unit: 'pp', color: css('--abate'),
+          aria: 'Change in clean generation share from 2025 to 2035 relative to no buildout' });
+      transitionTrajectoryChart(document.getElementById('calcFossilCapacity'), tp.years,
+        tp.metrics.fossil_capacity_kept_online_gw, { unit: 'GW', color: css('--emit'),
+          aria: 'Additional fossil capacity kept online from 2025 to 2035' });
+      transitionTrajectoryChart(document.getElementById('calcCleanCapacity'), tp.years,
+        tp.metrics.clean_capacity_built_gw, { unit: 'GW', color: css('--abate'),
+          aria: 'Cumulative additional clean capacity built from 2025 to 2035' });
+      transitionTrajectoryChart(document.getElementById('calcElectrification'), tp.years,
+        tp.metrics.electrification_delta_twh, { unit: 'TWh/yr', color: css('--emit'),
+          aria: 'Change in electrification from 2025 to 2035 relative to no buildout' });
+    }
     var cm = document.getElementById('calcMedian');
     if (cm) {
       cm.innerHTML = fmtMt(q.median, true) + ' <span class="unit">Mt</span>';
