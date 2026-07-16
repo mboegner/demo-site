@@ -400,15 +400,14 @@ figure { margin: 1.6rem 0 1.4rem; }
 .range-svg .bar-abate { fill: var(--abate); }
 .range-svg .bar-neutral { fill: var(--baseline); }
 
-/* definitions and formulas */
-.formula {
-  font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
-  font-variant-numeric: tabular-nums; font-size: .84rem; line-height: 1.55;
-  background: var(--surface); border: 1px solid var(--hairline); border-radius: 8px;
-  padding: .6rem .9rem; margin: 1rem 0 .3rem; overflow-x: auto;
+/* definitions and formulas — LaTeX-authored, embedded as MathML display math */
+.formula { margin: 1.2rem 0 .4rem; overflow-x: auto; }
+.formula math {
+  display: block; margin: 0 auto; width: fit-content;
+  font-family: "Newsreader", "STIX Two Math", Georgia, "Times New Roman", serif;
+  font-size: 1.02rem; color: var(--ink);
 }
-.formula b { font-weight: 700; }
-.formula-note { font-size: .82rem; color: var(--ink-2); margin: 0 0 1rem; }
+.formula-note { font-size: .82rem; color: var(--ink-2); margin: 0 0 1.1rem; }
 
 /* assumption cards */
 .acard {

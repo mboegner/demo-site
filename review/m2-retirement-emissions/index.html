@@ -156,15 +156,14 @@ figure { margin: 1.6rem 0 1.4rem; }
 .range-svg .bar-abate { fill: var(--abate); }
 .range-svg .bar-neutral { fill: var(--baseline); }
 
-/* definitions and formulas */
-.formula {
-  font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
-  font-variant-numeric: tabular-nums; font-size: .84rem; line-height: 1.55;
-  background: var(--surface); border: 1px solid var(--hairline); border-radius: 8px;
-  padding: .6rem .9rem; margin: 1rem 0 .3rem; overflow-x: auto;
+/* definitions and formulas — LaTeX-authored, embedded as MathML display math */
+.formula { margin: 1.2rem 0 .4rem; overflow-x: auto; }
+.formula math {
+  display: block; margin: 0 auto; width: fit-content;
+  font-family: "Newsreader", "STIX Two Math", Georgia, "Times New Roman", serif;
+  font-size: 1.02rem; color: var(--ink);
 }
-.formula b { font-weight: 700; }
-.formula-note { font-size: .82rem; color: var(--ink-2); margin: 0 0 1rem; }
+.formula-note { font-size: .82rem; color: var(--ink-2); margin: 0 0 1.1rem; }
 
 /* assumption cards */
 .acard {
@@ -322,16 +321,44 @@ figure { margin: 1.6rem 0 1.4rem; }
   </div>
   <p>A delayed retirement is a capacity fact: megawatts held online for a stretch of time. Converting it into tonnes of CO₂ requires knowing how much the unit actually generates during the delay, then crediting the generation it displaces. The terms, in the order they are applied:</p>
 
-  <div class="formula"><b>capacity factor</b> = measured net generation ÷ (nameplate capacity × hours in the period)</div>
+  <!-- \text{capacity factor} = \frac{\text{measured net generation}}{\text{nameplate capacity} \times \text{hours in the period}} -->
+  <div class="formula">
+    <math display="block"><mrow>
+      <mtext>capacity factor</mtext><mo>=</mo>
+      <mfrac>
+        <mtext>measured net generation</mtext>
+        <mrow><mtext>nameplate capacity</mtext><mo>×</mo><mtext>hours in the period</mtext></mrow>
+      </mfrac>
+    </mrow></math>
+  </div>
   <p class="formula-note">The share of the period a unit effectively runs at full output. Measured per unit from EIA Form 923, the federal plant-level generation and fuel survey — never assumed. The common shortcut of multiplying nameplate capacity by every hour in the year implicitly sets this to 1.0 and overstates the result.</p>
 
-  <div class="formula"><b>delay-window generation</b> (MWh) = nameplate capacity × delay length in hours × capacity factor</div>
-  <p class="formula-note">The delay length is the observed slip between the two inventory vintages, from one to twenty-four months per unit — not the unit's ultimate retirement fate.</p>
+  <!-- \text{delay-window generation} = \text{nameplate capacity} \times \text{delay length} \times \text{capacity factor} -->
+  <div class="formula">
+    <math display="block"><mrow>
+      <mtext>delay-window generation</mtext><mo>=</mo>
+      <mtext>nameplate capacity</mtext><mo>×</mo><mtext>delay length</mtext><mo>×</mo><mtext>capacity factor</mtext>
+    </mrow></math>
+  </div>
+  <p class="formula-note">In MWh, with the delay length in hours. The delay is the observed slip between the two inventory vintages, from one to twenty-four months per unit — not the unit's ultimate retirement fate.</p>
 
-  <div class="formula"><b>gross emissions</b> (t CO₂) = delay-window generation × measured emission rate</div>
-  <p class="formula-note">The emission rate (tonnes of CO₂ per MWh) is computed per unit from reported fuel burn and generation in the same federal survey.</p>
+  <!-- \text{gross emissions} = \text{delay-window generation} \times \text{measured emission rate} -->
+  <div class="formula">
+    <math display="block"><mrow>
+      <mtext>gross emissions</mtext><mo>=</mo>
+      <mtext>delay-window generation</mtext><mo>×</mo><mtext>measured emission rate</mtext>
+    </mrow></math>
+  </div>
+  <p class="formula-note">In tonnes of CO₂. The emission rate (tonnes of CO₂ per MWh) is computed per unit from reported fuel burn and generation in the same federal survey.</p>
 
-  <div class="formula"><b>net emissions</b> (t CO₂) = gross emissions − delay-window generation × marginal displacement rate</div>
+  <!-- \text{net emissions} = \text{gross emissions} - \text{delay-window generation} \times \text{displacement rate} -->
+  <div class="formula">
+    <math display="block"><mrow>
+      <mtext>net emissions</mtext><mo>=</mo>
+      <mtext>gross emissions</mtext><mo>−</mo>
+      <mtext>delay-window generation</mtext><mo>×</mo><mtext>displacement rate</mtext>
+    </mrow></math>
+  </div>
   <p class="formula-note">Coal that keeps running displaces the generation that would otherwise have served the same demand, mostly gas. The displacement rate is owned by the project's emissions-factor work and consumed here, so the net figure sits below the gross one.</p>
 
   <p>Each delay is separately attributed to its stated driver by reading the public record for the unit: the federal order, the regulatory settlement or resource plan, or a named demand source. Attribution and emissions are independent measurements — a large delay with no data-center driver counts toward the emissions total but not toward the AI channel.</p>
