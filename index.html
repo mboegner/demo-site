@@ -666,6 +666,13 @@ figure { margin: 1.6rem 0 1.4rem; }
     <div class="figure-note">Source: our model, 20,000 samples per future; the weights are proposed, not settled. As of 2026-07-15.</div>
   </div>
 
+  <div class="figure" data-chart="scenarios">
+    <div class="chart-title">Five Scenarios, Five Answers</div>
+    <div class="chart-sub">cumulative CO₂ 2025–2035, millions of tonnes, by scenario · internally consistent futures — the reasoning behind each is on record · bar = middle 80% of outcomes, tick = median</div>
+    <div class="chart-mount" id="scenariosChart"></div>
+    <div class="figure-note">Source: our model, run of 2026-07-15 — precomputed for that run, not recomputed live in the browser (the interactive model does not yet build these scenarios). The five scenarios are enumerated separately and deliberately never averaged into a single number. As of 2026-07-15.</div>
+  </div>
+
   <div class="figure" data-chart="tornado">
     <div class="chart-title">Sensitivity Analysis</div>
     <div class="chart-sub">swing in the 2025–2035 total, millions of tonnes, one assumption at a time · bar ends labeled with the assumption's evidence bounds · central result <span class="num" id="tornadoBase">+811</span> Mt</div>
@@ -2090,6 +2097,43 @@ if (typeof module !== "undefined") module.exports = GridModel;
     });
   }
 
+  function scenariosChart(mount) {
+    // Precomputed from the 2026-07-15 synthesis run (central band, cumulative
+    // 2025–2035, Mt CO2). The browser model port does not yet build these
+    // scenarios, so this figure is static by design.
+    var rows = [
+      { name: 'Reference Case', median: 656.8, p10: 164.2, p90: 1337.0 },
+      { name: 'Boom, Grid Keeps Up', median: 1272.5, p10: 938.6, p90: 1666.0 },
+      { name: 'Boom, Grid Falls Behind', median: 1251.4, p10: 905.0, p90: 1656.2 },
+      { name: 'Anti-AI Backlash', median: 513.4, p10: 316.6, p90: 752.1 },
+      { name: 'Market Correction', median: 370.6, p10: 221.9, p90: 557.7 }
+    ];
+    var W = 760, rowH = 44, gap = 12, labelW = 215;
+    var H = rows.length * (rowH + gap) + 26;
+    var lo = -60, hi = 1750;
+    var plotW = W - labelW - 24;
+    function x(v) { return labelW + (v - lo) / (hi - lo) * plotW; }
+    clear(mount);
+    var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img',
+      'aria-label': 'Cumulative emissions 2025 to 2035 by scenario: medians from +371 Mt under Market Correction to +1,273 Mt under Boom, Grid Keeps Up' }, mount);
+    var tip = tooltip(mount);
+    el('line', { x1: x(0), x2: x(0), y1: 2, y2: H - 22, stroke: css('--baseline'), 'stroke-width': 1 }, svg);
+    el('text', { x: x(0), y: H - 8, 'text-anchor': 'middle', 'font-size': 11, fill: css('--ink-3'), 'font-family': mono() }, svg).textContent = '0';
+    rows.forEach(function (s, i) {
+      var y0 = i * (rowH + gap) + 4;
+      var color = s.median >= 0 ? css('--emit') : css('--abate');
+      el('text', { x: labelW - 12, y: y0 + rowH / 2, 'text-anchor': 'end', 'font-size': 13.5, 'font-weight': 600, fill: css('--ink') }, svg).textContent = s.name;
+      var band = el('rect', { x: x(s.p10), y: y0 + 10, width: Math.max(2, x(s.p90) - x(s.p10)), height: rowH - 26, rx: 4, fill: color, opacity: 0.38 }, svg);
+      el('line', { x1: x(s.median), x2: x(s.median), y1: y0 + 6, y2: y0 + rowH - 12, stroke: color, 'stroke-width': 2.5 }, svg);
+      el('text', { x: x(s.median), y: y0 + rowH, 'text-anchor': 'middle', 'font-size': 11.5, 'font-weight': 600, fill: css('--ink'), 'font-family': mono() }, svg)
+        .textContent = fmtMt(s.median, true);
+      band.addEventListener('mousemove', function (ev) {
+        tip.show(s.name + '<br><span class="num">' + fmtMt(s.median, true) + ' Mt</span> median · [' + fmtMt(s.p10, true) + ', ' + fmtMt(s.p90, true) + '] p10–p90', ev.clientX, ev.clientY);
+      });
+      band.addEventListener('mouseleave', tip.hide);
+    });
+  }
+
   /* ---------- tornado ---------- */
   var UI_META = {
     mef: { label: 'Marginal emission rate', digits: 3, unitShort: 't/MWh',
@@ -2727,6 +2771,7 @@ if (typeof module !== "undefined") module.exports = GridModel;
       label: 'Smaller, less-certain channels', center: 4, band: [-12, 18],
       note: 'a dozen channels sized to order of magnitude only; largest: transmission unlocking queued renewables (−), annual-vs-hourly certificates (+). Not in the net.' } });
     var fu = document.getElementById('futuresChart'); if (fu) futuresChart(fu);
+    var sc = document.getElementById('scenariosChart'); if (sc) scenariosChart(sc);
     var pc = document.getElementById('paradoxCleanChart');
     if (pc) riseChart(pc, { path: [0, 0.25, 0.7, 1.3, 1.9], end: 1.9, endLabel: '+1.9 pp', color: css('--abate'),
       aria: 'Clean share rises 1.9 percentage points by 2035 in the demand-bust future' });
