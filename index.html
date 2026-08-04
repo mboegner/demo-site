@@ -724,7 +724,7 @@ figure { margin: 1.6rem 0 1.4rem; }
     <div class="chart-title">Net Emissions Impact in 2030</div>
     <div class="chart-sub">yearly emissions impact by channel around 2030 · reference case, consensus demand · millions of tonnes of CO₂</div>
     <div class="chart-mount" id="waterfallChart" data-catchall="off"></div>
-    <div class="figure-note">Source: our model — the central estimate for each channel under the reference case (the near future looks like the recent past), consensus demand, around 2030. As of 2026-07-16. The +101 Mt net is about 7% of 2024 US power-sector emissions.</div>
+    <div class="figure-note">Source: our model — the central estimate for each channel under the reference case (the near future looks like the recent past), consensus demand, around 2030. As of 2026-07-16. The +101 Mt net is about 7% of 2024 US power-sector emissions. Each bar carries the name of the analysis deep dive it comes from: four bars match one analysis each, "Serving the new load" combines the load forecast, load curtailment, and demand durability analyses, and the offshore-compute and embodied-carbon bars are the two halves of the leakage and embodied carbon analysis. The market structure analysis shapes how every channel behaves rather than adding a bar of its own.</div>
   </div>
 
   <div class="figure" data-chart="scenarios">
@@ -2077,14 +2077,18 @@ if (typeof module !== "undefined") module.exports = GridModel;
     tornadoBase: 811
   };
 
+  /* Rows follow the model's canonical channel order (params.json channel_order).
+     Labels match the analysis deep-dive names on the index wherever a channel
+     comes from a single analysis; `from` names the source analyses for the
+     rows that blend several or share one. */
   var CHANNEL_META = [
-    { key: 'direct_load_service', label: 'Serving the new load' },
-    { key: 'procurement_offset', label: 'Clean-PPA displacement' },
-    { key: 'embodied', label: 'Embodied carbon (chips + construction)' },
-    { key: 'rate_feedback', label: 'Rate-driven electrification slowdown' },
-    { key: 'leakage', label: 'Compute pushed offshore' },
-    { key: 'btm_bridge_gas', label: 'Behind-the-meter bridge gas' },
-    { key: 'retirement_delay', label: 'Delayed coal retirements' }
+    { key: 'direct_load_service', label: 'Serving the new load', from: 'Data center load forecast · Load curtailment · Demand durability' },
+    { key: 'procurement_offset', label: 'Clean-power additionality' },
+    { key: 'retirement_delay', label: 'Coal retirement delays' },
+    { key: 'btm_bridge_gas', label: 'Behind-the-meter bridge gas', from: 'Transmission constraints' },
+    { key: 'leakage', label: 'Compute pushed offshore', from: 'Leakage and embodied carbon' },
+    { key: 'rate_feedback', label: 'Electricity-price feedback' },
+    { key: 'embodied', label: 'Embodied carbon (chips + construction)', from: 'Leakage and embodied carbon' }
   ];
   var VERDICT_LABEL = { delaying: 'Delaying', accelerating: 'Accelerating', mixed: 'Mixed' };
   var VERDICT_CLASS = { delaying: 'delay', accelerating: 'accel', mixed: 'mixed' };
@@ -2187,7 +2191,7 @@ if (typeof module !== "undefined") module.exports = GridModel;
 
   function waterfall(mount, channels, opts) {
     opts = opts || {};
-    var items = CHANNEL_META.map(function (m) { return { label: m.label, v: channels[m.key] }; })
+    var items = CHANNEL_META.map(function (m) { return { label: m.label, from: m.from, v: channels[m.key] }; })
       .filter(function (d) { return d.v !== undefined && d.v !== null; });
     var net = items.reduce(function (s, d) { return s + d.v; }, 0);
     var W = 760, rowH = 34, gap = 8, labelW = 300, valW = 56;
@@ -2208,13 +2212,14 @@ if (typeof module !== "undefined") module.exports = GridModel;
       var a = cum, b = cum + d.v; cum = b;
       var bx = Math.min(x(a), x(b)), bw = Math.max(2, Math.abs(x(b) - x(a)));
       var color = d.v >= 0 ? css('--emit') : css('--abate');
-      el('text', { x: labelW - 12, y: y + rowH / 2 + 4, 'text-anchor': 'end', 'font-size': 13, fill: css('--ink-2') }, svg).textContent = d.label;
+      el('text', { x: labelW - 12, y: d.from ? y + rowH / 2 - 2 : y + rowH / 2 + 4, 'text-anchor': 'end', 'font-size': 13, fill: css('--ink-2') }, svg).textContent = d.label;
+      if (d.from) el('text', { x: labelW - 12, y: y + rowH / 2 + 11, 'text-anchor': 'end', 'font-size': 9.5, fill: css('--ink-3') }, svg).textContent = 'from: ' + d.from;
       if (i > 0) el('line', { x1: x(a), x2: x(a), y1: y - gap, y2: y + rowH / 2, stroke: css('--hairline'), 'stroke-width': 1 }, svg);
       var rect = el('rect', { x: bx, y: y + 4, width: bw, height: rowH - 8, rx: 4, fill: color }, svg);
       el('text', { x: x(b) + (d.v >= 0 ? 8 : -8), y: y + rowH / 2 + 4, 'text-anchor': d.v >= 0 ? 'start' : 'end',
         'font-size': 12.5, 'font-weight': 600, fill: css('--ink'), 'font-family': mono() }, svg).textContent = fmtMt(d.v, true);
       rect.addEventListener('mousemove', function (ev) {
-        tip.show(d.label + '<br><span class="num">' + fmtMt(d.v, true) + ' Mt/yr</span> · running <span class="num">' + fmtMt(b, true) + '</span>', ev.clientX, ev.clientY);
+        tip.show(d.label + (d.from ? '<br><em>from: ' + d.from + '</em>' : '') + '<br><span class="num">' + fmtMt(d.v, true) + ' Mt/yr</span> · running <span class="num">' + fmtMt(b, true) + '</span>', ev.clientX, ev.clientY);
       });
       rect.addEventListener('mouseleave', tip.hide);
     });
