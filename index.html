@@ -698,7 +698,7 @@ figure { margin: 1.6rem 0 1.4rem; }
   <div class="rubric">AI &amp; the green energy transition</div>
   <h1>Analysis Review</h1>
   <p class="dek">Is the US AI data center buildout accelerating or delaying the green energy transition, and what is its net effect on CO2 emissions?</p>
-  <div class="byline">6 of 9 briefs live</div>
+  <div class="byline">6 of 10 briefs live</div>
 </header>
 <main class="idx">
   <section>
@@ -867,8 +867,8 @@ figure { margin: 1.6rem 0 1.4rem; }
   <div class="idx-row">
     <div class="idx-num">8</div>
     <div class="idx-main">
-      <div class="idx-title"><span class="planned-t">Leakage and embodied carbon</span></div>
-      <div class="idx-dek">How large are compute and infrastructure supply chain emissions?</div>
+      <div class="idx-title"><span class="planned-t">International compute leakage</span></div>
+      <div class="idx-dek">What operational emissions follow when US-constrained compute runs abroad?</div>
     </div>
     <div class="idx-status"><span class="chip planned">planned</span></div>
   </div>
@@ -877,6 +877,14 @@ figure { margin: 1.6rem 0 1.4rem; }
     <div class="idx-main">
       <div class="idx-title"><span class="planned-t">Demand durability</span></div>
       <div class="idx-dek">How durable is the investment underlying projected AI electricity demand?</div>
+    </div>
+    <div class="idx-status"><span class="chip planned">planned</span></div>
+  </div>
+  <div class="idx-row">
+    <div class="idx-num">10</div>
+    <div class="idx-main">
+      <div class="idx-title"><span class="planned-t">Embodied infrastructure emissions</span></div>
+      <div class="idx-dek">What lifecycle inventory is incurred by chips and construction for US AI buildout?</div>
     </div>
     <div class="idx-status"><span class="chip planned">planned</span></div>
   </div>
@@ -2085,9 +2093,9 @@ if (typeof module !== "undefined") module.exports = GridModel;
     { key: 'procurement_offset', label: 'Clean-PPA displacement', from: 'Clean-power additionality' },
     { key: 'retirement_delay', label: 'Delayed coal retirements', from: 'Coal retirement delays' },
     { key: 'btm_bridge_gas', label: 'Behind-the-meter bridge gas', from: 'Transmission constraints' },
-    { key: 'leakage', label: 'Compute pushed offshore', from: 'Leakage and embodied carbon' },
+    { key: 'leakage', label: 'Compute pushed offshore', from: 'International compute leakage' },
     { key: 'rate_feedback', label: 'Rate-driven electrification slowdown', from: 'Electricity-price feedback' },
-    { key: 'embodied', label: 'Embodied carbon (chips + construction)', from: 'Leakage and embodied carbon' }
+    { key: 'embodied', label: 'Embodied infrastructure (chips + construction)', from: 'Embodied infrastructure emissions' }
   ];
   var VERDICT_LABEL = { delaying: 'Delaying', accelerating: 'Accelerating', mixed: 'Mixed' };
   var VERDICT_CLASS = { delaying: 'delay', accelerating: 'accel', mixed: 'mixed' };
